@@ -214,10 +214,10 @@ body {
         border-bottom: 1px solid var(--border);
     }
     
-    .link-card-full {
+    /* .link-card-full {
         grid-column: span 2;
         border-right: none !important;
-    }
+    } */
 }
 
 @media (max-width: 767px) {
