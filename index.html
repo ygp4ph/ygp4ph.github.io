@@ -12,12 +12,12 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h1>Raphaël Couvert</h1>
-                <p class="subtitle">Étudiant en Cybersécurité</p>
+                <h1>RAPHAËL COUVERT</h1>
+                <p class="subtitle">CYBERSÉCURITÉ</p>
             </div>
             <ul class="nav-menu">
-                <li><a href="#accueil" class="nav-link active">Accueil</a></li>
-                <li><a href="#writeups" class="nav-link">Write-ups</a></li>
+                <li><a href="#accueil" class="nav-link active">ACCUEIL</a></li>
+                <li><a href="#writeups" class="nav-link">WRITE-UPS</a></li>
             </ul>
         </div>
     </nav>
@@ -29,72 +29,58 @@
                 <div class="avatar">
                     <i class="fas fa-user-shield"></i>
                 </div>
-                <h2>Raphaël Couvert</h2>
-                <p class="role">Étudiant B2 Cybersécurité | Bordeaux Ynov Campus</p>
-                <p class="bio">À la recherche d'un stage et alternance dès juin 2026</p>
+                <h2>RAPHAËL COUVERT</h2>
+                <p class="role">ÉTUDIANT B2 CYBERSÉCURITÉ</p>
+                <p class="location">BORDEAUX YNOV CAMPUS</p>
+                <p class="bio">À LA RECHERCHE D'UN STAGE ET ALTERNANCE DÈS JUIN 2026</p>
             </div>
 
             <div class="links-container">
-                <h3>Mes liens</h3>
+                <h3>LIENS</h3>
                 <div class="links-grid">
                     <!-- Root Me -->
                     <a href="https://www.root-me.org/ygp4ph?inc=statistiques&lang=fr" target="_blank" class="link-card">
-                        <div class="link-icon">
-                            <img src="https://www.root-me.org/IMG/logo_site.png" alt="Root Me">
-                        </div>
                         <div class="link-content">
-                            <h4>Root Me</h4>
-                            <p>Profil & Challenges</p>
+                            <h4>ROOT ME</h4>
+                            <p>PROFIL & CHALLENGES</p>
                         </div>
-                        <i class="fas fa-external-link-alt"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
 
                     <!-- GitHub -->
                     <a href="https://github.com/ygp4ph" target="_blank" class="link-card">
-                        <div class="link-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
                         <div class="link-content">
-                            <h4>GitHub</h4>
-                            <p>Projets & Code</p>
+                            <h4>GITHUB</h4>
+                            <p>PROJETS & CODE</p>
                         </div>
-                        <i class="fas fa-external-link-alt"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
 
                     <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/rapha%C3%ABl-couvert-267706338/" target="_blank" class="link-card">
-                        <div class="link-icon">
-                            <i class="fab fa-linkedin"></i>
-                        </div>
                         <div class="link-content">
-                            <h4>LinkedIn</h4>
-                            <p>Profil professionnel</p>
+                            <h4>LINKEDIN</h4>
+                            <p>PROFIL PROFESSIONNEL</p>
                         </div>
-                        <i class="fas fa-external-link-alt"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
 
                     <!-- Email -->
                     <a href="mailto:faphaelcouvert2007@gmail.com" class="link-card">
-                        <div class="link-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
                         <div class="link-content">
-                            <h4>Email</h4>
-                            <p>faphaelcouvert2007@gmail.com</p>
+                            <h4>EMAIL</h4>
+                            <p>FAPHAELCOUVERT2007@GMAIL.COM</p>
                         </div>
-                        <i class="fas fa-external-link-alt"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
 
-                    <!-- CV (à ajouter plus tard) -->
+                    <!-- CV -->
                     <a href="#" class="link-card disabled" title="Bientôt disponible">
-                        <div class="link-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
                         <div class="link-content">
                             <h4>CV</h4>
-                            <p>Télécharger mon CV</p>
+                            <p>TÉLÉCHARGER MON CV</p>
                         </div>
-                        <i class="fas fa-external-link-alt"></i>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -104,27 +90,14 @@
     <!-- Section Write-ups -->
     <section id="writeups" class="section">
         <div class="container">
-            <h2>Write-ups & Challenges</h2>
-            <p class="section-description">Documentation de mes résolutions de challenges CTF et exercices de cybersécurité</p>
+            <h2>WRITE-UPS & CHALLENGES</h2>
+            <p class="section-description">DOCUMENTATION DE MES RÉSOLUTIONS DE CHALLENGES CTF</p>
             
-            <div class="writeups-grid">
-                <!-- Template de write-up -->
-                <div class="writeup-card">
-                    <div class="writeup-header">
-                        <span class="writeup-platform">Root Me</span>
-                        <span class="writeup-difficulty easy">Facile</span>
-                    </div>
-                    <h3>Exemple de Challenge</h3>
-                    <p class="writeup-category"><i class="fas fa-tag"></i> Web - SQL Injection</p>
-                    <p class="writeup-description">Description courte du challenge et de la méthodologie utilisée...</p>
-                    <a href="#" class="writeup-link">Lire le write-up <i class="fas fa-arrow-right"></i></a>
-                </div>
-
-                <!-- Message si aucun write-up -->
-                <div class="empty-state">
-                    <i class="fas fa-file-code"></i>
-                    <h3>Write-ups à venir</h3>
-                    <p>Je suis en train de documenter mes résolutions de challenges.<br>Revenez bientôt !</p>
+            <div id="writeups-grid" class="writeups-grid">
+                <!-- Loading state -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>CHARGEMENT DES WRITE-UPS...</p>
                 </div>
             </div>
         </div>
@@ -133,12 +106,12 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Raphaël Couvert - Étudiant en Cybersécurité</p>
-            <p class="footer-links">
+            <p>&copy; 2025 RAPHAËL COUVERT</p>
+            <div class="footer-links">
                 <a href="https://github.com/ygp4ph" target="_blank"><i class="fab fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/rapha%C3%ABl-couvert-267706338/" target="_blank"><i class="fab fa-linkedin"></i></a>
                 <a href="https://www.root-me.org/ygp4ph" target="_blank"><i class="fas fa-terminal"></i></a>
-            </p>
+            </div>
         </div>
     </footer>
 
