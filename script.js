@@ -45,80 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Charger la bonne section au chargement de la page
     const initialHash = window.location.hash || '#accueil';
     switchSection(initialHash);
-
-    // Charger les write-ups depuis Notion
-    loadWriteups();
 });
-
-// Fonction pour charger les write-ups depuis Notion
-async function loadWriteups() {
-    const writeupsGrid = document.getElementById('writeups-grid');
-    
-    // Pour l'instant, on va créer une structure statique car l'API Notion nécessite une clé d'API côté serveur
-    // Voici comment vous pourriez structurer vos write-ups manuellement
-    
-    // Simuler un délai de chargement
-    setTimeout(() => {
-        // Remplacer le loading par les write-ups
-        writeupsGrid.innerHTML = '';
-        
-        // Exemple de write-ups (à remplacer par vos données réelles)
-        const writeups = [
-            {
-                title: "Example Challenge 1",
-                platform: "ROOT-ME",
-                difficulty: "FACILE",
-                category: "WEB - SQL INJECTION",
-                description: "Description du challenge et de la méthodologie utilisée pour le résoudre...",
-                link: "https://ember-scilla-836.notion.site/votre-page"
-            },
-            {
-                title: "Example Challenge 2",
-                platform: "ROOT-ME",
-                difficulty: "MOYEN",
-                category: "CRYPTOGRAPHIE",
-                description: "Description du challenge et de la méthodologie utilisée pour le résoudre...",
-                link: "https://ember-scilla-836.notion.site/votre-page"
-            }
-        ];
-
-        if (writeups.length === 0) {
-            writeupsGrid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-file-code"></i>
-                    <h3>WRITE-UPS À VENIR</h3>
-                    <p>JE SUIS EN TRAIN DE DOCUMENTER MES RÉSOLUTIONS DE CHALLENGES.<br>REVENEZ BIENTÔT !</p>
-                </div>
-            `;
-        } else {
-            writeups.forEach(writeup => {
-                const card = createWriteupCard(writeup);
-                writeupsGrid.appendChild(card);
-            });
-        }
-    }, 1000);
-}
-
-// Fonction pour créer une carte de write-up
-function createWriteupCard(writeup) {
-    const card = document.createElement('div');
-    card.className = 'writeup-card';
-    
-    const difficultyClass = writeup.difficulty.toLowerCase();
-    
-    card.innerHTML = `
-        <div class="writeup-header">
-            <span class="writeup-platform">${writeup.platform}</span>
-            <span class="writeup-difficulty ${difficultyClass}">${writeup.difficulty}</span>
-        </div>
-        <h3>${writeup.title}</h3>
-        <p class="writeup-category"><i class="fas fa-tag"></i> ${writeup.category}</p>
-        <p class="writeup-description">${writeup.description}</p>
-        <a href="${writeup.link}" target="_blank" class="writeup-link">LIRE LE WRITE-UP <i class="fas fa-arrow-right"></i></a>
-    `;
-    
-    return card;
-}
 
 // Animation au scroll pour les cartes
 const observerOptions = {
@@ -138,7 +65,7 @@ const observer = new IntersectionObserver(function(entries) {
 // Observer les cartes après le chargement du DOM
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
-        const cards = document.querySelectorAll('.link-card, .writeup-card');
+        const cards = document.querySelectorAll('.link-card');
         cards.forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
