@@ -6,30 +6,58 @@
 }
 
 :root {
-    /* Light theme (kept as fallback) */
-    --background: oklch(0.98 0 0);
-    --foreground: oklch(0.15 0 0);
-    --border: oklch(0.85 0 0);
-    --muted-foreground: oklch(0.45 0 0);
-    --muted: oklch(0.92 0 0);
-}
-
-/* Dark theme */
-.dark {
-    --background: oklch(0.12 0 0);
-    --foreground: oklch(0.92 0 0);
-    --border: oklch(0.25 0 0);
-    --muted-foreground: oklch(0.55 0 0);
-    --muted: oklch(0.18 0 0);
+    /* Dark theme uniquement */
+    --background: oklch(0.12 0 0 / 0.93);
+    --foreground: oklch(0.95 0 0);
+    --border: oklch(0.85 0 0 / 0.2);
+    --muted-foreground: oklch(0.65 0 0);
+    --muted: oklch(0.18 0 0 / 0.7);
+    --card-bg: oklch(0.15 0 0 / 0.88);
 }
 
 body {
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    background-color: var(--background);
     color: var(--foreground);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Background image - La Balsa de la Medusa (mode sombre uniquement) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_%28Museo_del_Louvre%2C_1818-19%29.jpg/2560px-JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_%28Museo_del_Louvre%2C_1818-19%29.jpg');
+}
+
+/* Subtle overlay for elegance and readability */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(
+        to bottom,
+        var(--background) 0%,
+        transparent 20%,
+        transparent 80%,
+        var(--background) 100%
+    );
+    backdrop-filter: blur(0.3px);
 }
 
 /* Utility Classes */
@@ -38,7 +66,7 @@ body {
 }
 
 .bg-background {
-    background-color: var(--background);
+    background-color: transparent;
 }
 
 .border-border {
@@ -63,6 +91,12 @@ body {
 }
 
 /* Header */
+header {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .header-content {
     display: flex;
     align-items: center;
@@ -76,6 +110,7 @@ body {
     letter-spacing: 0.2em;
     color: var(--foreground);
     font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .header-subtitle {
@@ -95,6 +130,12 @@ body {
     max-width: 42rem;
     margin: 0 auto;
     text-align: center;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    padding: 3rem 2rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
 }
 
 .hero-icon {
@@ -110,14 +151,14 @@ body {
     height: 8rem;
     width: 8rem;
     border: 2px solid var(--border);
-    background-color: var(--background);
+    background-color: var(--card-bg);
+    backdrop-filter: blur(8px);
 }
 
 .shield-icon {
-    height: 4rem;
-    width: 4rem;
+    font-size: 4rem;
     color: var(--foreground);
-    stroke-width: 1.5;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .hero-title {
@@ -126,6 +167,7 @@ body {
     letter-spacing: 0.15em;
     color: var(--foreground);
     font-weight: 400;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hero-role {
@@ -172,6 +214,12 @@ body {
     letter-spacing: 0.2em;
     color: var(--foreground);
     font-weight: 400;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .links-grid {
@@ -180,6 +228,7 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 @media (min-width: 768px) {
@@ -194,15 +243,18 @@ body {
     align-items: center;
     justify-content: space-between;
     border: 1px solid var(--border);
-    background-color: var(--background);
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
     padding: 2rem;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
     text-decoration: none;
     color: var(--foreground);
 }
 
 .link-card:hover {
-    background-color: var(--muted);
+    background: var(--muted);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 @media (min-width: 768px) {
@@ -213,11 +265,6 @@ body {
     .link-card:not(:nth-last-child(-n+2)) {
         border-bottom: 1px solid var(--border);
     }
-    
-    /* .link-card-full {
-        grid-column: span 2;
-        border-right: none !important;
-    } */
 }
 
 @media (max-width: 767px) {
@@ -239,12 +286,14 @@ body {
     height: 3rem;
     width: 3rem;
     border: 1px solid var(--border);
-    background-color: var(--background);
-    transition: border-color 0.2s;
+    background: var(--card-bg);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
 }
 
 .link-card:hover .link-icon {
     border-color: var(--foreground);
+    transform: rotate(5deg);
 }
 
 .icon {
@@ -252,6 +301,12 @@ body {
     width: 1.25rem;
     color: var(--foreground);
     stroke-width: 1.5;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* SVG importés - inversion pour mode sombre */
+.svg-import {
+    filter: invert(1) brightness(2);
 }
 
 .link-title {
@@ -271,11 +326,11 @@ body {
 }
 
 .link-arrow {
-    transition: transform 0.2s;
+    transition: transform 0.3s ease;
 }
 
 .link-card:hover .link-arrow {
-    transform: translateX(0.25rem);
+    transform: translateX(0.5rem);
 }
 
 .arrow-icon {
@@ -286,6 +341,12 @@ body {
 }
 
 /* Footer */
+footer {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .footer {
     padding: 2rem 0;
 }
