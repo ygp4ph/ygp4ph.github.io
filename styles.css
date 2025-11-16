@@ -7,7 +7,7 @@
 
 :root {
     /* Dark theme uniquement */
-    --background: oklch(0.12 0 0 / 0.93);
+    /* --background: oklch(0.12 0 0 / 0.93); */
     --foreground: oklch(0.95 0 0);
     --border: oklch(0.85 0 0 / 0.2);
     --muted-foreground: oklch(0.65 0 0);
@@ -38,8 +38,10 @@ body::before {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/17/Winter_Landscape_by_Caspar_David_Friedrich.jpg'); */
+    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f3/John_Sell_Cotman_-_Drainage_Mills_in_the_Fens%2C_Croyland%2C_Lincolnshire_-_Google_Art_Project.jpg'); */
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_%28Museo_del_Louvre%2C_1818-19%29.jpg/2560px-JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_%28Museo_del_Louvre%2C_1818-19%29.jpg');
+    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f3/John_Sell_Cotman_-_Ruined_House_-_Google_Art_Project.jpg'); */
+
 }
 
 /* Subtle overlay for elegance and readability */
@@ -124,12 +126,13 @@ header {
 
 /* Hero Section */
 .hero-section {
-    padding: 4rem 0;
+    padding: 3rem 0;
 }
 
 .hero-content {
     max-width: 42rem;
     margin: 0 auto;
+    margin-bottom: 3rem;
     text-align: center;
     background: var(--card-bg);
     backdrop-filter: blur(12px);
@@ -157,7 +160,7 @@ header {
 }
 
 .shield-icon {
-    font-size: 4rem;
+    font-size: 3rem;
     color: var(--foreground);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
@@ -203,9 +206,10 @@ header {
 }
 
 /* Links Section */
-.links-section {
-    padding: 4rem 0;
-}
+
+/* .links-section {
+    padding: 3rem 0;
+} */
 
 .section-title {
     margin-bottom: 3rem;
