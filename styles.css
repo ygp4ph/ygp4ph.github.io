@@ -25,7 +25,6 @@ body {
     min-height: 100vh;
 }
 
-/* Background image - La Balsa de la Medusa (mode sombre uniquement) */
 body::before {
     content: '';
     position: fixed;
@@ -38,12 +37,8 @@ body::before {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f3/John_Sell_Cotman_-_Drainage_Mills_in_the_Fens%2C_Croyland%2C_Lincolnshire_-_Google_Art_Project.jpg'); */
-        background-image: url('https://storage.e.jimdo.com/cdn-cgi/image/quality=100,fit=scale-down,format=auto,trim=0;0;0;0,width=2560,height=1440/image/533128192/cac0bc22-b010-4b12-a5d0-aba6d8a183cd.jpg');
-    /* background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f3/John_Sell_Cotman_-_Ruined_House_-_Google_Art_Project.jpg'); */
-
+    background-image: url('assets/bg.png');
 }
-
 /* Subtle overlay for elegance and readability */
 body::after {
     content: '';
