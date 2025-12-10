@@ -1,5 +1,6 @@
 import os
 import json
+import random  # <-- Import nécessaire pour le mélange
 
 # Configuration
 folder = "gallery"
@@ -19,15 +20,16 @@ def update_manifest():
         if f.lower().endswith(valid_extensions)
     ]
     
-    # 2. Trie par ordre alphabétique pour que ce soit propre
-    files.sort()
+    # 2. Mélange aléatoire (Shuffle)
+    random.shuffle(files)
 
-    # 3. Écrase le fichier manifest.json avec la nouvelle liste
+    # 3. Écrase le fichier manifest.json avec la nouvelle liste mélangée
     try:
         with open(manifest_path, 'w') as f:
             json.dump(files, f, indent=2)
         print(f"[+] Succès ! 'manifest.json' mis à jour avec {len(files)} images.")
-        print(f"   (N'oublie pas de faire : git add, git commit et git push)")
+        print(f"    (Ordre : Aléatoire / Shuffle)")
+        print(f"    N'oublie pas de faire : git add, git commit et git push")
     except Exception as e:
         print(f"[-] Erreur lors de l'écriture du fichier : {e}")
 

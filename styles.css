@@ -118,6 +118,8 @@ body::after {
   color: var(--foreground);
   text-decoration: none;
   transition: all 0.3s ease;
+  max-width: 100px;
+  margin-top: 12px;
 }
 
 .nav-logo:hover {
@@ -169,7 +171,7 @@ body::after {
   margin: 0 auto 4rem;
   text-align: center;
   background: var(--surface-secondary);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   padding: 3rem 2rem;
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -413,40 +415,29 @@ body.portfolio-mode::after {
 
 /* 3. Réinitialisation de la grille pour le style "Libre" */
 body.portfolio-mode .gallery-grid {
-    display: flex;         /* On passe en Flexbox au lieu de Grid */
-    flex-wrap: wrap;       /* Les images passent à la ligne */
-    justify-content: center; /* Centré horizontalement */
-    align-items: flex-start; /* Aligné en haut */
-    gap: 20px;             /* Espace entre les images */
+    columns: 3;              /* 3 colonnes (adapte selon la largeur) */
+    column-gap: 20px;
     padding-bottom: 4rem;
+    width: 100%;
 }
 
-/* 4. Style des items (Images) */
 body.portfolio-mode .gallery-item {
-    /* Dimensions */
-    width: auto;           /* Largeur naturelle */
-    max-width: 30%;        /* Contrainte: max 20% de la page */
-    height: auto;          /* Hauteur naturelle pour garder le ratio */
-    
-    /* Style */
+    margin-bottom: 20px;
+    break-inside: avoid;     /* Empêche de casser une image au milieu */
+    width: 100%;
+    max-width: none;
     background: transparent;
     border: none;
-    border-radius: 15px;   /* Bords arrondis */
+    border-radius: 15px;
     overflow: hidden;
-    margin: 0;             /* Géré par le gap du parent */
-    
-    /* Transition */
     transition: transform 0.3s ease, filter 0.3s ease;
     cursor: pointer;
-    box-shadow: none;      /* Pas d'ombre par défaut pour un look clean */
 }
 
-/* Ajustement de l'image à l'intérieur */
 body.portfolio-mode .gallery-item img {
     display: block;
     width: 100%;
-    height: auto;
-    object-fit: contain;   /* Assure que l'image n'est jamais coupée */
+    height: auto;            /* Important : auto pour garder le ratio */
     border-radius: 15px;
 }
 
@@ -709,7 +700,7 @@ body.portfolio-mode .gallery-overlay {
     flex: 1 1 280px; /* Flexibilité pour une disposition réactive */
     min-width: 280px;
     background: var(--surface-secondary); /* Fond du groupe légèrement plus opaque */
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(18px);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
@@ -808,4 +799,21 @@ body.portfolio-mode .gallery-overlay {
     flex-direction: column;
     gap: 1.5rem;
   }
+}
+
+
+
+img {
+    /* Empêche le glisser-déposer de l'image (Drag & Drop) */
+    -webkit-user-drag: none;
+    user-drag: none;
+
+    /* Empêche la sélection de l'image (Surlignage bleu) */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    
+    /* Empêche le menu contextuel au clic long sur mobile (iOS/Android) */
+    -webkit-touch-callout: none;
 }

@@ -96,5 +96,18 @@ document.addEventListener("keydown", (e) => {
   }
 })
 
+document.addEventListener('contextmenu', function (e) {
+    // Si l'élément cliqué est une image (balise IMG)
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault(); // Bloque le menu "Enregistrer sous..."
+        return false;
+    }
+});
+document.addEventListener('dragstart', function(e) {
+    // Si l'élément qu'on essaie de glisser est une image
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault(); // Annule l'action immédiatement
+    }
+});
 // Initialize gallery on page load
 loadGallery()
