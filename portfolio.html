@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Portfolio - Raphaël Couvert</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/favi.png">
+</head>
+<body class="portfolio-mode">
+    
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">YG</a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Accueil</a>
+                    <a href="portfolio.html" class="nav-link active">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="container-fluid portfolio-section">
+            <div class="portfolio-spacer"></div>
+            <h1 class="portfolio-title">Galerie</h1>
+            <div class="gallery-container" id="gallery">
+                <div class="gallery-loading">
+                    <div class="spinner"></div>
+                    <p>Chargement...</p>
+                </div>
+            </div>
+
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img class="modal-image" id="modalImage" src="" alt="Zoom">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="gallery.js"></script>
+</body>
+</html>

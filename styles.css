@@ -1,240 +1,731 @@
 /* Reset & Base Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    /* Dark theme uniquement */
-    /* --background: oklch(0.12 0 0 / 0.93); */
-    --foreground: oklch(0.95 0 0);
-    --border: oklch(0.85 0 0 / 0.2);
-    --muted-foreground: oklch(0.65 0 0);
-    --muted: oklch(0.18 0 0 / 0.7);
-    --card-bg: oklch(0.15 0 0 / 0.70);
+  /* Design tokens - Black & White with ultra-transparent glassmorphism */
+  --background-dark: #0a0a0a;
+  --background: #0f0f0f;
+  /* Changed to ultra-transparent rgba values using 0A0E0F color */
+  --surface-primary: rgba(10, 14, 15, 0);
+  --surface-secondary: rgba(10, 14, 15, 0.274);
+  --surface-hover: rgba(10, 13, 14, 0.334);
+  --foreground: #ffffff;
+  --foreground-muted: #c1c1c1;
+  --border: rgba(255, 255, 255, 0.259);
+  --border-hover: rgba(255, 255, 255, 0.355);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    color: var(--foreground);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    min-height: 100vh;
+  /* Updated font family to use Zalando Sans */
+  font-family: "Zalando Sans Expanded", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  color: var(--foreground);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--background-dark);
+  position: relative;
+  min-height: 100vh;
 }
 
+/* Background with subtle pattern */
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: url('assets/bg.png');
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-image: url('./assets/bg1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-/* Subtle overlay for elegance and readability */
+
 body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(
-        to bottom,
-        var(--background) 0%,
-        transparent 20%,
-        transparent 80%,
-        var(--background) 100%
-    );
-    backdrop-filter: blur(0.3px);
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.399);
 }
+
 
 /* Utility Classes */
 .min-h-screen {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .bg-background {
-    background-color: transparent;
+  background-color: transparent;
 }
 
-.border-border {
-    border-color: var(--border);
-}
-
-.border-b {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-}
-
-.border-t {
-    border-top-width: 1px;
-    border-top-style: solid;
-}
-
-/* Container */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-/* Header */
-header {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+/* Navigation */
+.navbar {
+  /* Changed from sticky to fixed */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--surface-primary);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  animation: slideDown 0.3s ease-out;
 }
 
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem 0;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.header-title {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    color: var(--foreground);
-    font-weight: 400;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  height: 60px;
 }
 
-.header-subtitle {
-    margin-top: 0.25rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: var(--muted-foreground);
+.nav-logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-logo:hover {
+  color: var(--foreground-muted);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  color: var(--foreground-muted);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--foreground);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--foreground);
+}
+
+.nav-link.active::after {
+  width: 100%;
 }
 
 /* Hero Section */
 .hero-section {
-    padding: 3rem 0;
+  /* Added padding-top to account for fixed navbar */
+  padding: calc(60px + 4rem) 0 2rem;
 }
 
 .hero-content {
-    max-width: 42rem;
-    margin: 0 auto;
-    margin-bottom: 3rem;
-    text-align: center;
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    padding: 3rem 2rem;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
+  max-width: 600px;
+  margin: 0 auto 4rem;
+  text-align: center;
+  background: var(--surface-secondary);
+  backdrop-filter: blur(12px);
+  padding: 3rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+/* Pseudonyme (Le titre principal) */
+.hero-pseudo {
+    font-size: 3rem; /* Très grand */
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--foreground);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.hero-description {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+    color: var(--foreground-muted);
+    
+    /* Ajout pour justifier le texte */
+    text-align: justify;
+}
+
+/* Nom et Prénom (Sous-titre) */
+.hero-name {
+    font-size: 1.5rem; /* Plus petit que le pseudo */
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+    
+    /* Force le texte sur une seule ligne */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Localisation (Gris) */
+.hero-location {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--foreground-muted); /* Couleur grise */
+    margin-top: 0;
+}
+
+/* Responsive : Ajustement pour mobile */
+@media (max-width: 768px) {
+    .hero-pseudo {
+        font-size: 2.2rem;
+    }
+    
+    .hero-name {
+        font-size: 1.2rem;
+    }
+}
 .hero-icon {
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
 }
-
-.hero-icon > div {
+.icon-circle {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 8rem;
-    width: 8rem;
-    border: 2px solid var(--border);
-    background-color: var(--card-bg);
+    height: 80px;
+    width: 80px;
+    background: var(--surface-secondary);
     backdrop-filter: blur(8px);
+    border-radius: 50%;
+    /* overflow: hidden est nécessaire pour couper l'image en rond, 
+       mais attention : si la bordure est à l'extérieur (inset négatif), elle sera coupée. 
+       On met donc la bordure à l'intérieur (inset: 0) */
+    overflow: hidden; 
+    z-index: 1;
 }
 
-.shield-icon {
-    font-size: 3rem;
+/* La bordure qui tourne (au-dessus de tout) */
+.icon-circle::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* La bordure est collée au bord intérieur */
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    z-index: 10; /* Z-INDEX LE PLUS HAUT : Pour passer au-dessus de l'image */
+    transition: all 0.3s ease;
+    pointer-events: none; /* Permet de cliquer au travers si besoin */
+}
+
+
+
+/* L'image (juste en dessous de la bordure) */
+.hero-profile-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 5; /* En dessous de la bordure (10) mais au-dessus de la vidéo (1) */
+    transition: opacity 0.3s ease;
+}
+
+/* La vidéo (tout au fond) */
+.hero-profile-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1; /* Tout au fond */
+}
+/* Flèche de défilement */
+.scroll-down-arrow {
+    display: inline-block;
+    margin-top: 2.5rem; /* Espace après le texte */
+    color: var(--foreground-muted);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+}
+
+.scroll-down-arrow:hover {
     color: var(--foreground);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transform: translateY(5px); /* Petit mouvement vers le bas au survol */
+}
+
+.arrow-svg {
+    width: 48px;  /* Largeur augmentée pour l'effet "V large" */
+    height: 24px; /* Hauteur réduite pour accentuer la largeur */
+    display: block;
+}
+
+/* Animation de rebond subtile */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-6px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+/* Interaction */
+.icon-circle:hover .hero-profile-img {
+    opacity: 0; /* L'image disparaît pour révéler la vidéo */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-icon-svg {
+  width: 40px;
+  height: 40px;
+  color: var(--foreground);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .hero-title {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 2.25rem;
-    letter-spacing: 0.15em;
-    color: var(--foreground);
-    font-weight: 400;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hero-role {
-    margin-top: 1.5rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-    color: var(--foreground);
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 .hero-location {
-    margin-top: 0.5rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--muted-foreground);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--foreground-muted);
+  margin-top: 0.5rem;
 }
 
 .hero-separator {
-    max-width: 36rem;
-    margin: 2rem auto 0;
-    border-top: 1px solid var(--border);
-    padding-top: 2rem;
+  max-width: 100%;
+  margin: 2rem auto 0;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
 }
 
 .hero-description {
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    line-height: 1.75;
-    letter-spacing: 0.05em;
-    color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+  color: var(--foreground-muted);
+}
+/* =========================================
+   STYLE SPÉCIFIQUE PORTFOLIO (FOND NOIR)
+   ========================================= */
+
+/* 1. Configuration du fond noir et suppression de l'image de bg */
+body.portfolio-mode {
+    background-color: #000000 !important;
+    background-image: none !important;
+    overflow-x: hidden;
+    /* Animation d'entrée douce (Fade in du noir) */
+    animation: fadeInPage 0.8s ease-out forwards;
 }
 
-/* Links Section */
+/* Cache le pseudo-élément qui contenait l'image de fond bg1.jpg */
+body.portfolio-mode::before,
+body.portfolio-mode::after {
+    display: none !important;
+}
 
-/* .links-section {
-    padding: 3rem 0;
-} */
+@keyframes fadeInPage {
+    from { opacity: 0; background-color: #0a0a0a; }
+    to { opacity: 1; background-color: #000000; }
+}
 
-.section-title {
-    margin-bottom: 3rem;
+/* 2. Conteneur large */
+.container-fluid {
+    width: 100%;
+    max-width: 1800px; /* Très large pour contenir beaucoup d'images */
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 3. Réinitialisation de la grille pour le style "Libre" */
+body.portfolio-mode .gallery-grid {
+    display: flex;         /* On passe en Flexbox au lieu de Grid */
+    flex-wrap: wrap;       /* Les images passent à la ligne */
+    justify-content: center; /* Centré horizontalement */
+    align-items: flex-start; /* Aligné en haut */
+    gap: 20px;             /* Espace entre les images */
+    padding-bottom: 4rem;
+}
+
+/* 4. Style des items (Images) */
+body.portfolio-mode .gallery-item {
+    /* Dimensions */
+    width: auto;           /* Largeur naturelle */
+    max-width: 30%;        /* Contrainte: max 20% de la page */
+    height: auto;          /* Hauteur naturelle pour garder le ratio */
+    
+    /* Style */
+    background: transparent;
+    border: none;
+    border-radius: 15px;   /* Bords arrondis */
+    overflow: hidden;
+    margin: 0;             /* Géré par le gap du parent */
+    
+    /* Transition */
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    box-shadow: none;      /* Pas d'ombre par défaut pour un look clean */
+}
+
+/* Ajustement de l'image à l'intérieur */
+body.portfolio-mode .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;   /* Assure que l'image n'est jamais coupée */
+    border-radius: 15px;
+}
+
+/* Effets au survol */
+body.portfolio-mode .gallery-item:hover {
+    transform: scale(1.02); /* Léger zoom */
+    z-index: 2;
+    filter: brightness(1.1);
+}
+
+/* Suppression des overlays/boutons "Voir" pour un style plus galerie pure */
+body.portfolio-mode .gallery-overlay {
+    display: none;
+}
+
+
+/* =========================
+   MODAL (IMAGE EN GRAND)
+   ========================= */
+.modal {
+  display: none; /* Caché par défaut */
+  position: fixed;
+  z-index: 2000; /* Très haut pour passer au-dessus de tout, même de la navbar */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* C'est ici que la magie du flou opère */
+  /* Fond noir semi-transparent */
+  background: rgba(0, 0, 0, 0.85);
+  /* Flou puissant sur tout ce qui est derrière la modale */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+  
+  animation: fadeIn 0.3s ease;
+  /* Empêche le scroll du body quand la modale est ouverte */
+  overflow: hidden;
+}
+
+/* Animation d'apparition du fond */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Conteneur pour centrer l'image */
+.modal-content {
+  position: relative;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2rem; /* Un peu d'espace autour de l'image */
+}
+
+/* L'image en grand */
+.modal-image {
+  display: block;
+  /* Occupe la majorité de l'écran tout en gardant ses proportions */
+  max-width: 95%;
+  max-height: 95vh;
+  width: auto;
+  height: auto;
+  
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); /* Ombre portée pour la détacher du fond */
+  
+  /* Animation de zoom à l'ouverture */
+  animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Petit effet de rebond */
+}
+
+/* Animation de zoom de l'image */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Bouton de fermeture (X) */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 300;
+  transition: 0.3s;
+  cursor: pointer;
+  z-index: 2002;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.close:hover {
+  color: #aaaaaa;
+  transform: scale(1.1) rotate(90deg); /* Petite animation au survol */
+  text-decoration: none;
+}
+.portfolio-spacer {
+    height: 80px; /* Espace pour la navbar fixe */
+}
+.portfolio-title {
     text-align: center;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
     color: var(--foreground);
-    font-weight: 400;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive : Sur mobile, on autorise les images à être plus grandes */
+@media (max-width: 768px) {
+    body.portfolio-mode .gallery-item {
+        max-width: 45%; /* 2 images par ligne sur tablette */
+    }
+}
+
+@media (max-width: 480px) {
+    body.portfolio-mode .gallery-item {
+        max-width: 90%; /* 1 image par ligne sur mobile */
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+  }
+
+  .links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .link-card {
     padding: 1.5rem;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* --- Styles Spécifiques aux Icônes --- */
+
+/* 1. LinkedIn : Blanc par défaut, Bleu au survol (#0A66C2) */
+.link-professional .icon path {
+    /* Utilise la couleur du foreground (blanc) par défaut */
+    fill: var(--foreground);
+    transition: fill 0.2s ease;
+}
+
+.link-professional:hover .icon path {
+    /* Couleur Bleu LinkedIn */
+    fill: #0072B1;
+}
+
+/* 2. Hack The Box : Blanc par défaut, Vert au survol (#9FE808) */
+.htb-icon path {
+    /* Couleur de base pour l'icône HTB (devrait être blanche par défaut) */
+    fill: var(--foreground);
+    transition: fill 0.2s ease;
+}
+
+.link-security:hover .htb-icon path {
+    /* Couleur Vert Hack The Box au survol du lien parent */
+    fill: #9FE808;
+}
+
+.github-icon path {
+    /* Surcharge la couleur par défaut du path pour qu'elle soit blanche */
+    fill: var(--foreground); 
+    transition: fill 0.2s ease;
+}
+
+.link-professional:hover .github-icon path {
+    /* La couleur de la marque au survol (Noir ou Gris foncé) */
+    fill: #1E2D30;
+}
+
+/* 5. Tools : Blanc par défaut, Jaune au survol (#FFDD00) */
+.tools-icon path {
+    /* La couleur de base est blanche */
+    fill: var(--foreground);
+    transition: fill 0.2s ease;
+}
+
+.link-professional:hover .tools-icon path {
+    /* Couleur Jaune au survol, remplissant complètement l'icône */
+    fill: #FFDD00;
+}
+
+/* 3. Root Me : Blanc par défaut, Rouge Vif au survol (#FF0000) */
+.rootme-icon path {
+    fill: var(--foreground);
+    transition: fill 0.2s ease;
+}
+
+.link-security:hover .rootme-icon path {
+    /* Couleur Rouge Vif au survol */
+    fill: #FF0000;
+}
+
+/* Links Section - New Structure */
+.links-section {
+  padding: 3rem 0;
+}
+
+.links-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.links-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.links-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--foreground-muted);
 }
 
 .links-grid {
-    max-width: 48rem;
+    max-width: 900px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem; /* Espace entre les groupes */
 }
 
-@media (min-width: 768px) {
-    .links-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.link-group {
+    flex: 1 1 280px; /* Flexibilité pour une disposition réactive */
+    min-width: 280px;
+    background: var(--surface-secondary); /* Fond du groupe légèrement plus opaque */
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.group-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--foreground);
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .link-card {
@@ -242,119 +733,79 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid var(--border);
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    padding: 2rem;
-    transition: all 0.3s ease;
+    background: var(--surface-primary); /* Fond des cartes, effet de glassmorphisme */
+    backdrop-filter: blur(10px);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem; /* Espace entre les cartes dans le groupe */
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     color: var(--foreground);
+    border: 1px solid transparent;
+}
+
+.link-card:last-child {
+    margin-bottom: 0;
 }
 
 .link-card:hover {
-    background: var(--muted);
-    backdrop-filter: blur(16px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-@media (min-width: 768px) {
-    .link-card:nth-child(odd) {
-        border-right: 1px solid var(--border);
-    }
-    
-    .link-card:not(:nth-last-child(-n+2)) {
-        border-bottom: 1px solid var(--border);
-    }
-}
-
-@media (max-width: 767px) {
-    .link-card:not(:last-child) {
-        border-bottom: 1px solid var(--border);
-    }
+    background: var(--surface-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .link-content {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
+    flex: 1;
 }
 
 .link-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 3rem;
-    width: 3rem;
-    border: 1px solid var(--border);
-    background: var(--card-bg);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-}
-
-.link-card:hover .link-icon {
-    border-color: var(--foreground);
-    transform: rotate(5deg);
+    height: 36px;
+    width: 36px;
+    min-width: 36px;
+    /* Suppression du border et du background spécifiques pour un look plus épuré */
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .icon {
-    height: 1.25rem;
-    width: 1.25rem;
+    height: 20px;
+    width: 20px;
     color: var(--foreground);
     stroke-width: 1.5;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-/* SVG importés - inversion pour mode sombre */
-.svg-import {
-    filter: invert(1) brightness(2);
 }
 
 .link-title {
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
     color: var(--foreground);
     font-weight: 500;
 }
 
 .link-description {
     margin-top: 0.25rem;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     letter-spacing: 0.05em;
-    color: var(--muted-foreground);
+    color: var(--foreground-muted);
 }
 
-.link-arrow {
-    transition: transform 0.3s ease;
+/* Suppression des styles inutiles de l'ancienne grille */
+.links-grid > .link-card,
+.link-card .arrow-icon,
+.link-card:hover .arrow-icon {
+    display: none;
 }
 
-.link-card:hover .link-arrow {
-    transform: translateX(0.5rem);
-}
-
-.arrow-icon {
-    height: 1.25rem;
-    width: 1.25rem;
-    color: var(--muted-foreground);
-    stroke-width: 1.5;
-}
-
-/* Footer */
-footer {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.footer {
-    padding: 2rem 0;
-}
-
-.footer-text {
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--muted-foreground);
+/* Responsive */
+@media (max-width: 600px) {
+  .links-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
