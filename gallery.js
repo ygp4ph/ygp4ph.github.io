@@ -30,7 +30,7 @@ function displayGallery(images) {
   }
 
   const gridContainer = document.createElement("div")
-  gridContainer.className = "gallery-grid"
+  gridContainer.className = "gallery-grid gallery-fade-in"
 
   images.forEach((image, index) => {
     const item = document.createElement("div")
@@ -97,17 +97,17 @@ document.addEventListener("keydown", (e) => {
 })
 
 document.addEventListener('contextmenu', function (e) {
-    // Si l'élément cliqué est une image (balise IMG)
-    if (e.target.tagName === 'IMG') {
-        e.preventDefault(); // Bloque le menu "Enregistrer sous..."
-        return false;
-    }
+  // Si l'élément cliqué est une image (balise IMG)
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault(); // Bloque le menu "Enregistrer sous..."
+    return false;
+  }
 });
-document.addEventListener('dragstart', function(e) {
-    // Si l'élément qu'on essaie de glisser est une image
-    if (e.target.tagName === 'IMG') {
-        e.preventDefault(); // Annule l'action immédiatement
-    }
+document.addEventListener('dragstart', function (e) {
+  // Si l'élément qu'on essaie de glisser est une image
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault(); // Annule l'action immédiatement
+  }
 });
 // Initialize gallery on page load
 loadGallery()

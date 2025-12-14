@@ -62,7 +62,6 @@ body::after {
   background: rgba(0, 0, 0, 0.399);
 }
 
-
 /* Utility Classes */
 .min-h-screen {
   min-height: 100vh;
@@ -97,6 +96,7 @@ body::after {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -179,160 +179,184 @@ body::after {
   transition: all 0.3s ease;
   animation: fadeInUp 0.6s ease-out;
 }
+
 /* Pseudonyme (Le titre principal) */
 .hero-pseudo {
-    font-size: 3rem; /* Très grand */
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--foreground);
-    margin-bottom: 0.25rem;
-    text-transform: uppercase;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 3rem;
+  /* Très grand */
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .hero-description {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    letter-spacing: 0.05em;
-    color: var(--foreground-muted);
-    
-    /* Ajout pour justifier le texte */
-    text-align: justify;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  letter-spacing: 0.05em;
+  color: var(--foreground-muted);
+
+  /* Ajout pour justifier le texte */
+  text-align: justify;
 }
 
 /* Nom et Prénom (Sous-titre) */
 .hero-name {
-    font-size: 1.5rem; /* Plus petit que le pseudo */
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--foreground);
-    margin-bottom: 0.5rem;
-    
-    /* Force le texte sur une seule ligne */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+  font-size: 1.5rem;
+  /* Plus petit que le pseudo */
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+
+  /* Force le texte sur une seule ligne */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* Localisation (Gris) */
 .hero-location {
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    color: var(--foreground-muted); /* Couleur grise */
-    margin-top: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--foreground-muted);
+  /* Couleur grise */
+  margin-top: 0;
 }
 
 /* Responsive : Ajustement pour mobile */
 @media (max-width: 768px) {
-    .hero-pseudo {
-        font-size: 2.2rem;
-    }
-    
-    .hero-name {
-        font-size: 1.2rem;
-    }
+  .hero-pseudo {
+    font-size: 2.2rem;
+  }
+
+  .hero-name {
+    font-size: 1.2rem;
+  }
 }
+
 .hero-icon {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
+
 .icon-circle {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80px;
-    width: 80px;
-    background: var(--surface-secondary);
-    backdrop-filter: blur(8px);
-    border-radius: 50%;
-    /* overflow: hidden est nécessaire pour couper l'image en rond, 
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 80px;
+  background: var(--surface-secondary);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  /* overflow: hidden est nécessaire pour couper l'image en rond, 
        mais attention : si la bordure est à l'extérieur (inset négatif), elle sera coupée. 
        On met donc la bordure à l'intérieur (inset: 0) */
-    overflow: hidden; 
-    z-index: 1;
+  overflow: hidden;
+  z-index: 1;
 }
 
 /* La bordure qui tourne (au-dessus de tout) */
 .icon-circle::before {
-    content: "";
-    position: absolute;
-    inset: 0; /* La bordure est collée au bord intérieur */
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    z-index: 10; /* Z-INDEX LE PLUS HAUT : Pour passer au-dessus de l'image */
-    transition: all 0.3s ease;
-    pointer-events: none; /* Permet de cliquer au travers si besoin */
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* La bordure est collée au bord intérieur */
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  z-index: 10;
+  /* Z-INDEX LE PLUS HAUT : Pour passer au-dessus de l'image */
+  transition: all 0.3s ease;
+  pointer-events: none;
+  /* Permet de cliquer au travers si besoin */
 }
-
-
 
 /* L'image (juste en dessous de la bordure) */
 .hero-profile-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 5; /* En dessous de la bordure (10) mais au-dessus de la vidéo (1) */
-    transition: opacity 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 5;
+  /* En dessous de la bordure (10) mais au-dessus de la vidéo (1) */
+  transition: opacity 0.3s ease;
 }
 
 /* La vidéo (tout au fond) */
 .hero-profile-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1; /* Tout au fond */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  /* Tout au fond */
 }
+
 /* Flèche de défilement */
 .scroll-down-arrow {
-    display: inline-block;
-    margin-top: 2.5rem; /* Espace après le texte */
-    color: var(--foreground-muted);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    animation: bounce 2s infinite;
+  display: inline-block;
+  margin-top: 2.5rem;
+  /* Espace après le texte */
+  color: var(--foreground-muted);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: bounce 2s infinite;
 }
 
 .scroll-down-arrow:hover {
-    color: var(--foreground);
-    transform: translateY(5px); /* Petit mouvement vers le bas au survol */
+  color: var(--foreground);
+  transform: translateY(5px);
+  /* Petit mouvement vers le bas au survol */
 }
 
 .arrow-svg {
-    width: 48px;  /* Largeur augmentée pour l'effet "V large" */
-    height: 24px; /* Hauteur réduite pour accentuer la largeur */
-    display: block;
+  width: 48px;
+  /* Largeur augmentée pour l'effet "V large" */
+  height: 24px;
+  /* Hauteur réduite pour accentuer la largeur */
+  display: block;
 }
 
 /* Animation de rebond subtile */
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-6px);
-    }
-    60% {
-        transform: translateY(-3px);
-    }
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-6px);
+  }
+
+  60% {
+    transform: translateY(-3px);
+  }
 }
+
 /* Interaction */
 .icon-circle:hover .hero-profile-img {
-    opacity: 0; /* L'image disparaît pour révéler la vidéo */
+  opacity: 0;
+  /* L'image disparaît pour révéler la vidéo */
 }
 
 @keyframes rotate {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -381,76 +405,89 @@ body::after {
   letter-spacing: 0.05em;
   color: var(--foreground-muted);
 }
+
 /* =========================================
    STYLE SPÉCIFIQUE PORTFOLIO (FOND NOIR)
    ========================================= */
 
 /* 1. Configuration du fond noir et suppression de l'image de bg */
 body.portfolio-mode {
-    background-color: #000000 !important;
-    background-image: none !important;
-    overflow-x: hidden;
-    /* Animation d'entrée douce (Fade in du noir) */
-    animation: fadeInPage 0.8s ease-out forwards;
+  background-color: #000000 !important;
+  background-image: none !important;
+  overflow-x: hidden;
+  /* Animation d'entrée douce (Fade in du noir) */
+  animation: fadeInPage 0.8s ease-out forwards;
 }
 
 /* Cache le pseudo-élément qui contenait l'image de fond bg1.jpg */
 body.portfolio-mode::before,
 body.portfolio-mode::after {
-    display: none !important;
+  display: none !important;
 }
 
 @keyframes fadeInPage {
-    from { opacity: 0; background-color: #0a0a0a; }
-    to { opacity: 1; background-color: #000000; }
+  from {
+    opacity: 0;
+    background-color: #0a0a0a;
+  }
+
+  to {
+    opacity: 1;
+    background-color: #000000;
+  }
 }
 
 /* 2. Conteneur large */
 .container-fluid {
-    width: 100%;
-    max-width: 1800px; /* Très large pour contenir beaucoup d'images */
-    margin: 0 auto;
-    padding: 0 2rem;
+  width: 100%;
+  max-width: 1800px;
+  /* Très large pour contenir beaucoup d'images */
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* 3. Réinitialisation de la grille pour le style "Libre" */
 body.portfolio-mode .gallery-grid {
-    columns: 3;              /* 3 colonnes (adapte selon la largeur) */
-    column-gap: 20px;
-    padding-bottom: 4rem;
-    width: 100%;
+  columns: 3;
+  /* 3 colonnes (adapte selon la largeur) */
+  column-gap: 20px;
+  padding-bottom: 4rem;
+  width: 100%;
 }
 
 body.portfolio-mode .gallery-item {
-    margin-bottom: 20px;
-    break-inside: avoid;     /* Empêche de casser une image au milieu */
-    width: 100%;
-    max-width: none;
-    background: transparent;
-    border: none;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    cursor: pointer;
+  margin-bottom: 20px;
+  break-inside: avoid;
+  /* Empêche de casser une image au milieu */
+  width: 100%;
+  max-width: none;
+  background: transparent;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
 }
 
 body.portfolio-mode .gallery-item img {
-    display: block;
-    width: 100%;
-    height: auto;            /* Important : auto pour garder le ratio */
-    border-radius: 15px;
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Important : auto pour garder le ratio */
+  border-radius: 15px;
 }
 
 /* Effets au survol */
 body.portfolio-mode .gallery-item:hover {
-    transform: scale(1.02); /* Léger zoom */
-    z-index: 2;
-    filter: brightness(1.1);
+  transform: scale(1.02);
+  /* Léger zoom */
+  z-index: 2;
+  filter: brightness(1.1);
 }
 
 /* Suppression des overlays/boutons "Voir" pour un style plus galerie pure */
 body.portfolio-mode .gallery-overlay {
-    display: none;
+  display: none;
 }
 
 
@@ -458,21 +495,24 @@ body.portfolio-mode .gallery-overlay {
    MODAL (IMAGE EN GRAND)
    ========================= */
 .modal {
-  display: none; /* Caché par défaut */
+  display: none;
+  /* Caché par défaut */
   position: fixed;
-  z-index: 2000; /* Très haut pour passer au-dessus de tout, même de la navbar */
+  z-index: 2000;
+  /* Très haut pour passer au-dessus de tout, même de la navbar */
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  
+
   /* C'est ici que la magie du flou opère */
   /* Fond noir semi-transparent */
   background: rgba(0, 0, 0, 0.85);
   /* Flou puissant sur tout ce qui est derrière la modale */
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Pour Safari */
-  
+  -webkit-backdrop-filter: blur(10px);
+  /* Pour Safari */
+
   animation: fadeIn 0.3s ease;
   /* Empêche le scroll du body quand la modale est ouverte */
   overflow: hidden;
@@ -480,8 +520,13 @@ body.portfolio-mode .gallery-overlay {
 
 /* Animation d'apparition du fond */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Conteneur pour centrer l'image */
@@ -493,7 +538,8 @@ body.portfolio-mode .gallery-overlay {
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 2rem; /* Un peu d'espace autour de l'image */
+  padding: 2rem;
+  /* Un peu d'espace autour de l'image */
 }
 
 /* L'image en grand */
@@ -504,13 +550,15 @@ body.portfolio-mode .gallery-overlay {
   max-height: 95vh;
   width: auto;
   height: auto;
-  
+
   object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); /* Ombre portée pour la détacher du fond */
-  
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  /* Ombre portée pour la détacher du fond */
+
   /* Animation de zoom à l'ouverture */
-  animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Petit effet de rebond */
+  animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Petit effet de rebond */
 }
 
 /* Animation de zoom de l'image */
@@ -519,6 +567,7 @@ body.portfolio-mode .gallery-overlay {
     opacity: 0;
     transform: scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -536,38 +585,44 @@ body.portfolio-mode .gallery-overlay {
   transition: 0.3s;
   cursor: pointer;
   z-index: 2002;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .close:hover {
   color: #aaaaaa;
-  transform: scale(1.1) rotate(90deg); /* Petite animation au survol */
+  transform: scale(1.1) rotate(90deg);
+  /* Petite animation au survol */
   text-decoration: none;
 }
+
 .portfolio-spacer {
-    height: 80px; /* Espace pour la navbar fixe */
+  height: 80px;
+  /* Espace pour la navbar fixe */
 }
+
 .portfolio-title {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--foreground);
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive : Sur mobile, on autorise les images à être plus grandes */
 @media (max-width: 768px) {
-    body.portfolio-mode .gallery-item {
-        max-width: 45%; /* 2 images par ligne sur tablette */
-    }
+  body.portfolio-mode .gallery-item {
+    max-width: 45%;
+    /* 2 images par ligne sur tablette */
+  }
 }
 
 @media (max-width: 480px) {
-    body.portfolio-mode .gallery-item {
-        max-width: 90%; /* 1 image par ligne sur mobile */
-    }
+  body.portfolio-mode .gallery-item {
+    max-width: 90%;
+    /* 1 image par ligne sur mobile */
+  }
 }
 
 /* Responsive */
@@ -606,60 +661,60 @@ body.portfolio-mode .gallery-overlay {
 
 /* 1. LinkedIn : Blanc par défaut, Bleu au survol (#0A66C2) */
 .link-professional .icon path {
-    /* Utilise la couleur du foreground (blanc) par défaut */
-    fill: var(--foreground);
-    transition: fill 0.2s ease;
+  /* Utilise la couleur du foreground (blanc) par défaut */
+  fill: var(--foreground);
+  transition: fill 0.2s ease;
 }
 
 .link-professional:hover .icon path {
-    /* Couleur Bleu LinkedIn */
-    fill: #0072B1;
+  /* Couleur Bleu LinkedIn */
+  fill: #0072B1;
 }
 
 /* 2. Hack The Box : Blanc par défaut, Vert au survol (#9FE808) */
 .htb-icon path {
-    /* Couleur de base pour l'icône HTB (devrait être blanche par défaut) */
-    fill: var(--foreground);
-    transition: fill 0.2s ease;
+  /* Couleur de base pour l'icône HTB (devrait être blanche par défaut) */
+  fill: var(--foreground);
+  transition: fill 0.2s ease;
 }
 
 .link-security:hover .htb-icon path {
-    /* Couleur Vert Hack The Box au survol du lien parent */
-    fill: #9FE808;
+  /* Couleur Vert Hack The Box au survol du lien parent */
+  fill: #9FE808;
 }
 
 .github-icon path {
-    /* Surcharge la couleur par défaut du path pour qu'elle soit blanche */
-    fill: var(--foreground); 
-    transition: fill 0.2s ease;
+  /* Surcharge la couleur par défaut du path pour qu'elle soit blanche */
+  fill: var(--foreground);
+  transition: fill 0.2s ease;
 }
 
 .link-professional:hover .github-icon path {
-    /* La couleur de la marque au survol (Noir ou Gris foncé) */
-    fill: #1E2D30;
+  /* La couleur de la marque au survol (Noir ou Gris foncé) */
+  fill: #1E2D30;
 }
 
 /* 5. Tools : Blanc par défaut, Jaune au survol (#FFDD00) */
 .tools-icon path {
-    /* La couleur de base est blanche */
-    fill: var(--foreground);
-    transition: fill 0.2s ease;
+  /* La couleur de base est blanche */
+  fill: var(--foreground);
+  transition: fill 0.2s ease;
 }
 
 .link-professional:hover .tools-icon path {
-    /* Couleur Jaune au survol, remplissant complètement l'icône */
-    fill: #FFDD00;
+  /* Couleur Jaune au survol, remplissant complètement l'icône */
+  fill: #FFDD00;
 }
 
 /* 3. Root Me : Blanc par défaut, Rouge Vif au survol (#FF0000) */
 .rootme-icon path {
-    fill: var(--foreground);
-    transition: fill 0.2s ease;
+  fill: var(--foreground);
+  transition: fill 0.2s ease;
 }
 
 .link-security:hover .rootme-icon path {
-    /* Couleur Rouge Vif au survol */
-    fill: #FF0000;
+  /* Couleur Rouge Vif au survol */
+  fill: #FF0000;
 }
 
 /* Links Section - New Structure */
@@ -668,129 +723,127 @@ body.portfolio-mode .gallery-overlay {
 }
 
 .links-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    animation: fadeInUp 0.6s ease-out;
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .links-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--foreground);
-    margin-bottom: 0.5rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .links-subtitle {
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    color: var(--foreground-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--foreground-muted);
 }
 
 .links-grid {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem; /* Espace entre les groupes */
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  /* Espace entre les groupes */
 }
 
 .link-group {
-    flex: 1 1 280px; /* Flexibilité pour une disposition réactive */
-    min-width: 280px;
-    background: var(--surface-secondary); /* Fond du groupe légèrement plus opaque */
-    backdrop-filter: blur(18px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
+  flex: 1 1 280px;
+  /* Flexibilité pour une disposition réactive */
+  min-width: 280px;
+  background: var(--surface-secondary);
+  /* Fond du groupe légèrement plus opaque */
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
 .group-title {
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--foreground);
-    text-align: center;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  text-align: center;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .link-card {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface-primary); /* Fond des cartes, effet de glassmorphisme */
-    backdrop-filter: blur(10px);
-    padding: 1rem 1.25rem;
-    margin-bottom: 0.75rem; /* Espace entre les cartes dans le groupe */
-    border-radius: 8px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    color: var(--foreground);
-    border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-primary);
+  /* Fond des cartes, effet de glassmorphisme */
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  /* Espace entre les cartes dans le groupe */
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: var(--foreground);
+  border: 1px solid transparent;
 }
 
 .link-card:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .link-card:hover {
-    background: var(--surface-hover);
-    border-color: var(--border-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .link-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
 }
 
 .link-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    width: 36px;
-    min-width: 36px;
-    /* Suppression du border et du background spécifiques pour un look plus épuré */
-    border-radius: 6px;
-    transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  min-width: 36px;
+  /* Suppression du border et du background spécifiques pour un look plus épuré */
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .icon {
-    height: 20px;
-    width: 20px;
-    color: var(--foreground);
-    stroke-width: 1.5;
+  height: 20px;
+  width: 20px;
+  color: var(--foreground);
+  stroke-width: 1.5;
 }
 
 .link-title {
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    color: var(--foreground);
-    font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 .link-description {
-    margin-top: 0.25rem;
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    color: var(--foreground-muted);
-}
-
-/* Suppression des styles inutiles de l'ancienne grille */
-.links-grid > .link-card,
-.link-card .arrow-icon,
-.link-card:hover .arrow-icon {
-    display: none;
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--foreground-muted);
 }
 
 /* Responsive */
@@ -801,19 +854,33 @@ body.portfolio-mode .gallery-overlay {
   }
 }
 
-
-
 img {
-    /* Empêche le glisser-déposer de l'image (Drag & Drop) */
-    -webkit-user-drag: none;
-    user-drag: none;
+  /* Empêche le glisser-déposer de l'image (Drag & Drop) */
+  -webkit-user-drag: none;
+  user-drag: none;
 
-    /* Empêche la sélection de l'image (Surlignage bleu) */
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    
-    /* Empêche le menu contextuel au clic long sur mobile (iOS/Android) */
-    -webkit-touch-callout: none;
+  /* Empêche la sélection de l'image (Surlignage bleu) */
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  /* Empêche le menu contextuel au clic long sur mobile (iOS/Android) */
+  -webkit-touch-callout: none;
+}
+
+@keyframes fadeInGallery {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gallery-fade-in {
+  animation: fadeInGallery 0.8s ease-out forwards;
 }
