@@ -1,0 +1,663 @@
+/* Writeups CSS - Dark Theme adapté de Notion */
+
+/* =============================================
+   DARK THEME OVERRIDES POUR WRITEUPS
+   ============================================= */
+
+/* Body mode writeups - avec background image */
+body.writeups-mode {
+  background-color: var(--background-dark);
+  background-image: url('../assets/labalsa.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: "Zalando Sans Expanded", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Overlay sombre pour lisibilité */
+body.writeups-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.892);
+  z-index: -1;
+}
+
+/* Font spécifique pour le contenu des writeups */
+.writeup-content,
+.writeup-content .page-body,
+.writeup-content p,
+.writeup-content li,
+.writeup-content h1,
+.writeup-content h2,
+.writeup-content h3 {
+  font-family: "Zalando Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.writeups-mode::after {
+  display: none !important;
+}
+
+/* Container writeups */
+.writeups-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  padding-top: calc(60px + 2rem);
+  padding-bottom: 4rem;
+}
+
+.writeups-spacer {
+  height: 80px;
+}
+
+/* Titre principal page */
+.writeups-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Grille de cartes pour l'index */
+.writeups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.writeup-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--foreground);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.writeup-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.writeup-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.writeup-card p {
+  font-size: 0.85rem;
+  color: var(--foreground-muted);
+  margin: 0;
+}
+
+.writeup-card .htb-badge {
+  display: inline-block;
+  background: rgba(159, 232, 8, 0.15);
+  color: #9FE808;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+/* =============================================
+   CONTENU WRITEUP (Article)
+   ============================================= */
+
+.writeup-content {
+  background: var(--surface-secondary);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Bouton retour */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--foreground-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--foreground);
+}
+
+/* Page title */
+.writeup-content .page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Headings */
+.writeup-content h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.writeup-content h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.writeup-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Paragraphs */
+.writeup-content p {
+  color: var(--foreground-muted);
+  margin: 0.75rem 0;
+  line-height: 1.8;
+}
+
+/* Links */
+.writeup-content a {
+  color: #9FE808;
+  text-decoration: underline;
+  text-decoration-color: rgba(159, 232, 8, 0.4);
+  transition: all 0.2s ease;
+}
+
+.writeup-content a:hover {
+  text-decoration-color: #9FE808;
+}
+
+/* =============================================
+   CODE BLOCKS - DARK THEME
+   ============================================= */
+
+.writeup-content code {
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.85em;
+  background: rgba(255, 255, 255, 0.08);
+  color: #9FE808;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+.writeup-content pre.code {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.writeup-content pre.code code {
+  background: none;
+  color: #e6e6e6;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Prism.js Dark Theme Override */
+.writeup-content pre[class*="language-"],
+.writeup-content code[class*="language-"] {
+  color: #e6e6e6;
+  background: transparent;
+}
+
+/* Token colors for dark theme */
+.writeup-content .token.comment,
+.writeup-content .token.prolog,
+.writeup-content .token.doctype,
+.writeup-content .token.cdata {
+  color: #6a737d;
+}
+
+.writeup-content .token.punctuation {
+  color: #e6e6e6;
+}
+
+.writeup-content .token.property,
+.writeup-content .token.tag,
+.writeup-content .token.boolean,
+.writeup-content .token.number,
+.writeup-content .token.constant,
+.writeup-content .token.symbol,
+.writeup-content .token.deleted {
+  color: #f97583;
+}
+
+.writeup-content .token.selector,
+.writeup-content .token.attr-name,
+.writeup-content .token.string,
+.writeup-content .token.char,
+.writeup-content .token.builtin,
+.writeup-content .token.inserted {
+  color: #9FE808;
+}
+
+.writeup-content .token.operator,
+.writeup-content .token.entity,
+.writeup-content .token.url,
+.writeup-content .language-css .token.string,
+.writeup-content .style .token.string {
+  color: #79b8ff;
+}
+
+.writeup-content .token.atrule,
+.writeup-content .token.attr-value,
+.writeup-content .token.keyword {
+  color: #b392f0;
+}
+
+.writeup-content .token.function,
+.writeup-content .token.class-name {
+  color: #79b8ff;
+}
+
+.writeup-content .token.regex,
+.writeup-content .token.important,
+.writeup-content .token.variable {
+  color: #ffab70;
+}
+
+/* =============================================
+   HIGHLIGHT CLASSES - DARK ADAPTED
+   ============================================= */
+
+.writeup-content .highlight-gray {
+  color: rgba(180, 177, 172, 1);
+}
+
+.writeup-content .highlight-brown {
+  color: rgba(199, 158, 130, 1);
+}
+
+.writeup-content .highlight-orange {
+  color: rgba(250, 163, 85, 1);
+}
+
+.writeup-content .highlight-yellow {
+  color: rgba(243, 188, 92, 1);
+}
+
+.writeup-content .highlight-teal {
+  color: rgba(120, 188, 150, 1);
+}
+
+.writeup-content .highlight-blue {
+  color: rgba(96, 165, 241, 1);
+}
+
+.writeup-content .highlight-purple {
+  color: rgba(194, 147, 220, 1);
+}
+
+.writeup-content .highlight-pink {
+  color: rgba(233, 116, 178, 1);
+}
+
+.writeup-content .highlight-red {
+  color: rgba(247, 121, 112, 1);
+}
+
+/* Background highlights - dark adapted */
+.writeup-content .highlight-gray_background {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-brown_background {
+  background: rgba(139, 90, 60, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-orange_background {
+  background: rgba(224, 101, 1, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-yellow_background {
+  background: rgba(211, 168, 0, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-teal_background {
+  background: rgba(0, 100, 45, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-blue_background {
+  background: rgba(0, 124, 215, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-purple_background {
+  background: rgba(102, 0, 178, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-pink_background {
+  background: rgba(197, 0, 93, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.writeup-content .highlight-red_background {
+  background: rgba(223, 22, 0, 0.25);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+/* Block colors */
+.writeup-content .block-color-gray {
+  color: rgba(180, 177, 172, 1);
+}
+
+.writeup-content .block-color-brown {
+  color: rgba(199, 158, 130, 1);
+}
+
+.writeup-content .block-color-orange {
+  color: rgba(250, 163, 85, 1);
+}
+
+.writeup-content .block-color-yellow {
+  color: rgba(243, 188, 92, 1);
+}
+
+.writeup-content .block-color-teal {
+  color: rgba(120, 188, 150, 1);
+}
+
+.writeup-content .block-color-blue {
+  color: rgba(96, 165, 241, 1);
+}
+
+.writeup-content .block-color-purple {
+  color: rgba(194, 147, 220, 1);
+}
+
+.writeup-content .block-color-pink {
+  color: rgba(233, 116, 178, 1);
+}
+
+.writeup-content .block-color-red {
+  color: rgba(247, 121, 112, 1);
+}
+
+/* Block background colors - dark */
+.writeup-content .block-color-gray_background {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-brown_background {
+  background: rgba(139, 90, 60, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-orange_background {
+  background: rgba(224, 101, 1, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-yellow_background {
+  background: rgba(211, 168, 0, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-teal_background {
+  background: rgba(0, 100, 45, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-blue_background {
+  background: rgba(0, 124, 215, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-purple_background {
+  background: rgba(102, 0, 178, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-pink_background {
+  background: rgba(197, 0, 93, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.writeup-content .block-color-red_background {
+  background: rgba(223, 22, 0, 0.15);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+/* =============================================
+   AUTRES ÉLÉMENTS NOTION
+   ============================================= */
+
+/* Callouts */
+.writeup-content .callout {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.writeup-content .callout .icon {
+  font-size: 1.2rem;
+}
+
+/* Blockquotes */
+.writeup-content blockquote {
+  border-left: 3px solid var(--border-hover);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--foreground-muted);
+  font-style: italic;
+}
+
+/* Tables */
+.writeup-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.writeup-content th,
+.writeup-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.writeup-content th {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.writeup-content td {
+  color: var(--foreground-muted);
+}
+
+/* Images */
+.writeup-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.writeup-content figure {
+  margin: 1.5rem 0;
+}
+
+.writeup-content figcaption {
+  color: var(--foreground-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Bookmarks */
+.writeup-content .bookmark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  margin: 1rem 0;
+  display: flex;
+}
+
+.writeup-content .bookmark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-hover);
+}
+
+.writeup-content .bookmark-info {
+  padding: 1rem;
+  flex: 1;
+}
+
+.writeup-content .bookmark-title {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.writeup-content .bookmark-description {
+  color: var(--foreground-muted);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.writeup-content .bookmark-href {
+  color: rgba(159, 232, 8, 0.7);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Source blocks */
+.writeup-content .source {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--foreground-muted);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+/* Lists */
+.writeup-content ul,
+.writeup-content ol {
+  color: var(--foreground-muted);
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.writeup-content li {
+  margin: 0.25rem 0;
+}
+
+/* HR */
+.writeup-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+  .writeups-container {
+    padding: 0 1rem;
+    padding-top: calc(60px + 1.5rem);
+  }
+
+  .writeups-title {
+    font-size: 1.8rem;
+  }
+
+  .writeups-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .writeup-content {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .writeup-content .page-title {
+    font-size: 1.6rem;
+  }
+
+  .writeup-content pre.code {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+}

