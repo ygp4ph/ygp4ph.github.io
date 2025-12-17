@@ -249,8 +249,8 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
-  width: 80px;
+  height: 125px;
+  width: 125px;
   background: var(--surface-secondary);
   backdrop-filter: blur(8px);
   border-radius: 50%;
@@ -668,7 +668,7 @@ body.portfolio-mode .gallery-overlay {
 
 .link-professional:hover .icon path {
   /* Couleur Bleu LinkedIn */
-  fill: #0072B1;
+  fill: #00a6ff;
 }
 
 /* 2. Hack The Box : Blanc par défaut, Vert au survol (#9FE808) */
@@ -680,7 +680,7 @@ body.portfolio-mode .gallery-overlay {
 
 .link-security:hover .htb-icon path {
   /* Couleur Vert Hack The Box au survol du lien parent */
-  fill: #9FE808;
+  fill: #aaff00;
 }
 
 .github-icon path {
@@ -691,19 +691,29 @@ body.portfolio-mode .gallery-overlay {
 
 .link-professional:hover .github-icon path {
   /* La couleur de la marque au survol (Noir ou Gris foncé) */
-  fill: #1E2D30;
+  fill: #000000;
 }
 
-/* 5. Tools : Blanc par défaut, Jaune au survol (#FFDD00) */
-.tools-icon path {
-  /* La couleur de base est blanche */
+/* 5. Writeups : Blanc par défaut, Violet vif au survol */
+.writeups-icon path {
   fill: var(--foreground);
   transition: fill 0.2s ease;
 }
 
-.link-professional:hover .tools-icon path {
-  /* Couleur Jaune au survol, remplissant complètement l'icône */
-  fill: #FFDD00;
+.link-professional:hover .writeups-icon path {
+  /* Violet vif */
+  fill: #A855F7;
+}
+
+/* 6. Galerie : Blanc par défaut, Jaune confortable au survol */
+.galerie-icon path {
+  stroke: var(--foreground);
+  transition: stroke 0.2s ease;
+}
+
+.link-creative:hover .galerie-icon path {
+  /* Jaune confortable */
+  stroke: #FBBF24;
 }
 
 /* 3. Root Me : Blanc par défaut, Rouge Vif au survol (#FF0000) */
