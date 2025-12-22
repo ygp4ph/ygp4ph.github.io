@@ -44,7 +44,7 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -2;
-  background-image: url('./assets/rooftop.jpg');
+  background-image: url('../assets/rooftop.jpg');
   background-size: cover;
   background-position: center var(--bg-pos-y, 0%);
   background-repeat: no-repeat;
@@ -606,7 +606,8 @@ body.portfolio-mode .gallery-overlay {
   font-weight: 700;
   letter-spacing: 0.15em;
   color: var(--foreground);
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
+  margin-top: 2rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
