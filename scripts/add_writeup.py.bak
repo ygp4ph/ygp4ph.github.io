@@ -308,10 +308,6 @@ def clean_content(html_content):
             title = title_match.group(1) if title_match else href
             domain = get_domain(href)
             
-            # Truncate title to 67 chars
-            if len(title) > 67:
-                title = title[:64] + "..."
-            
             return f'''<p class="link-integration">
                         <img src="https://www.google.com/s2/favicons?domain={domain}&sz=64" class="site-favicon" alt="">
                         <a href="{href}" target="_blank" rel="noopener">{title}</a>
@@ -329,14 +325,9 @@ def clean_content(html_content):
             # Si c'est une URL valide
             if url.startswith('http'):
                 domain = get_domain(url)
-                title = url
-                # Truncate title to 67 chars
-                if len(title) > 67:
-                    title = title[:64] + "..."
-                    
                 return f'''<p class="link-integration">
                             <img src="https://www.google.com/s2/favicons?domain={domain}&sz=64" class="site-favicon" alt="">
-                            <a href="{url}" target="_blank" rel="noopener">{title}</a>
+                            <a href="{url}" target="_blank" rel="noopener">{url}</a>
                         </p>'''
             return f'<p><a href="{url}" target="_blank" rel="noopener">{url}</a></p>'
         return ''

