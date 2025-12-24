@@ -88,7 +88,6 @@ body::after {
   background: var(--surface-primary);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
@@ -259,6 +258,7 @@ body::after {
        On met donc la bordure à l'intérieur (inset: 0) */
   overflow: hidden;
   z-index: 1;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.446);
 }
 
 /* La bordure qui tourne (au-dessus de tout) */
@@ -415,8 +415,6 @@ body.portfolio-mode {
   background-color: #000000 !important;
   background-image: none !important;
   overflow-x: hidden;
-  /* Animation d'entrée douce (Fade in du noir) */
-  animation: fadeInPage 0.8s ease-out forwards;
 }
 
 /* Cache le pseudo-élément qui contenait l'image de fond bg1.jpg */
@@ -425,17 +423,6 @@ body.portfolio-mode::after {
   display: none !important;
 }
 
-@keyframes fadeInPage {
-  from {
-    opacity: 0;
-    background-color: #0a0a0a;
-  }
-
-  to {
-    opacity: 1;
-    background-color: #000000;
-  }
-}
 
 /* 2. Conteneur large */
 .container-fluid {
@@ -608,7 +595,7 @@ body.portfolio-mode .gallery-overlay {
   color: var(--foreground);
   margin-bottom: 5rem;
   margin-top: 2rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.501);
 }
 
 /* Responsive : Sur mobile, on autorise les images à être plus grandes */
