@@ -108,7 +108,7 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 0;
+  padding: 1.67rem 0;
   height: 60px;
 }
 
@@ -190,7 +190,7 @@ body::after {
   color: var(--foreground);
   margin-bottom: 0.25rem;
   text-transform: uppercase;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.501);
 }
 
 .hero-description {

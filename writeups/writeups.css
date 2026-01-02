@@ -4,21 +4,20 @@
    DARK THEME OVERRIDES POUR WRITEUPS
    ============================================= */
 
-/* Body mode writeups - avec background image */
+/* Body mode writeups - avec background image fixe (pas de parallax) */
 body.writeups-mode {
   background-color: var(--background-dark);
   background-image: url('../assets/labalsa.jpg');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: "Zalando Sans Expanded", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
   line-height: 1.6;
   min-height: 100vh;
-  will-change: background-position;
-  transform: translateZ(0);
 }
 
-/* Overlay sombre pour lisibilité */
+/* Overlay sombre + flou pour lisibilité */
 body.writeups-mode::before {
   content: '';
   position: fixed;
@@ -26,7 +25,9 @@ body.writeups-mode::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.892);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: -1;
 }
 
@@ -66,7 +67,7 @@ body.writeups-mode::after {
   letter-spacing: 0.15em;
   color: var(--foreground);
   margin-bottom: 2rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.501);
 }
 
 /* Grille de cartes pour l'index */
