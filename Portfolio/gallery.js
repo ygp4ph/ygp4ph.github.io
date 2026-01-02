@@ -21,6 +21,8 @@ function getAlias(filename) {
 }
 
 let aliasMap = {}; // alias -> filename
+let imagesList = []; // Liste ordonnée des images
+let currentImageIndex = -1; // Index de l'image actuellement affichée
 
 // Load gallery images from manifest or fallback
 async function loadGallery() {
@@ -48,6 +50,9 @@ async function loadGallery() {
 function openImage(filename) {
   if (!filename) return
   const alias = getAlias(filename);
+  
+  // Trouver l'index de l'image dans la liste
+  currentImageIndex = imagesList.indexOf(filename);
   
   modalImage.src = `gallery/${filename}`
   modalImage.alt = "Image Galerie"
@@ -83,6 +88,7 @@ function checkHash() {
 // Display gallery grid with images
 function displayGallery(images) {
   gallery.innerHTML = ""
+  imagesList = images; // Stocker la liste pour la navigation
 
   if (!images || images.length === 0) {
     gallery.innerHTML =
@@ -149,18 +155,70 @@ function displayGallery(images) {
   window.addEventListener('hashchange', checkHash)
 }
 
-// Close modal events
-closeBtn.addEventListener("click", closeModal)
+// Navigation functions
+function navigatePrev() {
+  if (imagesList.length === 0 || currentImageIndex === -1) return;
+  const newIndex = (currentImageIndex - 1 + imagesList.length) % imagesList.length;
+  window.location.hash = getAlias(imagesList[newIndex]);
+}
 
+function navigateNext() {
+  if (imagesList.length === 0 || currentImageIndex === -1) return;
+  const newIndex = (currentImageIndex + 1) % imagesList.length;
+  window.location.hash = getAlias(imagesList[newIndex]);
+}
+
+// Close modal events
+closeBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeModal();
+})
+
+// Click on modal background (left/right zones) for navigation
 modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    closeModal()
+  // Si on clique sur l'image elle-même ou le bouton close, ne pas naviguer
+  if (e.target === modalImage || e.target === closeBtn || e.target.closest('.close')) {
+    return;
+  }
+  
+  // Si le modal est affiché
+  if (modal.style.display === "block") {
+    const rect = modal.getBoundingClientRect();
+    const clickX = e.clientX;
+    const modalCenterX = rect.left + rect.width / 2;
+    
+    // Clic à gauche = image précédente, clic à droite = image suivante
+    if (clickX < modalCenterX) {
+      navigatePrev();
+    } else {
+      navigateNext();
+    }
   }
 })
 
+// Navigation arrows buttons
+document.addEventListener("click", (e) => {
+  if (e.target.closest('.modal-nav-prev')) {
+    e.stopPropagation();
+    navigatePrev();
+  } else if (e.target.closest('.modal-nav-next')) {
+    e.stopPropagation();
+    navigateNext();
+  }
+})
+
+// Keyboard navigation
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modal.style.display === "block") {
-    closeModal()
+  if (modal.style.display === "block") {
+    if (e.key === "Escape") {
+      closeModal();
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      navigatePrev();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      navigateNext();
+    }
   }
 })
 
