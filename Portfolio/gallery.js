@@ -128,6 +128,20 @@ function displayGallery(images) {
 
   gallery.appendChild(gridContainer)
   
+  // Initialize Masonry with horizontal order (left to right reading)
+  const msnry = new Masonry(gridContainer, {
+    itemSelector: '.gallery-item',
+    columnWidth: '.gallery-item',
+    gutter: 20,
+    percentPosition: true,
+    horizontalOrder: true  // Read left to right (row order)
+  });
+  
+  // Re-layout after each image loads for proper positioning
+  imagesLoaded(gridContainer).on('progress', function() {
+    msnry.layout();
+  });
+  
   // Initial check on load
   checkHash()
   

@@ -460,19 +460,14 @@ body.portfolio-mode::after {
 
 /* 3. Réinitialisation de la grille pour le style "Libre" */
 body.portfolio-mode .gallery-grid {
-  columns: 3;
-  /* 3 colonnes (adapte selon la largeur) */
-  column-gap: 20px;
-  padding-bottom: 4rem;
   width: 100%;
+  padding-bottom: 4rem;
 }
 
 body.portfolio-mode .gallery-item {
+  width: calc(33.333% - 14px);
+  /* ~3 par ligne avec marges */
   margin-bottom: 20px;
-  break-inside: avoid;
-  /* Empêche de casser une image au milieu */
-  width: 100%;
-  max-width: none;
   background: transparent;
   border: none;
   border-radius: 15px;
@@ -627,14 +622,14 @@ body.portfolio-mode .gallery-overlay {
 /* Responsive : Sur mobile, on autorise les images à être plus grandes */
 @media (max-width: 768px) {
   body.portfolio-mode .gallery-item {
-    max-width: 45%;
+    width: calc(50% - 10px);
     /* 2 images par ligne sur tablette */
   }
 }
 
 @media (max-width: 480px) {
   body.portfolio-mode .gallery-item {
-    max-width: 90%;
+    width: 100%;
     /* 1 image par ligne sur mobile */
   }
 }
