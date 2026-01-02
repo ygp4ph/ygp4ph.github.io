@@ -49,7 +49,8 @@ body::before {
   background-size: cover;
   background-position: center var(--bg-pos-y, 0%);
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  will-change: background-position;
+  transform: translateZ(0);
 }
 
 body::after {
@@ -353,15 +354,7 @@ body::after {
   /* L'image disparaît pour révéler la vidéo */
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Animation rotate supprimée - inutilisée */
 
 .hero-icon-svg {
   width: 40px;
@@ -432,7 +425,8 @@ body.portfolio-mode::before {
   background-size: cover;
   background-position: center var(--bg-pos-y, 0%);
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  will-change: background-position;
+  transform: translateZ(0);
 }
 
 /* Enable darkening overlay (50% opacity) */
@@ -876,13 +870,9 @@ body.portfolio-mode .gallery-overlay {
 img {
   /* Empêche le glisser-déposer de l'image (Drag & Drop) */
   -webkit-user-drag: none;
-  user-drag: none;
 
   /* Empêche la sélection de l'image (Surlignage bleu) */
   user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 
   /* Empêche le menu contextuel au clic long sur mobile (iOS/Android) */
   -webkit-touch-callout: none;

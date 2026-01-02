@@ -14,20 +14,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Parallax Effect
-    window.addEventListener('scroll', () => {
+    // Optimized Parallax Effect with requestAnimationFrame
+    let ticking = false;
+    function updateParallax() {
         const scrollTop = window.scrollY;
         const docHeight = document.body.scrollHeight - window.innerHeight;
 
         if (docHeight > 0) {
             const scrollPercent = scrollTop / docHeight;
-            const bgPosY = scrollPercent * 100; // 0 to 100
+            const bgPosY = scrollPercent * 100;
             document.body.style.setProperty('--bg-pos-y', `${bgPosY}%`);
         }
-    });
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }, { passive: true });
 
     // Initial call to set position
-    window.dispatchEvent(new Event('scroll'));
+    updateParallax();
 
     // Dynamic Navbar Loading and Mobile Menu Initialization
     const navbarPlaceholder = document.getElementById('navbar-placeholder');

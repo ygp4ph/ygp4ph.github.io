@@ -9,12 +9,12 @@ valid_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg')
 
 # Images épinglées en haut (dans l'ordre souhaité)
 PINNED_IMAGES = [
-    "ptero.jpg",
-    "cac0bc22-b010-4b12-a5d0-aba6d8a183cd (1).jpg",
-    "ef91247c-63d9-44f4-a5b6-3c794526b935 (1).jpg",
-    "ca1b9a76-eb03-4f3b-b5c8-53abbe9a242a (2).jpg",
-    "ac3bd402-06a7-499f-8c1f-ba9edaf4ada1 (1).jpg",
-    "12b2d8bf-b709-44a2-a49a-b15955c48fd2 (1).jpg",
+    "ptero.webp",
+    "cac0bc22-b010-4b12-a5d0-aba6d8a183cd (1).webp",
+    "ef91247c-63d9-44f4-a5b6-3c794526b935 (1).webp",
+    "ca1b9a76-eb03-4f3b-b5c8-53abbe9a242a (2).webp",
+    "ac3bd402-06a7-499f-8c1f-ba9edaf4ada1 (1).webp",
+    "12b2d8bf-b709-44a2-a49a-b15955c48fd2 (1).webp",
 ]
 
 def update_manifest():

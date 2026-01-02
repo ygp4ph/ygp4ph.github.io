@@ -137,8 +137,8 @@ function displayGallery(images) {
     horizontalOrder: true  // Read left to right (row order)
   });
   
-  // Re-layout after each image loads for proper positioning
-  imagesLoaded(gridContainer).on('progress', function() {
+  // Re-layout once when ALL images are loaded (instead of per-image)
+  imagesLoaded(gridContainer).on('always', function() {
     msnry.layout();
   });
   
@@ -195,16 +195,26 @@ if (mobileMenuToggle && navLinks) {
     });
 }
 
-// Parallax Effect for Gallery
-window.addEventListener('scroll', () => {
+// Optimized Parallax Effect for Gallery with requestAnimationFrame
+let parallaxTicking = false;
+function updateGalleryParallax() {
     const scrollTop = window.scrollY;
     const docHeight = document.body.scrollHeight - window.innerHeight;
 
     if (docHeight > 0) {
         const scrollPercent = scrollTop / docHeight;
-        const bgPosY = scrollPercent * 100; // 0 to 100
+        const bgPosY = scrollPercent * 100;
         document.body.style.setProperty('--bg-pos-y', `${bgPosY}%`);
     }
-});
+    parallaxTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!parallaxTicking) {
+        requestAnimationFrame(updateGalleryParallax);
+        parallaxTicking = true;
+    }
+}, { passive: true });
+
 // Initial call to set position
-window.dispatchEvent(new Event('scroll'));
+updateGalleryParallax();
