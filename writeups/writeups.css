@@ -7,7 +7,7 @@
 /* Body mode writeups - avec background image fixe (pas de parallax) */
 body.writeups-mode {
   background-color: var(--background-dark);
-  background-image: url('../assets/labalsa.jpg');
+  background-image: url('../assets/labalsa.webp');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
