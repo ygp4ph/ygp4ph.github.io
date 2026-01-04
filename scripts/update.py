@@ -1,54 +1,120 @@
+#!/usr/bin/env python3
+"""
+Script pour ajouter une image à la galerie.
+Usage: python update.py /chemin/absolu/vers/image.jpg
+"""
+
 import os
+import sys
 import json
+import shutil
+import subprocess
 
-# Configuration
-folder = "gallery"
-manifest_path = f"{folder}/manifest.json"
+# Configuration - chemins relatifs au dossier Portfolio
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PORTFOLIO_DIR = os.path.join(SCRIPT_DIR, "..", "Portfolio")
+GALLERY_DIR = os.path.join(PORTFOLIO_DIR, "gallery")
+MANIFEST_PATH = os.path.join(GALLERY_DIR, "manifest.json")
+
 # Extensions d'images acceptées
-valid_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg')
+VALID_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.tiff')
 
-# Images épinglées en haut (dans l'ordre souhaité)
-PINNED_IMAGES = [
-    "ptero.webp",
-    "cac0bc22-b010-4b12-a5d0-aba6d8a183cd (1).webp",
-    "ef91247c-63d9-44f4-a5b6-3c794526b935 (1).webp",
-    "ca1b9a76-eb03-4f3b-b5c8-53abbe9a242a (2).webp",
-    "ac3bd402-06a7-499f-8c1f-ba9edaf4ada1 (1).webp",
-    "12b2d8bf-b709-44a2-a49a-b15955c48fd2 (1).webp",
-]
 
-def update_manifest():
-    # Vérifie si le dossier gallery existe
-    if not os.path.exists(folder):
-        print(f"❌ Erreur : Le dossier '{folder}' n'existe pas.")
-        return
-
-    # 1. Scanne le dossier et garde seulement les images
-    all_files = [
-        f for f in os.listdir(folder) 
-        if f.lower().endswith(valid_extensions)
-    ]
-    
-    # 2. Sépare les images épinglées des autres
-    pinned = [f for f in PINNED_IMAGES if f in all_files]
-    others = [f for f in all_files if f not in PINNED_IMAGES]
-    
-    # 3. Trie les autres par date de modification (les plus récentes en premier)
-    others.sort(key=lambda f: os.path.getmtime(os.path.join(folder, f)), reverse=True)
-    
-    # 4. Combine : épinglées en haut + autres triées par date
-    files = pinned + others
-
-    # 5. Écrase le fichier manifest.json
+def convert_to_webp(source_path: str, dest_path: str, quality: int = 85) -> bool:
+    """Convertit une image en WebP avec ImageMagick."""
     try:
-        with open(manifest_path, 'w') as f:
-            json.dump(files, f, indent=2)
-        print(f"[+] Succès ! 'manifest.json' mis à jour avec {len(files)} images.")
-        print(f"    - {len(pinned)} images épinglées en haut")
-        print(f"    - {len(others)} autres images (triées par date, récentes en premier)")
-        print(f"    N'oublie pas de faire : git add, git commit et git push")
-    except Exception as e:
-        print(f"[-] Erreur lors de l'écriture du fichier : {e}")
+        subprocess.run(
+            ["magick", source_path, "-quality", str(quality), dest_path],
+            check=True,
+            capture_output=True
+        )
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"[-] Erreur de conversion: {e.stderr.decode()}")
+        return False
+    except FileNotFoundError:
+        print("[-] ImageMagick n'est pas installe. Installe-le avec: sudo pacman -S imagemagick")
+        return False
+
+
+def add_image(image_path: str) -> None:
+    """Ajoute une image à la galerie: copie, convertit en WebP, et met à jour le manifest."""
+    
+    # Vérifie que le fichier existe
+    if not os.path.isfile(image_path):
+        print(f"[-] Fichier non trouve: {image_path}")
+        sys.exit(1)
+    
+    # Vérifie l'extension
+    _, ext = os.path.splitext(image_path)
+    if ext.lower() not in VALID_EXTENSIONS:
+        print(f"[-] Extension non supportee: {ext}")
+        print(f"   Extensions valides: {', '.join(VALID_EXTENSIONS)}")
+        sys.exit(1)
+    
+    # Crée le dossier gallery si nécessaire
+    os.makedirs(GALLERY_DIR, exist_ok=True)
+    
+    # Nom du fichier WebP final
+    base_name = os.path.splitext(os.path.basename(image_path))[0]
+    webp_name = f"{base_name}.webp"
+    webp_path = os.path.join(GALLERY_DIR, webp_name)
+    
+    # Vérifie si l'image existe déjà
+    if os.path.exists(webp_path):
+        print(f"[!] L'image {webp_name} existe deja dans la galerie.")
+        response = input("   Écraser? [o/N] ").strip().lower()
+        if response != 'o':
+            print("   Annulé.")
+            sys.exit(0)
+    
+    # Convertit en WebP
+    print(f"[*] Conversion de {os.path.basename(image_path)} en WebP...")
+    if not convert_to_webp(image_path, webp_path):
+        sys.exit(1)
+    
+    # Taille du fichier
+    original_size = os.path.getsize(image_path) / 1024
+    webp_size = os.path.getsize(webp_path) / 1024
+    reduction = ((original_size - webp_size) / original_size) * 100
+    print(f"[+] Converti: {original_size:.1f}KB -> {webp_size:.1f}KB ({reduction:.1f}% de reduction)")
+    
+    # Met à jour le manifest
+    print("[*] Mise a jour du manifest...")
+    
+    # Charge le manifest existant ou crée une liste vide
+    if os.path.exists(MANIFEST_PATH):
+        with open(MANIFEST_PATH, 'r') as f:
+            manifest = json.load(f)
+    else:
+        manifest = []
+    
+    # Retire l'image si elle existe déjà (pour éviter les doublons)
+    manifest = [img for img in manifest if img != webp_name]
+    
+    # Ajoute en haut du manifest
+    manifest.insert(0, webp_name)
+    
+    # Sauvegarde le manifest
+    with open(MANIFEST_PATH, 'w') as f:
+        json.dump(manifest, f, indent=2)
+    
+    print(f"[+] {webp_name} ajoute en haut du manifest ({len(manifest)} images au total)")
+    print(f"\n[*] N'oublie pas: git add . && git commit -m 'feat: add {base_name}' && git push")
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python update.py /chemin/absolu/vers/image.jpg")
+        print("\nExemple:")
+        print("  python scripts/update.py ~/Images/photo.jpg")
+        sys.exit(1)
+    
+    image_path = os.path.expanduser(sys.argv[1])  # Supporte ~/
+    image_path = os.path.abspath(image_path)      # Convertit en chemin absolu
+    
+    add_image(image_path)
+
 
 if __name__ == "__main__":
-    update_manifest()
+    main()
