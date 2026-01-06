@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /writeups/unref
+Disallow: /writeups/unref.html
+
+Sitemap: https://ygp4ph.me/sitemap.xml

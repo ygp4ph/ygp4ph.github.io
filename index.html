@@ -17,13 +17,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="static/styles.css">
-    <link rel="icon" type="image/jpeg" href="assets/favi.png">
+    <link rel="stylesheet" href="static/styles.min.css">
+    <link rel="icon" type="image/png" href="assets/favi.png">
     <link rel="preload" as="image" href="assets/rooftop.webp">
     <link rel="preload" as="image" href="assets/pdp.webp">
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <nav class="navbar">
         <div class="container">
             <div class="nav-content">
@@ -32,7 +33,7 @@
                         alt="logo signature Raphaël">
                 </a>
                 <div class="nav-links" id="nav-links">
-                    <a href="./" class="nav-link active">Accueil</a>
+                    <a href="./" class="nav-link active" aria-current="page">Accueil</a>
                     <a href="writeups/" class="nav-link">Writeups</a>
                     <a href="Portfolio/" class="nav-link">Galerie</a>
                 </div>
@@ -46,7 +47,7 @@
     </nav>
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <main class="min-h-screen bg-background">
+    <main id="main-content" class="min-h-screen bg-background">
         <div class="container hero-section">
             <div class="hero-content">
                 <div class="hero-icon">
@@ -68,7 +69,7 @@
                 </div>
 
                 <a href="#links" class="scroll-down-arrow" aria-label="Aller aux liens">
-                    <svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 8l10 10 10-10" />
                     </svg>
                 </a>
@@ -81,7 +82,7 @@
                             <a href="https://www.root-me.org/ygp4ph?inc=info&lang=fr" target="_blank"
                                 rel="noopener noreferrer" class="link-card link-security">
                                 <div class="link-content">
-                                    <svg class="icon rootme-icon" fill="none" viewBox="0 0 24 24"">
+                                    <svg class="icon rootme-icon" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d=" M21.364 9.897c0 -0.448 -0.029 -0.896 -0.096 -1.325 0 -0.028 -0.009
                                         -0.057 -0.009 -0.086 -0.582 -3.785 -3.452 -6.894 -7.228 -7.723 -0.095 -0.429
                                         -0.477 -0.753 -0.934 -0.753 -0.534 0 -0.964 0.429 -0.964 0.963 0 0.457 0.325
@@ -183,7 +184,7 @@
                             <a href="https://app.hackthebox.com/profile/2408726" target="_blank"
                                 rel="noopener noreferrer" class="link-card link-security">
                                 <div class="link-content">
-                                    <svg class="icon htb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="icon htb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path
                                             d="m22.5106 6.4566 0.0008 -0.0123a0.888 0.888 0 0 0 -0.2717 -0.6384c-0.0084 -0.0084 -0.018 -0.0155 -0.0267 -0.0235 -0.0186 -0.0166 -0.0371 -0.0333 -0.0572 -0.0484 -0.0193 -0.0147 -0.04 -0.0276 -0.0607 -0.0406 -0.0096 -0.006 -0.0182 -0.0131 -0.0281 -0.0188L12.4576 0.1266a0.891 0.891 0 0 0 -0.9223 0.0043L1.933 5.6744c-0.0107 0.0062 -0.0203 0.014 -0.0307 0.0205 -0.0073 0.0047 -0.015 0.008 -0.0223 0.0128 -0.007 0.0047 -0.013 0.0106 -0.02 0.0155a0.8769 0.8769 0 0 0 -0.147 0.1333l-0.0026 0.003a0.8872 0.8872 0 0 0 -0.2218 0.5847l0.0009 0.014c-0.0002 0.0088 -0.0015 0.0176 -0.0015 0.0264v11.0708c0 0.3277 0.1802 0.6288 0.469 0.7836l9.5986 5.5417c0.0076 0.0044 0.0158 0.0075 0.0236 0.0117a0.8754 0.8754 0 0 0 0.166 0.0687c0.0134 0.004 0.0266 0.0083 0.0401 0.0117a0.8793 0.8793 0 0 0 0.072 0.0142c0.0117 0.0019 0.0232 0.0045 0.0349 0.006a0.835 0.835 0 0 0 0.2157 0c0.0117 -0.0015 0.0232 -0.0041 0.0348 -0.006a0.9 0.9 0 0 0 0.072 -0.0142c0.0135 -0.0034 0.0267 -0.0077 0.04 -0.0117a0.895 0.895 0 0 0 0.0646 -0.0217 0.9134 0.9134 0 0 0 0.1015 -0.047c0.0078 -0.0042 0.016 -0.0072 0.0236 -0.0117l9.5986 -5.5417a0.8888 0.8888 0 0 0 0.469 -0.7836V6.4779c0 -0.0071 -0.0012 -0.0142 -0.0014 -0.0213zM5.2543 6.0822l6.5367 -3.774a0.4182 0.4182 0 0 1 0.4182 0l6.5366 3.774a0.4182 0.4182 0 0 1 0 0.7243l-6.5367 3.774a0.4182 0.4182 0 0 1 -0.4182 0l-6.5366 -3.774a0.4182 0.4182 0 0 1 0 -0.7243zm5.6134 14.3449a0.4172 0.4172 0 0 1 -0.626 0.3613L3.718 17.0218a0.4173 0.4173 0 0 1 -0.2086 -0.3613V9.1279a0.4172 0.4172 0 0 1 0.6258 -0.3613l6.524 3.7666a0.4172 0.4172 0 0 1 0.2086 0.3614v7.5325zm9.623 -3.7666a0.4173 0.4173 0 0 1 -0.2086 0.3613l-6.5239 3.7666a0.4172 0.4172 0 0 1 -0.6259 -0.3613v-7.5325c0 -0.149 0.0796 -0.2868 0.2087 -0.3614l6.5239 -3.7666a0.4172 0.4172 0 0 1 0.6258 0.3613v7.5326z"
                                             fill="#000000" stroke-width="1"></path>
@@ -197,7 +198,7 @@
                             <a href="https://www.linkedin.com/in/raphaël-couvert-267706338/" target="_blank"
                                 rel="noopener noreferrer" class="link-card link-professional">
                                 <div class="link-content">
-                                    <svg class="icon" viewBox="0 0 260.366 260.366" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="icon" viewBox="0 0 260.366 260.366" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <g>
                                             <path
                                                 d="M34.703,0.183C15.582,0.183,0.014,15.748,0,34.884C0,54.02,15.568,69.588,34.703,69.588
@@ -222,7 +223,7 @@
                             <a href="https://github.com/ygp4ph" target="_blank" rel="noopener noreferrer"
                                 class="link-card link-professional">
                                 <div class="link-content">
-                                    <svg class="icon github-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg class="icon github-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path
                                             d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                                     </svg>
@@ -235,7 +236,7 @@
                             <a href="writeups/" class="link-card link-professional">
                                 <div class="link-content">
                                     <svg class="icon writeups-icon" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 -960 960 960">
+                                        viewBox="0 -960 960 960" aria-hidden="true">
                                         <path
                                             d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z" />
                                     </svg>
@@ -248,7 +249,7 @@
                             <a href="Portfolio/" class="link-card link-creative">
                                 <div class="link-content">
                                     <svg class="icon galerie-icon" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
+                                        stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
@@ -264,7 +265,7 @@
             </section>
         </div>
     </main>
-    <script src="static/script.js"></script>
+    <script src="static/script.min.js"></script>
 </body>
 
 </html>
